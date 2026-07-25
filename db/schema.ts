@@ -19,6 +19,7 @@ export const albums = sqliteTable("albums", {
   purchasePrice: text("purchase_price"),
   doubanUrl: text("douban_url"),
   tracklistJson: text("tracklist_json"),
+  label: text("label"),
   vinylColor: text("vinyl_color"),
   vinylStyle: text("vinyl_style"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),

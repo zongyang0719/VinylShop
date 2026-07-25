@@ -2350,6 +2350,43 @@ a:focus-visible {
 /*  Cover Search (in edit modal)                      */
 /* ═══════════════════════════════════════════════════ */
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.cover-upload-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.cover-upload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--accent);
+  background: rgba(0, 113, 227, 0.08);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.cover-upload-button:hover {
+  background: rgba(0, 113, 227, 0.14);
+}
+
 .cover-search {
   width: 100%;
 }
@@ -2753,14 +2790,53 @@ a:focus-visible {
   position: fixed;
   z-index: 40;
   padding: 0;
-  border: 0.5px solid rgba(255, 255, 255, 0.72);
-  background: rgba(245, 245, 247, 0.52);
+  isolation: isolate;
+  border: 0.5px solid rgba(255, 255, 255, 0.7);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.46) 0%,
+      rgba(247, 247, 250, 0.23) 46%,
+      rgba(225, 225, 231, 0.2) 100%
+    ),
+    rgba(242, 242, 247, 0.26);
   box-shadow:
-    inset 0 0.5px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -0.5px 0 rgba(0, 0, 0, 0.06),
-    0 10px 34px rgba(19, 19, 24, 0.15);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
+    inset 0 0.75px 0 rgba(255, 255, 255, 0.96),
+    inset 0 -0.5px 0 rgba(60, 60, 67, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 10px 30px rgba(20, 20, 24, 0.14);
+  backdrop-filter: blur(30px) saturate(165%) brightness(106%);
+  -webkit-backdrop-filter: blur(30px) saturate(165%) brightness(106%);
+}
+
+.top-actions.glass-surface::before,
+.main-tab-bar.glass-surface::before,
+.search-tab-button.glass-surface::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0.5px;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.44) 0%,
+      rgba(255, 255, 255, 0.08) 32%,
+      transparent 58%
+    );
+  pointer-events: none;
+}
+
+.top-actions.glass-surface::after,
+.main-tab-bar.glass-surface::after,
+.search-tab-button.glass-surface::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 1px;
+  border: 0.5px solid rgba(255, 255, 255, 0.26);
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .top-actions.glass-surface {
@@ -3172,7 +3248,13 @@ a:focus-visible {
   .main-tab-bar.glass-surface,
   .search-tab-button.glass-surface {
     border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(44, 44, 46, 0.64);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.13),
+        rgba(255, 255, 255, 0.045)
+      ),
+      rgba(44, 44, 46, 0.58);
     box-shadow:
       inset 0 0.5px rgba(255, 255, 255, 0.22),
       0 12px 38px rgba(0, 0, 0, 0.28);
@@ -3707,4 +3789,157 @@ a:focus-visible {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+}
+
+/* ═══════════════════════════════════════════════════ */
+/*  CSS 3D Vinyl Cylinder                             */
+/* ═══════════════════════════════════════════════════ */
+
+.cyl-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 3200px;
+  -webkit-perspective: 3200px;
+  perspective-origin: 50% 47%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  overflow: hidden;
+  touch-action: none;
+  outline: none;
+  --rw: min(78vw, 380px);
+  --sh: 14px;
+}
+
+@media (min-width: 801px) {
+  .cyl-viewport {
+    perspective: 3600px;
+    -webkit-perspective: 3600px;
+    --rw: min(48vw, 440px);
+    --sh: 16px;
+  }
+}
+
+.cyl-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--rw);
+  height: var(--rw);
+  margin-left: calc(-1 * var(--rw) / 2);
+  margin-top: calc(-1 * var(--rw) / 2);
+  will-change: transform;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-origin: center center;
+  cursor: pointer;
+}
+
+.cyl-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  --record-edge: #3f4145;
+}
+
+/* ── spine (front face) ── */
+.cyl-spine {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: var(--sh);
+  margin-top: calc(-1 * var(--sh) / 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 0 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--font);
+  font-size: 10px;
+  line-height: 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.22),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.18);
+  background: var(--record-edge);
+}
+
+.cyl-spine--top {
+  transform: rotateX(90deg) translateZ(calc(var(--rw) / 2));
+}
+
+.cyl-spine--bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--rw) / 2));
+}
+
+.cyl-spine strong {
+  font-weight: 680;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cyl-spine span {
+  opacity: 0.8;
+  font-weight: 440;
+  font-size: 9px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── cover faces (top + bottom) ── */
+.cyl-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: var(--record-edge);
+  box-shadow: 0 0 0 1px var(--record-edge);
+}
+
+.cyl-cover img {
+  display: block;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  margin: -1px;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.cyl-cover--front {
+  transform: translateZ(calc(var(--sh) / 2));
+}
+
+.cyl-cover--back {
+  transform: rotateX(180deg) translateZ(calc(var(--sh) / 2));
+}
+
+/* ── side edges ── */
+.cyl-edge {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--sh);
+  height: 100%;
+  margin-left: calc(-1 * var(--sh) / 2);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: var(--record-edge);
+  box-shadow: 0 0 0 1px var(--record-edge);
+}
+
+.cyl-edge--left {
+  transform: rotateY(-90deg) translateZ(calc(var(--rw) / 2));
+}
+
+.cyl-edge--right {
+  transform: rotateY(90deg) translateZ(calc(var(--rw) / 2));
 }

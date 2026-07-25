@@ -3,7 +3,7 @@
     "id": "musicbuddy-krab2n",
     "discogsId": 5942469,
     "title": "21",
-    "artist": "Adele (3)",
+    "artist": "Adele",
     "year": 2011,
     "coverUrl": "https://i.discogs.com/RHRKWqkkH8f_63lqW3l9OPSHG2xoBXnSCwuVWD2zJVI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU5NDI0/NjktMTY3NzczODQ0/Ni05ODg1LmpwZWc.jpeg",
     "format": "cd",
@@ -21,13 +21,15 @@
       "9. One And Only",
       "10. Lovesong",
       "11. Someone Like You"
-    ]
+    ],
+    "label": "XL Recordings / Columbia"
   },
   {
     "id": "musicbuddy-wv3j9e",
     "discogsId": 27650352,
     "title": "21",
-    "artist": "Adele (3)",
+    "artist": "Adele",
+    "year": 2011,
     "coverUrl": "https://m.media-amazon.com/images/I/61lMwNQGYbL.jpg",
     "format": "vinyl",
     "zone": "unsorted",
@@ -44,13 +46,14 @@
       "B3. One And Only",
       "B4. Love Song",
       "B5. Someone Like You"
-    ]
+    ],
+    "label": "XL Recordings / Columbia"
   },
   {
     "id": "musicbuddy-3heoyo",
     "discogsId": 10074874,
     "title": "25",
-    "artist": "Adele (3)",
+    "artist": "Adele",
     "year": 2016,
     "coverUrl": "https://i.discogs.com/gQK15QHK0zUzoIHOqJntQ2m3QNLY1rUYCjEMgwfu9YM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMDc0/ODc0LTE0OTExNTgx/MDYtNTA3Mi5qcGVn.jpeg",
     "format": "vinyl",
@@ -68,32 +71,34 @@
       "B4. Million Years Ago",
       "B5. All I Ask",
       "B6. Sweetest Devotion"
-    ]
+    ],
+    "label": "XL Recordings / Columbia"
   },
   {
     "id": "musicbuddy-g7dp1y",
     "discogsId": 21101995,
     "title": "30",
-    "artist": "Adele (3)",
+    "artist": "Adele",
     "year": 2021,
     "coverUrl": "https://i.discogs.com/aaNhhRZWbAQcUAhuu2jOtTVnCfMUdmylwe2AvLudVqY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxMTAx/OTk1LTE2Mzc3NDYw/OTktOTYyMi5qcGVn.jpeg",
     "format": "vinyl",
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:14:25.122Z",
     "tracklist": [
-      "A1. Adele (3) - Strangers By Nature",
-      "A2. Adele (3) - Easy On Me",
-      "A3. Adele (3) - My Little Love",
-      "B1. Adele (3) - Cry Your Heart Out",
-      "B2. Adele (3) - Oh My God",
-      "B3. Adele (3) - Can I Get It",
-      "C1. Adele (3) - I Drink Wine",
-      "C2. Adele (3) + Erroll Garner - All Night Parking (Interlude)",
-      "C3. Adele (3) - Woman Like Me",
-      "D1. Adele (3) - Hold On",
-      "D2. Adele (3) - To Be Loved",
-      "D3. Adele (3) - Love Is A Game"
-    ]
+      "A1. Adele - Strangers By Nature",
+      "A2. Adele - Easy On Me",
+      "A3. Adele - My Little Love",
+      "B1. Adele - Cry Your Heart Out",
+      "B2. Adele - Oh My God",
+      "B3. Adele - Can I Get It",
+      "C1. Adele - I Drink Wine",
+      "C2. Adele + Erroll Garner - All Night Parking (Interlude)",
+      "C3. Adele - Woman Like Me",
+      "D1. Adele - Hold On",
+      "D2. Adele - To Be Loved",
+      "D3. Adele - Love Is A Game"
+    ],
+    "label": "Columbia / Sony Music"
   },
   {
     "id": "musicbuddy-5vrgau",
@@ -117,7 +122,8 @@
       "B4. 小娟 ( 化名 )",
       "B5. ་རེ་མ།（Tare Ma )",
       "B6. 譚豔梅"
-    ]
+    ],
+    "label": "独立发行"
   },
   {
     "id": "musicbuddy-5fpfi5",
@@ -143,7 +149,8 @@
       "10. 连衣裙",
       "11. 安和桥",
       "12. Intro......"
-    ]
+    ],
+    "label": "摩登天空"
   },
   {
     "id": "musicbuddy-2vu0x",
@@ -168,22 +175,36 @@
       "D1. 连衣裙 = ワンピース",
       "D2. 安和桥 = 安和橋",
       "D3. Intro"
-    ]
+    ],
+    "label": "摩登天空"
   },
   {
     "id": "musicbuddy-1d1qd9r",
-    "title": "草东没有派对 丑奴儿",
+    "title": "丑奴儿",
     "artist": "草东没有派对",
+    "year": 2016,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b2736bd87ad997c2b9e44f947348",
-    "format": "unknown",
+    "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2026-07-19T13:29:26.053Z"
+    "dateAdded": "2026-07-19T13:29:26.053Z",
+    "label": "石皮有限公司",
+    "tracklist": [
+      "1. 烂泥",
+      "2. 等",
+      "3. 情歌",
+      "4. 丑",
+      "5. 大风吹",
+      "6. 山海",
+      "7. 我们",
+      "8. 他妈的",
+      "9. 鬼"
+    ]
   },
   {
     "id": "musicbuddy-1rd390v",
     "discogsId": 35854048,
     "title": "城堡",
-    "artist": "Jolin Tsai",
+    "artist": "蔡依林",
     "year": 2025,
     "coverUrl": "https://cdn-p.smehost.net/sites/d563907ee0c84f41b15553bfb3eb554c/wp-content/uploads/2018/12/19075900331.jpg",
     "format": "vinyl",
@@ -200,13 +221,14 @@
       "8. 乖猫 (Nice Cat)",
       "9. 第一優先 (Priarity)",
       "10. 倒帶 (Rewind)"
-    ]
+    ],
+    "label": "索尼音乐"
   },
   {
     "id": "musicbuddy-1rb3ov0",
     "discogsId": 34418386,
     "title": "崇拜",
-    "artist": "Fish Leong",
+    "artist": "梁静茹",
     "year": 2020,
     "coverUrl": "https://static.wikia.nocookie.net/discogs/images/1/19/CH-0011.jpg/revision/latest/scale-to-width-down/1200?cb=20240603095350&path-prefix=zh",
     "format": "cd",
@@ -224,7 +246,8 @@
       "9. 生命中不可承受的輕",
       "10. 三吋日光",
       "11. 原來你也唱過我的歌"
-    ]
+    ],
+    "label": "相信音乐"
   },
   {
     "id": "musicbuddy-1053vql",
@@ -247,13 +270,14 @@
       "8. 美術課",
       "9. 夜晚出生的小孩",
       "10. Forever Young"
-    ]
+    ],
+    "label": "环球音乐"
   },
   {
     "id": "musicbuddy-ehax9y",
     "discogsId": 14194736,
     "title": "第5大道 5th Avenue",
-    "artist": "Elva Hsiao",
+    "artist": "萧亚轩",
     "year": 2016,
     "coverUrl": "https://bkimg.cdn.bcebos.com/smart/a08b87d6277f9e2f07081051d969fe24b899a901556a-bkimg-process,v_1,rw_1,rh_1,pad_1,color_ffffff?x-bce-process=image/format,f_auto",
     "format": "cd",
@@ -271,7 +295,8 @@
       "9. 相对无言",
       "10. 你是我心中的一句惊叹",
       "11. 幸福的地图"
-    ]
+    ],
+    "label": "维京音乐"
   },
   {
     "id": "musicbuddy-1nnnc1j",
@@ -294,13 +319,14 @@
       "8. 每个眼神都只身荒野 = Twist The Wildfire",
       "9. 有什么奇怪 = Original Human",
       "10. 下次再进站 = Back To Blue"
-    ]
+    ],
+    "label": "独立发行"
   },
   {
     "id": "musicbuddy-kfivvr",
     "discogsId": 32043246,
     "title": "橄榄树 = Olive",
-    "artist": "Chyi Yu",
+    "artist": "齐豫",
     "year": 2009,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b2733921cc7a002041e537632f30",
     "format": "cd",
@@ -319,13 +345,14 @@
       "10. 预感",
       "11. 追逐与重逢 (演奏)",
       "12. 欢颜 (演奏)"
-    ]
+    ],
+    "label": "滚石唱片"
   },
   {
     "id": "musicbuddy-x39nyg",
     "discogsId": 11129234,
     "title": "橄欖樹",
-    "artist": "Chyi Yu",
+    "artist": "齐豫",
     "year": 2015,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b2733921cc7a002041e537632f30",
     "format": "vinyl",
@@ -344,7 +371,8 @@
       "B4. 預感",
       "B5. 追逐與重逢 - 演奏曲",
       "B6. 歡顏 - 演奏曲"
-    ]
+    ],
+    "label": "滚石唱片"
   },
   {
     "id": "musicbuddy-sh2of9",
@@ -367,13 +395,14 @@
       "8. 虧欠",
       "9. 媽媽的眼睛",
       "10. 答案"
-    ]
+    ],
+    "label": "滚石唱片"
   },
   {
     "id": "musicbuddy-rystxy",
     "discogsId": 13373679,
     "title": "何日君再來 テレサ・テン 中国語ベスト・セレクション",
-    "artist": "Teresa Teng",
+    "artist": "邓丽君",
     "year": 2006,
     "coverUrl": "https://img.shoplineapp.com/media/image_clips/65e542820f3f1a00175fdbfb/original.jpg?1709523586",
     "format": "cd",
@@ -418,55 +447,86 @@
       "2-16. 我只在乎你 (時の流れに身をまかせ)",
       "2-17. 星 (昴ーすばるー)",
       "2-18. 再見!我的愛人 (グッドバイ・マイ・ラヴ)"
-    ]
+    ],
+    "label": "环球音乐"
   },
   {
     "id": "musicbuddy-q35klm",
     "title": "忽然有一天我离开了台北",
     "artist": "郑兴",
+    "year": 2018,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b27361551ceb1551105050f9ed4d",
-    "format": "unknown",
+    "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2025-10-22T14:39:15.986Z"
+    "dateAdded": "2025-10-22T14:39:15.986Z",
+    "label": "好多音乐",
+    "tracklist": [
+      "1. 忽然有一天我离开了台北",
+      "2. 盆地",
+      "3. 城南",
+      "4. 流星",
+      "5. 缓慢",
+      "6. 致北方的你",
+      "7. 远方",
+      "8. 漂流",
+      "9. 下雨的台北",
+      "10. 归"
+    ]
   },
   {
     "id": "musicbuddy-dbeeik",
     "title": "回声 三毛作品第 15 号",
     "artist": "齐豫",
+    "year": 1985,
     "coverUrl": "https://i.discogs.com/qHSOKju50GP4bf4uSRL3sZpuJdQZDQHqY8Cmv5s72gk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTI0/ODg5LTE2MTAxMTUx/NzAtMTQ2OC5qcGVn.jpeg",
-    "format": "unknown",
+    "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2025-10-22T14:14:06.875Z"
+    "dateAdded": "2025-10-22T14:14:06.875Z",
+    "label": "滚石唱片",
+    "tracklist": [
+      "1. 轨外",
+      "2. 谜",
+      "3. 七点钟(今生)",
+      "4. 飞",
+      "5. 晓梦蝴蝶",
+      "6. 沙漠",
+      "7. 今世",
+      "8. 孀",
+      "9. 说给自己听",
+      "10. 远方",
+      "11. 梦田"
+    ]
   },
   {
     "id": "musicbuddy-xjm6tm",
     "discogsId": 37809078,
     "title": "回声: 三毛作品第15号",
-    "artist": "Chyi Yu",
+    "artist": "齐豫",
     "year": 2024,
     "coverUrl": "https://i.discogs.com/uuxETYCVDRXVlSwiSmS37r_lOi3DoOizDQGpxpXG3kk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3ODA5/MDc4LTE3ODMzMjM1/NzUtOTk2NC5qcGVn.jpeg",
     "format": "vinyl",
     "zone": "unsorted",
     "dateAdded": "2026-07-12T11:12:21.688Z",
     "tracklist": [
-      "A1. Chyi Yu + 潘越雲 - 轨外",
-      "A2. Chyi Yu + 潘越雲 - 谜",
-      "A3. Chyi Yu - 七点钟(今生)",
+      "A1. 齐豫 + 潘越雲 - 轨外",
+      "A2. 齐豫 + 潘越雲 - 谜",
+      "A3. 齐豫 - 七点钟(今生)",
       "A4. 潘越雲 - 飞",
       "A5. 潘越雲 - 晓梦蝴蝶",
-      "B1. Chyi Yu - 沙漠",
-      "B2. Chyi Yu - 今世",
-      "B3. Chyi Yu - 孀",
-      "B4. Chyi Yu + 潘越雲 - 说给自己听",
+      "B1. 齐豫 - 沙漠",
+      "B2. 齐豫 - 今世",
+      "B3. 齐豫 - 孀",
+      "B4. 齐豫 + 潘越雲 - 说给自己听",
       "B5. 潘越雲 - 远方",
-      "B6. Chyi Yu + 潘越雲 - 梦田"
-    ]
+      "B6. 齐豫 + 潘越雲 - 梦田"
+    ],
+    "label": "滚石唱片"
   },
   {
     "id": "musicbuddy-1weu3nh",
     "discogsId": 14218213,
     "title": "今日營業中 - Sell Like Hot Cakes",
-    "artist": "Yoga Lin",
+    "artist": "林宥嘉",
     "year": 2016,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b2731d40c785d57597247c84d5d4",
     "format": "cd",
@@ -486,13 +546,14 @@
       "11. 寵兒",
       "12. 勿忘你",
       "13. Off, Do Not Disturb."
-    ]
+    ],
+    "label": "华研国际"
   },
   {
     "id": "musicbuddy-1gqimoo",
     "discogsId": 34825403,
     "title": "克卜勒 (Kepler)",
-    "artist": "Stefanie Sun",
+    "artist": "孙燕姿",
     "year": 2025,
     "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/81/dc/36/81dc3656-ae44-4641-7aa4-485e48fae68b/14UMGIM00262.rgb.jpg/1200x630bb.jpg",
     "format": "vinyl",
@@ -509,7 +570,8 @@
       "B3. 錯覺",
       "B4. 比較幸福",
       "B5. 雨還是不停落下"
-    ]
+    ],
+    "label": "环球音乐"
   },
   {
     "id": "musicbuddy-13rl32v",
@@ -530,13 +592,14 @@
       "B2. 清塘荷韵 = 清水と蓮の韻 = Breathing With Lotus Rhyme",
       "B3. 时间之外 = 時間の外 = Beyond The Time",
       "B4. 超级巨星 = スーパースター = Super Star"
-    ]
+    ],
+    "label": "独立发行"
   },
   {
     "id": "musicbuddy-8myx2s",
     "discogsId": 35382232,
     "title": "離心力 Centrifugal Force",
-    "artist": "Faith Yang",
+    "artist": "杨乃文",
     "year": 2025,
     "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/a1/a1/ca/a1a1cac4-b61c-6134-5ce9-729b6129e12e/4712931524567.jpg/1200x630bb.jpg",
     "format": "vinyl",
@@ -554,13 +617,14 @@
       "B4. 豔遇 Snakes And Ladders",
       "B5. 粉筆做的手 JX",
       "B6. 推開世界的門 Through You"
-    ]
+    ],
+    "label": "亚神音乐"
   },
   {
     "id": "musicbuddy-tuipms",
     "discogsId": 15349633,
     "title": "戀戀真言",
-    "artist": "Tarcy Su",
+    "artist": "苏慧伦",
     "year": 2020,
     "coverUrl": "https://i.discogs.com/ridXJt9Tq4v4cHkqIjvHq6aWLtZZJwyLJ9RGIX4Y72A/rs:fit/g:sm/q:90/h:446/w:449/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MzQ5/NjMzLTE1OTAxMzk0/MjItMjg3NS5qcGVn.jpeg",
     "format": "vinyl",
@@ -577,13 +641,14 @@
       "B3. 太快 = Too Fast",
       "B4. 秋天的海 = The Autumn Sea",
       "B5. 和雨跳舞 = Dancing In The Rain (Live Rehearsal)"
-    ]
+    ],
+    "label": "相信音乐"
   },
   {
     "id": "musicbuddy-1vx7ybm",
     "discogsId": 34994147,
     "title": "梁靜茹 精選 Fish Greatest Hits",
-    "artist": "Fish Leong",
+    "artist": "梁静茹",
     "year": 2025,
     "coverUrl": "https://vinylrecords.com.tw/wp-content/uploads/2025/08/%E6%A2%81%E9%9D%9C%E8%8C%B9_-_Fish_Leong-%E6%A2%81%E9%9D%9C%E8%8C%B9%E7%B2%BE%E9%81%B8__180g__%E5%9C%96%E8%86%A0_001.jpg",
     "format": "vinyl",
@@ -603,13 +668,14 @@
       "B4. 如果有一天",
       "B5. 寧夏",
       "B6. 孤單北半球"
-    ]
+    ],
+    "label": "环球音乐"
   },
   {
     "id": "musicbuddy-1a73vxc",
     "discogsId": 8679617,
     "title": "臨月",
-    "artist": "Miyuki Nakajima",
+    "artist": "中島みゆき",
     "year": 1981,
     "coverUrl": "https://i.discogs.com/BaMCXcBpJzOJASOOfmHkH8DpVcYoM-uH6seFm0to0mg/rs:fit/g:sm/q:90/h:600/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg2Nzk2/MTctMTQ2NjQ2NTIz/My00MzMzLmpwZWc.jpeg",
     "format": "vinyl",
@@ -625,13 +691,14 @@
       "B2. 友情",
       "B3. 成人世代",
       "B4. 夜曲"
-    ]
+    ],
+    "label": "Canyon Records"
   },
   {
     "id": "musicbuddy-1ts1t0u",
     "discogsId": 32043267,
     "title": "骆驼．飞鸟．鱼",
-    "artist": "Chyi Yu",
+    "artist": "齐豫",
     "year": 2009,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b273bae89b7099a4fc1e5d0ca91a",
     "format": "cd",
@@ -650,13 +717,14 @@
       "10. 四十个无亲无故的年头",
       "11. 叹息瓶",
       "12. 女人与小孩 II"
-    ]
+    ],
+    "label": "综一唱片"
   },
   {
     "id": "musicbuddy-1wqfydz",
     "discogsId": 13573650,
     "title": "美丽人生",
-    "artist": "Fish Leong",
+    "artist": "梁静茹",
     "year": 2009,
     "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/c8/ce/ba/c8cebadb-1864-18fd-7871-53394a76d89e/dj.rprwcqvn.jpg/600x600cc.webp",
     "format": "cd",
@@ -674,13 +742,14 @@
       "9. 向左转向右转",
       "10. 眼泪的地图",
       "11. 旅程"
-    ]
+    ],
+    "label": "相信音乐"
   },
   {
     "id": "musicbuddy-1kvh14n",
     "discogsId": 21653035,
     "title": "面面",
-    "artist": "Tarcy Su",
+    "artist": "苏慧伦",
     "year": 2020,
     "coverUrl": "https://i.discogs.com/nOfKQa2-0XbjzFqL-_SOu9alF_wvV9u0Q86iNLvSMB8/rs:fit/g:sm/q:90/h:600/w:595/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNjUz/MDM1LTE2NDE2NTE4/MTItMjMxNS5qcGVn.jpeg",
     "format": "cd",
@@ -698,7 +767,8 @@
       "8. 苏慧伦 - 与生俱来的黑",
       "9. 苏慧伦 - 量力而为",
       "10. 苏慧伦 - 你会想念我吗"
-    ]
+    ],
+    "label": "相信音乐"
   },
   {
     "id": "musicbuddy-jfnf4y",
@@ -723,13 +793,14 @@
       "10. 恰似你的溫柔",
       "11. 再愛我一次",
       "12. 謝幕曲"
-    ]
+    ],
+    "label": "海山唱片"
   },
   {
     "id": "musicbuddy-zb4lry",
     "discogsId": 3654485,
     "title": "陌生人",
-    "artist": "Tanya Chua",
+    "artist": "蔡健雅",
     "year": 2003,
     "coverUrl": "https://i.discogs.com/zEuX_MnUgIGHaEaZwQeofa4ZMacw4b0hLsYmg1uhja0/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NTQ0/ODUtMTMzOTA1Njgw/OS00MzUxLmpwZWc.jpeg",
     "format": "cd",
@@ -748,22 +819,37 @@
       "10. 有問題",
       "11. 愛情的路",
       "12. 忘了"
-    ]
+    ],
+    "label": "华纳音乐"
   },
   {
     "id": "musicbuddy-ymaq96",
     "title": "盆地",
     "artist": "郑兴",
+    "year": 2022,
     "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/10/8b/19/108b19ba-c7a5-bfd8-9134-f8cb2d52bf82/4711232863856.png/600x600bf-60.jpg",
-    "format": "unknown",
+    "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2025-10-22T14:52:09.580Z"
+    "dateAdded": "2025-10-22T14:52:09.580Z",
+    "label": "好多音乐",
+    "tracklist": [
+      "1. 眼泪博物馆",
+      "2. 城南",
+      "3. 远方的鸽子树",
+      "4. 最美的云在昨天",
+      "5. 想太多",
+      "6. 我们去别的星球好不好",
+      "7. 写信给北方的你",
+      "8. 纪念日",
+      "9. 盆地",
+      "10. 归途"
+    ]
   },
   {
     "id": "musicbuddy-1du6r0q",
     "discogsId": 11207234,
     "title": "偏執面 = Faces Of Paranoia",
-    "artist": "A-Mei",
+    "artist": "张惠妹",
     "year": 2014,
     "coverUrl": "https://i.discogs.com/yCbBb5-RjenM92tYlFx-pH6Ny-B039hkHSIfbdpc_IA/rs:fit/g:sm/q:90/h:425/w:425/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExMjA3/MjM0LTE1MTE4NzAw/NzMtNTE0OC5qcGVn.jpeg",
     "format": "cd",
@@ -780,7 +866,8 @@
       "8. Booty Call",
       "9. 飛高高",
       "10. 前進烏托邦"
-    ]
+    ],
+    "label": "华纳音乐"
   },
   {
     "id": "musicbuddy-wrrpoe",
@@ -803,13 +890,14 @@
       "8. 不停地尋覓",
       "9. 久別重逢",
       "10. [イ尓]走了[ロ馬]"
-    ]
+    ],
+    "label": "飞碟唱片"
   },
   {
     "id": "musicbuddy-zlw21i",
     "discogsId": 36964257,
     "title": "上五樓的快活 (ARS LP)",
-    "artist": "Eason Chan",
+    "artist": "陈奕迅",
     "year": 2026,
     "coverUrl": "https://hkushop.com/cdn/shop/files/unnamed_875d831b-d823-4013-9369-106c4a3b2f20.jpg?v=1772285182&width=1920",
     "format": "vinyl",
@@ -827,16 +915,31 @@
       "B3. 床頭燈",
       "B4. 給你",
       "B5. 從何說起(Old Radio Mix)"
-    ]
+    ],
+    "label": "环球音乐"
   },
   {
     "id": "musicbuddy-4lf5e0",
     "title": "十二楼的莫文蔚",
     "artist": "莫文蔚",
+    "year": 2000,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b2738b6e9f4fd6af992a3b5e80c7",
     "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2026-07-12T12:51:56.140Z"
+    "dateAdded": "2026-07-12T12:51:56.140Z",
+    "tracklist": [
+      "1. 电台情歌",
+      "2. 双城故事",
+      "3. 盛夏的果实",
+      "4. 爱情",
+      "5. 十二楼",
+      "6. 阴天",
+      "7. 消极的人",
+      "8. 不要让我走",
+      "9. 我需要你/I Need You",
+      "10. 单人房·双人床"
+    ],
+    "label": "滚石唱片"
   },
   {
     "id": "musicbuddy-z8huis",
@@ -844,24 +947,51 @@
     "artist": "蔡健雅",
     "year": 2005,
     "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music/27/e5/65/mzi.cryvdvwc.jpg/600x600bf-60.jpg",
-    "format": "unknown",
+    "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2025-10-22T14:17:14.287Z"
+    "dateAdded": "2025-10-22T14:17:14.287Z",
+    "tracklist": [
+      "1. 双栖动物",
+      "2. 无底洞",
+      "3. 被驯服的象",
+      "4. Beautiful Love",
+      "5. 空白格",
+      "6. 记念",
+      "7. 夜盲症",
+      "8. Say Forever",
+      "9. 花生酱配果酱",
+      "10. Letting Go"
+    ],
+    "label": "华纳音乐"
   },
   {
     "id": "musicbuddy-s4fv9x",
-    "title": "苏运莹 幻",
+    "title": "幻",
     "artist": "苏运莹",
+    "year": 2016,
     "coverUrl": "https://bkimg.cdn.bcebos.com/pic/6d81800a19d8bc3e2c49306f8f8ba61ea9d345d5?x-bce-process=image/format,f_auto/quality,Q_80/resize,m_lfit,limit_1,h_700",
     "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2026-07-12T12:56:57.785Z"
+    "dateAdded": "2026-07-12T12:56:57.785Z",
+    "label": "索尼音乐",
+    "tracklist": [
+      "1. 野子",
+      "2. 生活倒影",
+      "3. 冥明",
+      "4. 彩虹节拍",
+      "5. 精灵",
+      "6. 万有引力",
+      "7. 萤火虫",
+      "8. 幻",
+      "9. 浮",
+      "10. 光"
+    ]
   },
   {
     "id": "musicbuddy-6s4sly",
     "discogsId": 10565249,
     "title": "孙燕姿",
-    "artist": "Stefanie Sun",
+    "artist": "孙燕姿",
     "year": 2017,
     "coverUrl": "https://static.wikia.nocookie.net/discogs/images/5/56/CH-0361.jpg/revision/latest/scale-to-width-down/1200?cb=20241128121159&path-prefix=zh",
     "format": "cd",
@@ -878,7 +1008,8 @@
       "8. 终于",
       "9. 很好",
       "10. Leave Me Alone"
-    ]
+    ],
+    "label": "华纳音乐"
   },
   {
     "id": "musicbuddy-1rptdsk",
@@ -903,13 +1034,14 @@
       "10. 太空船",
       "11. 線的記憶",
       "12. Outsider"
-    ]
+    ],
+    "label": "环球音乐"
   },
   {
     "id": "musicbuddy-178aoru",
     "discogsId": 10116110,
     "title": "天空",
-    "artist": "Faye Wong",
+    "artist": "王菲",
     "year": 2005,
     "coverUrl": "https://i.discogs.com/cSW_4G_QGVwX5Co8a4vQoX0RUBQ-1j3uRUdT9aJmP-M/rs:fit/g:sm/q:90/h:600/w:584/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMTE2/MTEwLTE0OTE4OTQ5/NDAtMTYwNy5qcGVn.jpeg",
     "format": "vinyl",
@@ -926,13 +1058,14 @@
       "B3. 矜持",
       "B4. 掙脫",
       "B5. 誓言"
-    ]
+    ],
+    "label": "新力音乐"
   },
   {
     "id": "musicbuddy-twlrt7",
     "discogsId": 14536000,
     "title": "偷故事的人 = Story Thief",
-    "artist": "A-Mei",
+    "artist": "张惠妹",
     "year": 2017,
     "coverUrl": "https://asianpopweekly.com/wp-content/uploads/2018/04/screen-shot-2018-04-17-at-10-00-18-pm_orig.png",
     "format": "cd",
@@ -949,7 +1082,8 @@
       "8. 光",
       "9. 到底",
       "10. 傲嬌"
-    ]
+    ],
+    "label": "环球音乐"
   },
   {
     "id": "musicbuddy-1g6qiab",
@@ -975,7 +1109,8 @@
       "11. 另外三件往事Part 3/Another Three Past Events - Part 3",
       "12. 梦/Dream",
       "13. 礼貌/Manners"
-    ]
+    ],
+    "label": "太合音乐"
   },
   {
     "id": "musicbuddy-suzqnr",
@@ -1001,16 +1136,31 @@
       "C1. 另外三件往事Part 3",
       "C2. 梦",
       "C3. 礼貌"
-    ]
+    ],
+    "label": "太合音乐"
   },
   {
     "id": "musicbuddy-1wz6eln",
     "title": "寻找郑先生",
     "artist": "郑兴",
+    "year": 2024,
     "coverUrl": "https://substackcdn.com/image/fetch/$s_!9VDB!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff8510593-599b-4f98-bd45-9221f41cdf3f_1080x1080.webp",
     "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2026-07-12T13:01:26.277Z"
+    "dateAdded": "2026-07-12T13:01:26.277Z",
+    "label": "好多音乐",
+    "tracklist": [
+      "1. 寻找郑先生",
+      "2. 亲爱的异乡人",
+      "3. 降落伞",
+      "4. 路灯",
+      "5. 废人",
+      "6. 失恋小事",
+      "7. 冬天的树",
+      "8. 纪念日（续）",
+      "9. 如果风吹来",
+      "10. 午后的木棉道"
+    ]
   },
   {
     "id": "musicbuddy-gxqotm",
@@ -1035,32 +1185,60 @@
       "10. 別怕",
       "11. 只要一分鐘",
       "12. Hidden Track"
-    ]
+    ],
+    "label": "亚神音乐"
   },
   {
     "id": "musicbuddy-vjifcr",
     "title": "眼淚博物館",
     "artist": "郑兴",
+    "year": 2020,
     "coverUrl": "http://p1.music.126.net/3TJmaDVxrNdAZLBXoomGzg==/109951165033477566.jpg",
-    "format": "unknown",
+    "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2025-10-22T15:03:18.260Z"
+    "dateAdded": "2025-10-22T15:03:18.260Z",
+    "label": "好多音乐",
+    "tracklist": [
+      "1. 眼泪博物馆",
+      "2. 城南",
+      "3. 远方的鸽子树",
+      "4. 最美的云在昨天",
+      "5. 想太多",
+      "6. 写信给北方的你",
+      "7. 纪念日",
+      "8. 盆地",
+      "9. 星期天不太远",
+      "10. 归途"
+    ]
   },
   {
     "id": "musicbuddy-1b1ysha",
-    "title": "杨乃文 应该",
+    "title": "应该",
     "artist": "杨乃文",
     "year": 2001,
     "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/B93A542C-2895-40E7-BB11-EEF0DFA79B1A",
-    "format": "unknown",
+    "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2025-10-22T14:07:10.313Z"
+    "dateAdded": "2025-10-22T14:07:10.313Z",
+    "tracklist": [
+      "1. 应该",
+      "2. 静止",
+      "3. 我给的起",
+      "4. 太骄傲",
+      "5. Fear",
+      "6. 放弃",
+      "7. 分裂",
+      "8. 一个人",
+      "9. 沉默是金",
+      "10. 离家出走"
+    ],
+    "label": "滚石唱片"
   },
   {
     "id": "musicbuddy-19j8kiv",
     "discogsId": 13569421,
     "title": "勇气",
-    "artist": "Fish Leong",
+    "artist": "梁静茹",
     "year": 2009,
     "coverUrl": "https://i.discogs.com/G6QJyYeYXmrEpnRw5kHlkmtg5ovt9xlOQWj5G2ioLpw/rs:fit/g:sm/q:90/h:600/w:590/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNTY5/NDIxLTE3NDg4ODI3/NDItMjYzOC5qcGVn.jpeg",
     "format": "cd",
@@ -1077,13 +1255,14 @@
       "8. 昨天",
       "9. 多数是晴天",
       "10. 最后"
-    ]
+    ],
+    "label": "滚石唱片"
   },
   {
     "id": "musicbuddy-1tjlr41",
     "discogsId": 32043324,
     "title": "有没有这种说法",
-    "artist": "Chyi Yu",
+    "artist": "齐豫",
     "year": 2013,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b273ba7485bad1d78321cfd8939b",
     "format": "cd",
@@ -1102,13 +1281,14 @@
       "10. 十二个夜晚",
       "11. 窗外有蓝天",
       "12. 怨女"
-    ]
+    ],
+    "label": "综一唱片"
   },
   {
     "id": "musicbuddy-1bk1pn7",
     "discogsId": 8656608,
     "title": "予感",
-    "artist": "Miyuki Nakajima",
+    "artist": "中島みゆき",
     "year": 1983,
     "coverUrl": "https://i.discogs.com/MSM-nAfMGXnRfm7yo9_nTPMi_ejFA7BXslMY71uSUQI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg2NTY2/MDgtMTQ5MjE3MTQ4/Ny02NDg0LmpwZWc.jpeg",
     "format": "vinyl",
@@ -1124,13 +1304,14 @@
       "B3. テキーラを飲みほして",
       "B4. 金魚",
       "B5. ファイト!"
-    ]
+    ],
+    "label": "Canyon Records"
   },
   {
     "id": "musicbuddy-cf9njm",
     "discogsId": 10278056,
     "title": "重奏",
-    "artist": "Kit Chan",
+    "artist": "陈洁仪",
     "year": 2012,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b273531bfff10b50bd0283a33971",
     "format": "vinyl",
@@ -1149,7 +1330,8 @@
       "B4. One Of Us",
       "B5. 左右手",
       "B6. 今生今世"
-    ]
+    ],
+    "label": "华纳音乐"
   },
   {
     "id": "musicbuddy-1su64dp",
@@ -1159,7 +1341,22 @@
     "coverUrl": "https://www.yuehaishibei.com/wp-content/uploads/2022/05/1653653945-50b2ae5d2b81154.jpg",
     "format": "vinyl",
     "zone": "unsorted",
-    "dateAdded": "2026-07-12T11:52:38.603Z"
+    "dateAdded": "2026-07-12T11:52:38.603Z",
+    "tracklist": [
+      "1. 约定",
+      "2. 话题",
+      "3. 风铃",
+      "4. 精灵",
+      "5. 不想让你知道",
+      "6. 今宵多珍重",
+      "7. 真的不骗你",
+      "8. 聊天",
+      "9. 我的心好乱",
+      "10. 收藏",
+      "11. 绿光",
+      "12. 念你"
+    ],
+    "label": "福茂唱片"
   },
   {
     "id": "musicbuddy-1jdc4y5",
@@ -1184,13 +1381,14 @@
       "10. 沒有你",
       "11. 相遇太早",
       "12. 溫度"
-    ]
+    ],
+    "label": "福茂唱片"
   },
   {
     "id": "musicbuddy-1xtvoav",
     "discogsId": 22783442,
     "title": "作品精選1  生命中的精靈",
-    "artist": "Jonathan Lee (6)",
+    "artist": "李宗盛",
     "year": 2002,
     "coverUrl": "https://i.discogs.com/qYpA_GM2tzBPyocVRSaj8BS9o9fxzBf_yZ-MlgR4Mj4/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyNzgz/NDQyLTE2NDkyNDcw/NDktNjI0Ni5qcGVn.jpeg",
     "format": "cd",
@@ -1210,7 +1408,8 @@
       "11. 鯨",
       "12. 愛情有什麼道理",
       "13. 舊愛新歡"
-    ]
+    ],
+    "label": "滚石唱片"
   },
   {
     "id": "musicbuddy-120mxbr",
@@ -1257,13 +1456,14 @@
       "D32. Lady Gaga + Sam Elliott - Twelve Notes (Dialogue)",
       "D33. Lady Gaga - I'll Never Love Again (Film Version)",
       "D34. Lady Gaga - I'll Never Love Again (Extended Version)"
-    ]
+    ],
+    "label": "Interscope Records"
   },
   {
     "id": "musicbuddy-rsr52",
     "discogsId": 26445767,
     "title": "Amit 2 = 阿密特2",
-    "artist": "A-Mei",
+    "artist": "张惠妹",
     "year": 2015,
     "coverUrl": "https://s.eslite.com/upload/product/o/2681517970000/ec1378719.jpg",
     "format": "cd",
@@ -1280,13 +1480,14 @@
       "8. 難搞 = High Maintenance",
       "9. 血腥愛情故事 = A Bloody Love Story",
       "10. 你想幹什麼 = What D'ya Want?"
-    ]
+    ],
+    "label": "华纳音乐"
   },
   {
     "id": "musicbuddy-193khui",
     "discogsId": 10648539,
     "title": "Beginning To Listen Review 1996-1999 精選輯",
-    "artist": "Mavis Hee",
+    "artist": "许美静",
     "year": 2017,
     "coverUrl": "https://i.discogs.com/27tvn-CwWZS03Xhnv1CFFgnAaRTns2VyHvt-ObghnCU/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNjQ4/NTM5LTE1MDE2NDI1/MjktNDY2Mi5qcGVn.jpeg",
     "format": "vinyl",
@@ -1306,13 +1507,14 @@
       "B4. 只是這人生",
       "B5. 城裡的月光",
       "B6. 邊界1999"
-    ]
+    ],
+    "label": "华纳音乐"
   },
   {
     "id": "musicbuddy-1wbkwq1",
     "discogsId": 34969043,
     "title": "Best 10",
-    "artist": "Teresa Teng",
+    "artist": "邓丽君",
     "year": 2025,
     "coverUrl": "https://m.media-amazon.com/images/I/71MVPC7jn5S._UF1000,1000_QL80_.jpg",
     "format": "vinyl",
@@ -1329,7 +1531,8 @@
       "B3. 女の生きがい",
       "B4. 夜のフェリーボート",
       "B5. 恋人たちの神話"
-    ]
+    ],
+    "label": "Universal Music Japan"
   },
   {
     "id": "musicbuddy-1qs7f8d",
@@ -1364,7 +1567,8 @@
       "D8. 山阴路的夏天 (2014 Live) (山陰路の夏/Nanjing Summer Day)",
       "D9. 杭州 (2015 Live) (杭州/Hangzhou)",
       "D10. 这个世界会好吗 (2018 Live) (この世界に未来はあるの？/Has Man A Future?)"
-    ]
+    ],
+    "label": "Pony Canyon"
   },
   {
     "id": "musicbuddy-1mq24ju",
@@ -1392,7 +1596,8 @@
       "D1. Living Legend",
       "D2. Cherry Blossom",
       "D3. Sweet Carolina"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-1gjkcdn",
@@ -1417,7 +1622,8 @@
       "B4. Million Dollar Man",
       "B5. Summertime Sadness",
       "B6. This is What Makes Us Girls"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-dhiobs",
@@ -1436,7 +1642,8 @@
       "B1. Condition Blue",
       "B2. Capuchin Swing",
       "B3. On The Lion"
-    ]
+    ],
+    "label": "Blue Note Records"
   },
   {
     "id": "musicbuddy-13q1ker",
@@ -1460,13 +1667,14 @@
       "B4. Breaking Up Slowly",
       "B5. Dance Till We Die",
       "B6. For Free"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-1l1zgq5",
     "discogsId": 29180215,
     "title": "Christmas Eve (40th Anniversary Edition)",
-    "artist": "Tatsuro Yamashita",
+    "artist": "山下達郎",
     "year": 2023,
     "coverUrl": "https://i.discogs.com/eWMliK43JLb9m4SiKaT9n1g195My4ECu1fOYlkkbY28/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MTgw/MjE1LTE3MDM1MTgw/NDItNjU4OS5qcGVn.jpeg",
     "format": "vinyl",
@@ -1476,13 +1684,14 @@
       "A1. Christmas Eve",
       "B1. White Christmas",
       "B2. White Christmas (Happy Xmas Show! Version)"
-    ]
+    ],
+    "label": "Moon Records"
   },
   {
     "id": "musicbuddy-1eh9ic9",
     "discogsId": 36339637,
     "title": "Covers",
-    "artist": "Hideaki Tokunaga",
+    "artist": "德永英明",
     "year": 2026,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b27304ec8e3bdb677f050d3fd401",
     "format": "vinyl",
@@ -1499,13 +1708,14 @@
       "B3. 見上げてごらん夜の星を",
       "B4. 海を見ていた午後",
       "B5. Story"
-    ]
+    ],
+    "label": "Universal Music Japan"
   },
   {
     "id": "musicbuddy-hnqclq",
     "discogsId": 19876984,
     "title": "Depart",
-    "artist": "Tanya Chua",
+    "artist": "蔡健雅",
     "year": 2021,
     "coverUrl": "https://i.discogs.com/XRcrVyjzDmBXMDmBHP7TiIBxj65VQMM6CQ-fi5AIyEU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5ODc2/OTg0LTE2MjkxMDA2/MzYtNjgyMS5qcGVn.jpeg",
     "format": "cd",
@@ -1522,7 +1732,8 @@
       "8. Photographs",
       "9. 讓浪漫作主",
       "10. Om Tara"
-    ]
+    ],
+    "label": "亚神音乐"
   },
   {
     "id": "musicbuddy-ndfj96",
@@ -1551,13 +1762,14 @@
       "D2. Fishtail",
       "D3. Peppers",
       "D4. Taco Truck x VB"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-re4zdq",
     "discogsId": 1071091,
     "title": "First Love",
-    "artist": "Utada Hikaru",
+    "artist": "宇多田ヒカル",
     "year": 1999,
     "coverUrl": "https://i.discogs.com/QtMGu1yPy4IozxLu2WQPFwGUQwMV-v7NogJddWRpedU/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNzEw/OTEtMTUzMjk1NTI5/Ny01NzI1LmpwZWc.jpeg",
     "format": "cd",
@@ -1577,13 +1789,14 @@
       "11. Give Me A Reason",
       "Bonus Track",
       "12. Automatic (Johnny Vicious Remix)"
-    ]
+    ],
+    "label": "Toshiba EMI"
   },
   {
     "id": "musicbuddy-hor8qt",
     "discogsId": 1886167,
     "title": "First Love",
-    "artist": "Utada Hikaru",
+    "artist": "宇多田ヒカル",
     "year": 1999,
     "coverUrl": "https://e.snmc.io/i/1200/s/fb16b99500818879c9b97e4d22a0a8b5/11838705",
     "format": "vinyl",
@@ -1604,7 +1817,8 @@
       "Remix Side",
       "D1. Automatic (Johnny Vicious Remix)",
       "D2. First Love (John Luongo Remix)"
-    ]
+    ],
+    "label": "Toshiba EMI"
   },
   {
     "id": "musicbuddy-1gva1xy",
@@ -1635,7 +1849,8 @@
       "D3. Hoax",
       "Bonus Track",
       "D4. The Lakes"
-    ]
+    ],
+    "label": "Republic Records"
   },
   {
     "id": "musicbuddy-1wnd6mf",
@@ -1662,7 +1877,8 @@
       "12. 24",
       "13. Swan Song  最黑暗的一天",
       "14. Don't Let Me Be Misunderstood  被让我被误会"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-60srg0",
@@ -1688,7 +1904,8 @@
       "D2. 24",
       "D3. Swan Song",
       "D4. Don't Let Me Be Misunderstood"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-majvw4",
@@ -1714,7 +1931,8 @@
       "11. 天天 = Close To You",
       "12. Angeline",
       "13. Amen"
-    ]
+    ],
+    "label": "索尼音乐"
   },
   {
     "id": "musicbuddy-bkue16",
@@ -1741,7 +1959,8 @@
       "B5. Emma Stone (2) - Audition (The Fools Who Dream)",
       "B6. Justin Hurwitz - Epilogue / The End",
       "B7. Justin Hurwitz + Emma Stone (2) - City Of Stars (Humming)"
-    ]
+    ],
+    "label": "Interscope Records"
   },
   {
     "id": "musicbuddy-1kyjr3z",
@@ -1765,7 +1984,8 @@
       "C3. Complicated",
       "D1. Skin",
       "D2. Love The Way You Lie (Part II)"
-    ]
+    ],
+    "label": "Def Jam Recordings"
   },
   {
     "id": "musicbuddy-1qzmozr",
@@ -1792,7 +2012,8 @@
       "12. The Beast",
       "13. Blade Of Grass",
       "14. Die With A Smile"
-    ]
+    ],
+    "label": "Interscope Records"
   },
   {
     "id": "musicbuddy-1k6bz1u",
@@ -1820,7 +2041,8 @@
       "C3. The Beast",
       "C4. Blade Of Grass",
       "C5. Die With A Smile"
-    ]
+    ],
+    "label": "Interscope Records"
   },
   {
     "id": "musicbuddy-1184pif",
@@ -1848,7 +2070,8 @@
       "13. The Beast = ザ・ビースト",
       "14. Blade Of Grass = ブレイド・オブ・グラス",
       "15. Die With A Smile = ダイ・ウィズ・ア・スマイル"
-    ]
+    ],
+    "label": "Interscope Records"
   },
   {
     "id": "musicbuddy-eylaw6",
@@ -1875,13 +2098,14 @@
       "12. Song For A Friend",
       "Japan Bonus Track",
       "13. Prettiest Friend (Demo)"
-    ]
+    ],
+    "label": "Atlantic Records"
   },
   {
     "id": "musicbuddy-1soijen",
     "discogsId": 16999749,
     "title": "Music For Film",
-    "artist": "Ryuichi Sakamoto",
+    "artist": "坂本龍一",
     "year": 2021,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b27357fdbf94185127e4598604ac",
     "format": "vinyl",
@@ -1901,13 +2125,14 @@
       "D2. Small Hope (From Hara-Kiri: Death Of A Samurai)",
       "D3. Opening Theme From Yae No Sakura",
       "D4. Main Theme From The Revenant"
-    ]
+    ],
+    "label": "Milan Records"
   },
   {
     "id": "musicbuddy-19r0w17",
     "discogsId": 8583705,
     "title": "My Story, Your Song 經典全記錄 [雙黑膠限量版]",
-    "artist": "Stefanie Sun",
+    "artist": "孙燕姿",
     "year": 2016,
     "coverUrl": "https://mycdshop.com/cdn/shop/products/e8b6f144f5ffefd587901fb55f21a03f.jpg?v=1663207936",
     "format": "vinyl",
@@ -1938,7 +2163,8 @@
       "D4. 第一天",
       "D5. 奔",
       "D6. 逃亡"
-    ]
+    ],
+    "label": "环球音乐"
   },
   {
     "id": "musicbuddy-6oipo3",
@@ -1965,7 +2191,8 @@
       "12. Bartender",
       "13. Happiness Is A Butterfly",
       "14. Hope Is A Dangerous Thing For A Woman Like Me To Have - But I Have It"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-1nkxhxl",
@@ -1992,13 +2219,15 @@
       "D12. Bartender",
       "D13. Happiness Is A Butterfly",
       "D14. Hope Is A Dangerous Thing For A Woman Like Me To Have - But I Have It"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-jpz3xb",
     "discogsId": 16177934,
     "title": "Parachutes",
     "artist": "Coldplay",
+    "year": 2000,
     "coverUrl": "https://m.media-amazon.com/images/I/61XGRcPbr4L._UF1000,1000_QL80_.jpg",
     "format": "vinyl",
     "zone": "unsorted",
@@ -2015,17 +2244,31 @@
       "B4. We Never Change",
       "B5. Everything's Not Lost",
       "B6. Life Is For Living"
-    ]
+    ],
+    "label": "Parlophone"
   },
   {
     "id": "musicbuddy-9ov0gr",
     "title": "pleasure",
-    "artist": "Jolin Tsai",
+    "artist": "蔡依林",
     "year": 2025,
     "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/423B5EAD-7404-4937-9A5C-F26AD83C0C8A",
-    "format": "unknown",
+    "format": "cd",
     "zone": "unsorted",
-    "dateAdded": "2025-10-23T14:52:18.480Z"
+    "dateAdded": "2025-10-23T14:52:18.480Z",
+    "label": "索尼音乐",
+    "tracklist": [
+      "1. 说爱你",
+      "2. 看我72变",
+      "3. Madrid不思議",
+      "4. 你快乐吗",
+      "5. Jolin的24堂課",
+      "6. Play 我呸",
+      "7. 舞嬢",
+      "8. 美人計",
+      "9. 大藝術家",
+      "10. 特務J"
+    ]
   },
   {
     "id": "musicbuddy-lrtg8k",
@@ -2046,7 +2289,8 @@
       "B2. Ultraviolence",
       "B3. Ecstasy",
       "B4. Leave Me Alone"
-    ]
+    ],
+    "label": "Factory Records"
   },
   {
     "id": "musicbuddy-fyui8r",
@@ -2081,13 +2325,14 @@
       "2-7. LYTD (Vocoder Tests)",
       "2-8. The Writing Of Fragments Of Time",
       "2-9. Touch (2021 Epilogue)"
-    ]
+    ],
+    "label": "Columbia / Sony Music"
   },
   {
     "id": "musicbuddy-oddnjw",
     "discogsId": 10570004,
     "title": "Stefanie",
-    "artist": "Stefanie Sun",
+    "artist": "孙燕姿",
     "year": 2017,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b273e7734d1c2626d140c2180a13",
     "format": "cd",
@@ -2107,7 +2352,8 @@
       "Bonus Track",
       "11. Let's Vino",
       "12. 未知的精彩"
-    ]
+    ],
+    "label": "华纳音乐"
   },
   {
     "id": "musicbuddy-8a5u06",
@@ -2130,7 +2376,8 @@
       "B3. You Have Loved Enough",
       "B4. Boogie Street",
       "B5. The Land Of Plenty"
-    ]
+    ],
+    "label": "Columbia"
   },
   {
     "id": "musicbuddy-rgec7w",
@@ -2153,13 +2400,14 @@
       "8. Let The Groove Get In",
       "9. Mirrors",
       "10. Blue Ocean Floor"
-    ]
+    ],
+    "label": "RCA Records"
   },
   {
     "id": "musicbuddy-3iux62",
     "discogsId": 9095507,
     "title": "The Best Of Best",
-    "artist": "Faye Wong",
+    "artist": "王菲",
     "year": 2002,
     "coverUrl": "https://i.discogs.com/Ue4Xe6_-Euu5-0Onb1EIXT_FWsZfePXJpRjhsBp-uag/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkwOTU1/MDctMTQ3NDcwMDY2/My00NDE0LmpwZWc.jpeg",
     "format": "cd",
@@ -2185,7 +2433,8 @@
       "17. いらいらする = 浮躁",
       "18. がっかり= 掃興",
       "19. 語り尽くせぬ愛 = 千言萬語 (Live)"
-    ]
+    ],
+    "label": "新力音乐"
   },
   {
     "id": "musicbuddy-1i3kfoz",
@@ -2208,7 +2457,8 @@
       "7. Any Colour You Like",
       "8. Brain Damage",
       "9. Eclipse"
-    ]
+    ],
+    "label": "Harvest / EMI"
   },
   {
     "id": "musicbuddy-158k74e",
@@ -2231,7 +2481,8 @@
       "B3. Any Colour You Like",
       "B4. Brain Damage",
       "B5. Eclipse"
-    ]
+    ],
+    "label": "Harvest / EMI"
   },
   {
     "id": "musicbuddy-1sir1i0",
@@ -2271,7 +2522,8 @@
       "Bonus Tracks",
       "2-15. Disco Heaven",
       "2-16. Retro Dance Freak"
-    ]
+    ],
+    "label": "Interscope Records"
   },
   {
     "id": "musicbuddy-rrl1c5",
@@ -2300,20 +2552,21 @@
       "B4. Allegro Non Molto",
       "B5. Largo",
       "B6. Allegro"
-    ]
+    ],
+    "label": "Deutsche Grammophon"
   },
   {
     "id": "musicbuddy-3vkuz5",
     "discogsId": 17712232,
     "title": "The Last Emperor",
-    "artist": "Ryuichi Sakamoto",
+    "artist": "坂本龍一",
     "year": 2021,
     "coverUrl": "https://images.theshfl.com/5663302037536768_v1_600.jpg",
     "format": "vinyl",
     "zone": "unsorted",
     "dateAdded": "2025-10-22T13:57:34.058Z",
     "tracklist": [
-      "Ryuichi Sakamoto",
+      "坂本龍一",
       "A1. First Coronation",
       "A2. Open The Door",
       "A3. Where Is Armo?",
@@ -2334,13 +2587,14 @@
       "B7. Red Guard",
       "B8. The Emperor's Waltz",
       "B9. The Red Guard Dance"
-    ]
+    ],
+    "label": "Milan Records"
   },
   {
     "id": "musicbuddy-3pbs9w",
     "discogsId": 13025591,
     "title": "Ugly Beauty",
-    "artist": "Jolin Tsai",
+    "artist": "蔡依林",
     "year": 2018,
     "coverUrl": "https://i.discogs.com/qTKEAeP65cjuawEpPfEyidaS-3-SmI3PkHRFkBF6lDI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMDI1/NTkxLTE1NDY3MDIy/NDAtODU2OS5qcGVn.jpeg",
     "format": "cd",
@@ -2358,7 +2612,8 @@
       "9. 腦公",
       "10. 消極掰",
       "11. 你睡醒再看"
-    ]
+    ],
+    "label": "索尼音乐"
   },
   {
     "id": "musicbuddy-1if4ljd",
@@ -2386,7 +2641,8 @@
       "D2. Black Beauty",
       "D3. Guns And Roses",
       "D4. Florida Kilos"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-18cia3c",
@@ -2413,13 +2669,14 @@
       "B6. My Bedroom Is A Sacred Place Now - There Are Children At The Foot Of My Bed",
       "B7. Paradise Is Very Fragile",
       "B8. Bare Feet On Linoleum"
-    ]
+    ],
+    "label": "Polydor / Interscope"
   },
   {
     "id": "musicbuddy-1pp17bz",
     "discogsId": 36203134,
     "title": "Vocalist",
-    "artist": "Hideaki Tokunaga",
+    "artist": "德永英明",
     "year": 2025,
     "coverUrl": "https://m.media-amazon.com/images/I/61MEanBvPXL._UF1000,1000_QL80_.jpg",
     "format": "vinyl",
@@ -2439,13 +2696,14 @@
       "D2. 会いたい",
       "D3. 翼をください",
       "D4. 卒業写真"
-    ]
+    ],
+    "label": "Universal Music Japan"
   },
   {
     "id": "musicbuddy-1v55dos",
     "discogsId": 33545496,
     "title": "Vocalist 4",
-    "artist": "Hideaki Tokunaga",
+    "artist": "德永英明",
     "year": 2025,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b2737cf392f273e7b9a8cfc37621",
     "format": "vinyl",
@@ -2465,13 +2723,14 @@
       "D2. 待つわ",
       "D3. あの鐘を鳴らすのはあなた",
       "D4. 未来予想図"
-    ]
+    ],
+    "label": "Universal Music Japan"
   },
   {
     "id": "musicbuddy-mp9gdd",
     "discogsId": 33545655,
     "title": "Vocalist 6",
-    "artist": "Hideaki Tokunaga",
+    "artist": "德永英明",
     "year": 2025,
     "coverUrl": "https://i.scdn.co/image/ab67616d0000b273bced8e72d77fbf86f51e52c0",
     "format": "vinyl",
@@ -2491,7 +2750,8 @@
       "D1. かもめが翔んだ日",
       "D2. 告白",
       "D3. 春なのに"
-    ]
+    ],
+    "label": "Universal Music Japan"
   },
   {
     "id": "musicbuddy-1sk9bue",
@@ -2529,7 +2789,8 @@
       "The Lady Caliph",
       "D1. The Lady Caliph: Dinner",
       "D2. The Lady Caliph: Nocturne"
-    ]
+    ],
+    "label": "Sony Classical"
   },
   {
     "id": "musicbuddy-1t7oysg",
@@ -2567,6 +2828,7 @@
       "The Lady Caliph",
       "18. Dinner",
       "19. Nocturne"
-    ]
+    ],
+    "label": "Sony Classical"
   }
 ]

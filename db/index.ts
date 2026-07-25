@@ -57,6 +57,11 @@ export async function ensureAlbumsTable() {
       "ALTER TABLE albums ADD COLUMN vinyl_style text",
     ).run();
   }
+  if (!columns.results.some((column) => column.name === "label")) {
+    await env.DB.prepare(
+      "ALTER TABLE albums ADD COLUMN label text",
+    ).run();
+  }
 
   await env.DB.prepare(
     "UPDATE albums SET zone = 'unsorted' WHERE zone = 'frequent'",

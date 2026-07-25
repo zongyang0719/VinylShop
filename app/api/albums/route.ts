@@ -60,6 +60,7 @@ function normalizeAlbum(value: unknown): Album | null {
             .filter(Boolean),
         }
       : {}),
+    ...(input.label?.trim() ? { label: input.label.trim() } : {}),
     ...(input.vinylColor?.trim() ? { vinylColor: input.vinylColor.trim() } : {}),
     ...(input.vinylStyle ? { vinylStyle: input.vinylStyle as VinylStyle } : {}),
   };
@@ -82,6 +83,7 @@ function toRow(album: Album) {
     purchasePrice: album.purchasePrice ?? null,
     doubanUrl: album.doubanUrl ?? null,
     tracklistJson: album.tracklist ? JSON.stringify(album.tracklist) : null,
+    label: album.label ?? null,
     vinylColor: album.vinylColor ?? null,
     vinylStyle: album.vinylStyle ?? null,
     updatedAt: new Date().toISOString(),
@@ -119,6 +121,7 @@ function fromRow(row: typeof albumsTable.$inferSelect): Album {
     ...(row.purchasePrice ? { purchasePrice: row.purchasePrice } : {}),
     ...(row.doubanUrl ? { doubanUrl: row.doubanUrl } : {}),
     ...(tracklist?.length ? { tracklist } : {}),
+    ...(row.label ? { label: row.label } : {}),
     ...(row.vinylColor ? { vinylColor: row.vinylColor } : {}),
     ...(row.vinylStyle ? { vinylStyle: row.vinylStyle as VinylStyle } : {}),
   };
@@ -243,6 +246,7 @@ export async function POST(request: Request) {
             purchasePrice: sql`excluded.purchase_price`,
             doubanUrl: sql`excluded.douban_url`,
             tracklistJson: sql`excluded.tracklist_json`,
+            label: sql`excluded.label`,
             vinylColor: sql`excluded.vinyl_color`,
             vinylStyle: sql`excluded.vinyl_style`,
             updatedAt: sql`excluded.updated_at`,

@@ -290,9 +290,12 @@ export default function Home() {
           borderRadius={26}
           borderWidth={0.09}
           brightness={62}
-          opacity={0.88}
-          blur={10}
-          distortionScale={-120}
+          opacity={0.82}
+          blur={7}
+          displace={0.35}
+          backgroundOpacity={0.12}
+          saturation={1.35}
+          distortionScale={-72}
           className="top-actions"
         >
           <button
@@ -324,9 +327,12 @@ export default function Home() {
             borderRadius={31}
             borderWidth={0.09}
             brightness={62}
-            opacity={0.88}
-            blur={10}
-            distortionScale={-120}
+            opacity={0.82}
+            blur={7}
+            displace={0.35}
+            backgroundOpacity={0.12}
+            saturation={1.35}
+            distortionScale={-72}
             className="main-tab-bar"
           >
             <nav aria-label="唱片库视图">
@@ -361,9 +367,12 @@ export default function Home() {
             borderRadius={31}
             borderWidth={0.09}
             brightness={62}
-            opacity={0.88}
-            blur={10}
-            distortionScale={-120}
+            opacity={0.82}
+            blur={7}
+            displace={0.35}
+            backgroundOpacity={0.12}
+            saturation={1.35}
+            distortionScale={-72}
             className="search-tab-button"
           >
             <button

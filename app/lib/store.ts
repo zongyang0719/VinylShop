@@ -19,6 +19,7 @@ export type Album = {
   purchasePrice?: string;
   doubanUrl?: string;
   tracklist?: string[];
+  label?: string;
   vinylColor?: string;
   vinylStyle?: VinylStyle;
 };
@@ -43,12 +44,57 @@ async function readJson<T>(response: Response): Promise<T> {
   return data;
 }
 
+const CACHE_KEY = "vinylshop_albums";
+const CACHE_TS_KEY = "vinylshop_albums_ts";
+const CACHE_TTL = 1000 * 60 * 30; // 30 min
+
+function readCache(): Album[] | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    const ts = localStorage.getItem(CACHE_TS_KEY);
+    if (!raw || !ts) return null;
+    if (Date.now() - Number(ts) > CACHE_TTL) return null;
+    return JSON.parse(raw) as Album[];
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(albums: Album[]) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(albums));
+    localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
+  } catch { /* quota exceeded — ignore */ }
+}
+
+function patchCache(updated: Album[]) {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) { writeCache(updated); return; }
+    const existing = JSON.parse(raw) as Album[];
+    const map = new Map(existing.map((a) => [a.id, a]));
+    for (const album of updated) map.set(album.id, album);
+    writeCache(Array.from(map.values()));
+  } catch { /* ignore */ }
+}
+
 export async function getAlbums(): Promise<Album[]> {
+  const cached = readCache();
+  if (cached) {
+    fetch("/api/albums", { cache: "no-store" })
+      .then((r) => readJson<AlbumsResponse>(r))
+      .then((d) => { if (d.albums) writeCache(d.albums); })
+      .catch(() => {});
+    return cached;
+  }
+
   const response = await fetch("/api/albums", {
     cache: "no-store",
   });
   const data = await readJson<AlbumsResponse>(response);
-  return data.albums ?? [];
+  const albums = data.albums ?? [];
+  writeCache(albums);
+  return albums;
 }
 
 export async function upsertAlbums(items: Album[]) {
@@ -59,7 +105,9 @@ export async function upsertAlbums(items: Album[]) {
     },
     body: JSON.stringify({ albums: items }),
   });
-  return readJson<UpsertResponse>(response);
+  const result = await readJson<UpsertResponse>(response);
+  if (result.albums) patchCache(result.albums);
+  return result;
 }
 
 export async function upsertAlbum(album: Album) {

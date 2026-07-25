@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,6 +15,16 @@ export const metadata: Metadata = {
     description: "浏览、整理并沉浸式翻看自己的唱片收藏。",
     images: ["/og-cover.png"],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f5f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#1c1c1e" },
+  ],
 };
 
 export default function RootLayout({

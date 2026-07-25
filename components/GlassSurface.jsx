@@ -1,13 +1,21 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useId, useSyncExternalStore } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useSyncExternalStore
+} from 'react';
 import './GlassSurface.css';
 
 function supportsSVGFilters(filterId) {
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return false;
   }
-  const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+
+  const isWebkit =
+    /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
   const isFirefox = /Firefox/.test(navigator.userAgent);
   if (isWebkit || isFirefox) return false;
 

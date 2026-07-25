@@ -1,31 +1,13 @@
 "use client";
 
 import {
-  Component,
-  lazy,
-  Suspense,
   useCallback,
   useMemo,
   useState,
-  type ReactNode,
 } from "react";
 import OptionWheel from "./OptionWheel/OptionWheel";
+import { CrateCylinder } from "./CrateCylinder";
 import type { Album } from "@/app/lib/store";
-
-const CrateScene = lazy(() =>
-  import("./CrateScene").then((m) => ({ default: m.CrateScene })),
-);
-
-class SceneErrorBoundary extends Component<
-  { children: ReactNode; fallback: ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-  static getDerivedStateFromError() { return { hasError: true }; }
-  render() {
-    return this.state.hasError ? this.props.fallback : this.props.children;
-  }
-}
 
 type CrateViewProps = {
   albums: Album[];
@@ -99,28 +81,12 @@ export function CrateView({ albums, onInspect }: CrateViewProps) {
       </aside>
 
       <div className="crate-scene-side">
-        <SceneErrorBoundary
-          fallback={
-            <div className="crate-loading">
-              <span>3D 场景加载失败，请刷新重试</span>
-            </div>
-          }
-        >
-          <Suspense
-            fallback={
-              <div className="crate-loading">
-                <span>加载 3D 场景…</span>
-              </div>
-            }
-          >
-            <CrateScene
-              albums={flatAlbums.map((item) => item.album)}
-              onInspect={onInspect}
-              activeIndex={safeActiveIndex}
-              onActiveIndexChange={setActiveAlbumIdx}
-            />
-          </Suspense>
-        </SceneErrorBoundary>
+        <CrateCylinder
+          albums={flatAlbums.map((item) => item.album)}
+          onInspect={onInspect}
+          activeIndex={safeActiveIndex}
+          onActiveIndexChange={setActiveAlbumIdx}
+        />
         <div className="crate-depth-blur crate-depth-blur--top" aria-hidden="true" />
         <div className="crate-depth-blur crate-depth-blur--bottom" aria-hidden="true" />
         <div

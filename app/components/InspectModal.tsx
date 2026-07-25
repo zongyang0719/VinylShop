@@ -159,6 +159,7 @@ export function InspectModal({
   const [vinylStyle, setVinylStyle] = useState<VinylStyle>(
     album.vinylStyle ?? "standard",
   );
+  const [label, setLabel] = useState(album.label ?? "");
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [customHex, setCustomHex] = useState(
     album.vinylColor ?? "#1a1a1a",
@@ -197,6 +198,7 @@ export function InspectModal({
     setDoubanUrl(nextAlbum.doubanUrl ?? "");
     setFormat(nextAlbum.format);
     setTracklist(nextAlbum.tracklist?.join("\n") ?? "");
+    setLabel(nextAlbum.label ?? "");
     setVinylColor(nextAlbum.vinylColor ?? "#1a1a1a");
     setVinylStyle(nextAlbum.vinylStyle ?? "standard");
     setCustomHex(nextAlbum.vinylColor ?? "#1a1a1a");
@@ -213,17 +215,8 @@ export function InspectModal({
     syncDraft(nextAlbum);
   }
 
-  function applySearchResult(selection: CoverSelection) {
+  function applyCoverOnly(selection: CoverSelection) {
     setCoverUrl(selection.url);
-    if (selection.title) setTitle(selection.title);
-    if (selection.artist) setArtist(selection.artist);
-    if (selection.releaseDate) {
-      setReleaseDate(selection.releaseDate.slice(0, 10));
-    }
-    if (selection.year) setYear(selection.year);
-    if (selection.tracks?.length) {
-      setTracklist(selection.tracks.join("\n"));
-    }
   }
 
   function pickColor(color: string) {
@@ -256,6 +249,7 @@ export function InspectModal({
         purchaseDate: purchaseDate || undefined,
         purchasePrice: purchasePrice.trim() || undefined,
         doubanUrl: doubanUrl.trim() || undefined,
+        label: label.trim() || undefined,
         format,
         vinylColor,
         vinylStyle,
@@ -379,12 +373,34 @@ export function InspectModal({
                   placeholder="https://…"
                 />
               </label>
-              <CoverSearch
-                query={`${artist} ${title}`}
-                title={title}
-                artist={artist}
-                onSelect={applySearchResult}
-              />
+              <div className="cover-upload-row">
+                <label className="cover-upload-button">
+                  <span aria-hidden="true">📁</span>
+                  <span>上传本地封面</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) return;
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        if (typeof reader.result === "string") {
+                          setCoverUrl(reader.result);
+                        }
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                </label>
+                <CoverSearch
+                  query={`${artist} ${title}`}
+                  title={title}
+                  artist={artist}
+                  onSelect={applyCoverOnly}
+                />
+              </div>
 
               <div className="field-row">
                 <label className="field">
@@ -439,6 +455,14 @@ export function InspectModal({
                   />
                 </label>
               </div>
+              <label className="field field-wide">
+                <span>厂牌 / 唱片公司</span>
+                <input
+                  value={label}
+                  onChange={(event) => setLabel(event.target.value)}
+                  placeholder="例如 环球音乐、索尼音乐"
+                />
+              </label>
               <label className="field field-wide">
                 <span>豆瓣条目链接</span>
                 <input
@@ -666,6 +690,16 @@ export function InspectModal({
                 )}
 
                 <dl className="album-facts">
+                  {album.label && (
+                    <div>
+                      <dt>厂牌</dt>
+                      <dd>{album.label}</dd>
+                    </div>
+                  )}
+                  <div>
+                    <dt>介质</dt>
+                    <dd>{formatLabel}</dd>
+                  </div>
                   <div>
                     <dt>购买日期</dt>
                     <dd>{dateInput(album.purchaseDate) || "未记录"}</dd>
@@ -673,10 +707,6 @@ export function InspectModal({
                   <div>
                     <dt>购买价格</dt>
                     <dd>{album.purchasePrice || "未记录"}</dd>
-                  </div>
-                  <div>
-                    <dt>介质</dt>
-                    <dd>{formatLabel}</dd>
                   </div>
                   <div>
                     <dt>收藏状态</dt>
