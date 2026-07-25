@@ -14,6 +14,11 @@ import {
   searchDiscogs,
   type DiscogsSearchResult,
 } from "@/app/lib/discogs";
+import {
+  searchMusic,
+  proxyCoverUrl,
+  type MusicSearchResult,
+} from "@/app/lib/douban";
 import { parseMusicBuddyCsv } from "@/app/lib/musicbuddy";
 import {
   makeLocalId,
@@ -21,6 +26,8 @@ import {
   type Format,
   type Zone,
 } from "@/app/lib/store";
+
+type SearchSource = "musicbrainz" | "discogs";
 
 type AddMode = "search" | "manual" | "import";
 
@@ -51,8 +58,10 @@ export function AddModal({
   const [format, setFormat] =
     useState<Exclude<Format, "unknown">>("vinyl");
   const [results, setResults] = useState<DiscogsSearchResult[]>([]);
+  const [mbResults, setMbResults] = useState<MusicSearchResult[]>([]);
+  const [searchSource, setSearchSource] = useState<SearchSource>("musicbrainz");
   const [loading, setLoading] = useState(false);
-  const [addingId, setAddingId] = useState<number | null>(null);
+  const [addingId, setAddingId] = useState<number | string | null>(null);
   const [importing, setImporting] = useState(false);
   const [importMessage, setImportMessage] = useState("");
   const [error, setError] = useState("");
@@ -67,20 +76,13 @@ export function AddModal({
   const csvInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();
       }
     };
     window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
+    return () => { window.removeEventListener("keydown", onKeyDown); };
   }, [onClose]);
 
   useEffect(() => {
@@ -91,15 +93,18 @@ export function AddModal({
 
   async function handleSearch(event: FormEvent) {
     event.preventDefault();
-    if (!query.trim()) {
-      return;
-    }
+    if (!query.trim()) return;
 
     setLoading(true);
     setError("");
     setResults([]);
+    setMbResults([]);
     try {
-      setResults(await searchDiscogs(query.trim()));
+      if (searchSource === "musicbrainz") {
+        setMbResults(await searchMusic(query.trim()));
+      } else {
+        setResults(await searchDiscogs(query.trim()));
+      }
     } catch (reason) {
       setError(
         reason instanceof Error ? reason.message : "搜索失败，请稍后重试",
@@ -109,12 +114,32 @@ export function AddModal({
     }
   }
 
-  async function handleChoose(result: DiscogsSearchResult) {
+  async function handleChooseDiscogs(result: DiscogsSearchResult) {
     setAddingId(result.id);
     setError("");
     try {
       const release = await getDiscogsRelease(result.id);
       await onAdd(createAlbumFromDiscogs(result, release, format, zone));
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "添加失败");
+      setAddingId(null);
+    }
+  }
+
+  async function handleChooseMB(result: MusicSearchResult) {
+    setAddingId(result.id);
+    setError("");
+    try {
+      await onAdd({
+        id: makeLocalId(),
+        title: result.title,
+        artist: result.artist,
+        year: Number(result.year) || undefined,
+        coverUrl: result.coverUrl,
+        format,
+        zone,
+        dateAdded: new Date().toISOString(),
+      });
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "添加失败");
       setAddingId(null);
@@ -283,7 +308,7 @@ export function AddModal({
                     id="discogs-query"
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
-                    placeholder="例如：山下達郎 For You"
+                    placeholder="例如：周杰伦 范特西"
                     autoComplete="off"
                   />
                   <button type="submit" disabled={loading || !query.trim()}>
@@ -293,34 +318,85 @@ export function AddModal({
               </form>
 
               <div className="source-switch">
-                <div>
-                  <strong>Discogs 自动补全</strong>
-                  <span>封面、年份与曲目会自动带回</span>
+                <div className="source-tabs">
+                  <button
+                    type="button"
+                    className={searchSource === "musicbrainz" ? "is-active" : ""}
+                    onClick={() => { setSearchSource("musicbrainz"); setResults([]); setMbResults([]); }}
+                  >
+                    MusicBrainz
+                  </button>
+                  <button
+                    type="button"
+                    className={searchSource === "discogs" ? "is-active" : ""}
+                    onClick={() => { setSearchSource("discogs"); setResults([]); setMbResults([]); }}
+                  >
+                    Discogs
+                  </button>
                 </div>
-                <a
-                  href={doubanSearch}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-disabled={!query.trim()}
-                >
-                  去豆瓣搜
-                  <span aria-hidden="true">↗</span>
-                </a>
+                <span className="source-hint">
+                  {searchSource === "musicbrainz"
+                    ? "封面、年份与曲目从 MusicBrainz 带回"
+                    : "封面、年份与曲目从 Discogs 带回"}
+                </span>
               </div>
 
-              {results.length > 0 && (
+              {/* ── MusicBrainz results ── */}
+              {searchSource === "musicbrainz" && mbResults.length > 0 && (
+                <div className="search-results">
+                  {mbResults.map((result) => (
+                    <button
+                      type="button"
+                      key={result.id}
+                      className="search-result"
+                      onClick={() => void handleChooseMB(result)}
+                      disabled={addingId !== null}
+                    >
+                      <span className="result-cover">
+                        {result.coverUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={proxyCoverUrl(result.coverUrl)}
+                            alt=""
+                            onError={(event) => {
+                              event.currentTarget.src =
+                                "/covers/cover-fallback.svg";
+                            }}
+                          />
+                        ) : (
+                          <span>♫</span>
+                        )}
+                      </span>
+                      <span className="result-copy">
+                        <strong>{result.title}</strong>
+                        <span>{result.artist}</span>
+                        <small>
+                          {result.year || "年份未知"}
+                          {result.format ? ` · ${result.format}` : ""}
+                          {result.label ? ` · ${result.label}` : ""}
+                        </small>
+                      </span>
+                      <span className="result-action">
+                        {addingId === result.id ? "添加中" : "添加"}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* ── Discogs results ── */}
+              {searchSource === "discogs" && results.length > 0 && (
                 <div className="search-results">
                   {results.map((result) => {
                     const [artist, ...rest] = result.title.split(" - ");
                     const title = rest.join(" - ") || result.title;
                     const image = result.cover_image || result.thumb;
-
                     return (
                       <button
                         type="button"
                         key={result.id}
                         className="search-result"
-                        onClick={() => void handleChoose(result)}
+                        onClick={() => void handleChooseDiscogs(result)}
                         disabled={addingId !== null}
                       >
                         <span className="result-cover">
@@ -345,10 +421,10 @@ export function AddModal({
                 </div>
               )}
 
-              {!loading && !results.length && (
+              {!loading && !results.length && !mbResults.length && (
                 <div className="search-empty">
                   <span aria-hidden="true">⌕</span>
-                  <p>每次显示最接近的 3 个结果。</p>
+                  <p>输入关键词搜索专辑。</p>
                 </div>
               )}
             </motion.div>

@@ -1,6 +1,6 @@
 import { desc, eq, inArray, sql } from "drizzle-orm";
 import initialLibrary from "@/app/data/initial-library.json";
-import type { Album, Format, Zone } from "@/app/lib/store";
+import type { Album, Format, VinylStyle, Zone } from "@/app/lib/store";
 import { ensureAlbumsTable, getDb } from "@/db";
 import { albums as albumsTable } from "@/db/schema";
 
@@ -60,6 +60,8 @@ function normalizeAlbum(value: unknown): Album | null {
             .filter(Boolean),
         }
       : {}),
+    ...(input.vinylColor?.trim() ? { vinylColor: input.vinylColor.trim() } : {}),
+    ...(input.vinylStyle ? { vinylStyle: input.vinylStyle as VinylStyle } : {}),
   };
 }
 
@@ -80,6 +82,8 @@ function toRow(album: Album) {
     purchasePrice: album.purchasePrice ?? null,
     doubanUrl: album.doubanUrl ?? null,
     tracklistJson: album.tracklist ? JSON.stringify(album.tracklist) : null,
+    vinylColor: album.vinylColor ?? null,
+    vinylStyle: album.vinylStyle ?? null,
     updatedAt: new Date().toISOString(),
   };
 }
@@ -115,6 +119,8 @@ function fromRow(row: typeof albumsTable.$inferSelect): Album {
     ...(row.purchasePrice ? { purchasePrice: row.purchasePrice } : {}),
     ...(row.doubanUrl ? { doubanUrl: row.doubanUrl } : {}),
     ...(tracklist?.length ? { tracklist } : {}),
+    ...(row.vinylColor ? { vinylColor: row.vinylColor } : {}),
+    ...(row.vinylStyle ? { vinylStyle: row.vinylStyle as VinylStyle } : {}),
   };
 }
 
@@ -237,6 +243,8 @@ export async function POST(request: Request) {
             purchasePrice: sql`excluded.purchase_price`,
             doubanUrl: sql`excluded.douban_url`,
             tracklistJson: sql`excluded.tracklist_json`,
+            vinylColor: sql`excluded.vinyl_color`,
+            vinylStyle: sql`excluded.vinyl_style`,
             updatedAt: sql`excluded.updated_at`,
           },
         });

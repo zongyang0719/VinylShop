@@ -1,33 +1,137 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import type { Album, Format } from "@/app/lib/store";
+import { useEffect, useState, type CSSProperties } from "react";
+import type { Album, Format, VinylStyle } from "@/app/lib/store";
+import { CdDisc } from "./CdDisc";
+import { CoverSearch, type CoverSelection } from "./CoverSearch";
+import { VinylDisc } from "./VinylDisc";
 
 type InspectModalProps = {
   album: Album;
+  versions?: Album[];
   onSave: (album: Album) => Promise<void>;
   onToggleFavorite: (album: Album) => Promise<string | null>;
   onClose: () => void;
 };
 
-const spring = {
+const panelSpring = {
   type: "spring" as const,
-  stiffness: 360,
+  stiffness: 320,
   damping: 34,
   mass: 0.9,
 };
+
+const objectSpring = {
+  type: "spring" as const,
+  stiffness: 165,
+  damping: 24,
+  mass: 1.05,
+};
+
+const VINYL_COLORS = [
+  { color: "#1a1a1a", label: "经典黑" },
+  { color: "#a43a36", label: "红" },
+  { color: "#376f9f", label: "蓝" },
+  { color: "#397a58", label: "绿" },
+  { color: "#bd6b32", label: "橙" },
+  { color: "#705287", label: "紫" },
+  { color: "#bd557d", label: "粉" },
+  { color: "#a88934", label: "金" },
+  { color: "#e8e8e8", label: "白" },
+  { color: "#a8b4c0", label: "透明" },
+];
+
+const VINYL_STYLES: Array<{ id: VinylStyle; label: string }> = [
+  { id: "standard", label: "普通" },
+  { id: "transparent", label: "透明胶" },
+  { id: "picture", label: "画胶" },
+  { id: "splatter", label: "泼溅" },
+];
+
+function versionLabel(album: Album) {
+  const format =
+    album.format === "vinyl" ? "黑胶" : album.format === "cd" ? "CD" : "其他";
+  const styles: Record<VinylStyle, string> = {
+    standard: "",
+    transparent: "透明",
+    picture: "画胶",
+    splatter: "泼溅",
+  };
+  const style = album.vinylStyle ? styles[album.vinylStyle] : "";
+  return style ? `${format} · ${style}` : format;
+}
 
 function dateInput(value?: string) {
   return value ? value.slice(0, 10) : "";
 }
 
+function proxyArtwork(url: string) {
+  if (url.startsWith("/")) return url;
+  return `/api/douban?img=${encodeURIComponent(url)}`;
+}
+
+function cleanTracks(value: string) {
+  const tracks = value
+    .split("\n")
+    .map((track) => track.trim())
+    .filter(Boolean);
+  return tracks.length > 0 ? tracks : undefined;
+}
+
+function extractDominantColor(src: string): Promise<string> {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      if (!context) {
+        resolve("18,18,22");
+        return;
+      }
+      canvas.width = 36;
+      canvas.height = 36;
+      context.drawImage(image, 0, 0, 36, 36);
+      try {
+        const pixels = context.getImageData(0, 0, 36, 36).data;
+        let red = 0;
+        let green = 0;
+        let blue = 0;
+        let count = 0;
+        for (let index = 0; index < pixels.length; index += 20) {
+          red += pixels[index];
+          green += pixels[index + 1];
+          blue += pixels[index + 2];
+          count += 1;
+        }
+        resolve(
+          `${Math.round((red / count) * 0.42)},${Math.round(
+            (green / count) * 0.42,
+          )},${Math.round((blue / count) * 0.42)}`,
+        );
+      } catch {
+        resolve("18,18,22");
+      }
+    };
+    image.onerror = () => resolve("18,18,22");
+    image.src = src;
+  });
+}
+
 export function InspectModal({
-  album,
+  album: initialAlbum,
+  versions: suppliedVersions,
   onSave,
   onToggleFavorite,
   onClose,
 }: InspectModalProps) {
+  const versions =
+    suppliedVersions && suppliedVersions.length > 0
+      ? suppliedVersions
+      : [initialAlbum];
+  const [activeVersionIndex, setActiveVersionIndex] = useState(0);
+  const album = versions[activeVersionIndex] ?? initialAlbum;
+
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [favoriteSaving, setFavoriteSaving] = useState(false);
@@ -37,9 +141,7 @@ export function InspectModal({
   const [artist, setArtist] = useState(album.artist);
   const [coverUrl, setCoverUrl] = useState(album.coverUrl);
   const [year, setYear] = useState(album.year ? String(album.year) : "");
-  const [releaseDate, setReleaseDate] = useState(
-    dateInput(album.releaseDate),
-  );
+  const [releaseDate, setReleaseDate] = useState(dateInput(album.releaseDate));
   const [purchaseDate, setPurchaseDate] = useState(
     dateInput(album.purchaseDate),
   );
@@ -51,34 +153,96 @@ export function InspectModal({
   const [tracklist, setTracklist] = useState(
     album.tracklist?.join("\n") ?? "",
   );
+  const [vinylColor, setVinylColor] = useState(
+    album.vinylColor ?? "#1a1a1a",
+  );
+  const [vinylStyle, setVinylStyle] = useState<VinylStyle>(
+    album.vinylStyle ?? "standard",
+  );
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [customHex, setCustomHex] = useState(
+    album.vinylColor ?? "#1a1a1a",
+  );
+  const [spinning, setSpinning] = useState(false);
+  const [dominantRgb, setDominantRgb] = useState("18,18,22");
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    let active = true;
+    void extractDominantColor(proxyArtwork(album.coverUrl)).then((color) => {
+      if (active) setDominantRgb(color);
+    });
+    return () => {
+      active = false;
+    };
+  }, [album.coverUrl]);
 
+  useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        if (editing) {
-          setEditing(false);
-        } else {
-          onClose();
-        }
-      }
+      if (event.key !== "Escape") return;
+      if (editing) setEditing(false);
+      else onClose();
     };
     window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [editing, onClose]);
+
+  function syncDraft(nextAlbum: Album) {
+    setTitle(nextAlbum.title);
+    setArtist(nextAlbum.artist);
+    setCoverUrl(nextAlbum.coverUrl);
+    setYear(nextAlbum.year ? String(nextAlbum.year) : "");
+    setReleaseDate(dateInput(nextAlbum.releaseDate));
+    setPurchaseDate(dateInput(nextAlbum.purchaseDate));
+    setPurchasePrice(nextAlbum.purchasePrice ?? "");
+    setDoubanUrl(nextAlbum.doubanUrl ?? "");
+    setFormat(nextAlbum.format);
+    setTracklist(nextAlbum.tracklist?.join("\n") ?? "");
+    setVinylColor(nextAlbum.vinylColor ?? "#1a1a1a");
+    setVinylStyle(nextAlbum.vinylStyle ?? "standard");
+    setCustomHex(nextAlbum.vinylColor ?? "#1a1a1a");
+    setShowColorPicker(false);
+    setSpinning(false);
+    setError("");
+  }
+
+  function selectVersion(index: number) {
+    const nextAlbum = versions[index];
+    if (!nextAlbum) return;
+    setActiveVersionIndex(index);
+    setEditing(false);
+    syncDraft(nextAlbum);
+  }
+
+  function applySearchResult(selection: CoverSelection) {
+    setCoverUrl(selection.url);
+    if (selection.title) setTitle(selection.title);
+    if (selection.artist) setArtist(selection.artist);
+    if (selection.releaseDate) {
+      setReleaseDate(selection.releaseDate.slice(0, 10));
+    }
+    if (selection.year) setYear(selection.year);
+    if (selection.tracks?.length) {
+      setTracklist(selection.tracks.join("\n"));
+    }
+  }
+
+  function pickColor(color: string) {
+    setVinylColor(color);
+    setCustomHex(color);
+  }
+
+  function pickStyle(style: VinylStyle) {
+    setVinylStyle(style);
+    if (style === "transparent" && vinylColor === "#1a1a1a") {
+      pickColor("#a8b4c0");
+    }
+  }
 
   async function handleSave() {
     if (!title.trim() || !artist.trim() || !coverUrl.trim()) {
       setError("专辑名、艺人和封面地址不能为空");
       return;
     }
-
     setSaving(true);
     setError("");
     try {
@@ -93,11 +257,9 @@ export function InspectModal({
         purchasePrice: purchasePrice.trim() || undefined,
         doubanUrl: doubanUrl.trim() || undefined,
         format,
-        tracklist:
-          tracklist
-            .split("\n")
-            .map((track) => track.trim())
-            .filter(Boolean) || undefined,
+        vinylColor,
+        vinylStyle,
+        tracklist: cleanTracks(tracklist),
       });
       setEditing(false);
     } catch (reason) {
@@ -110,11 +272,12 @@ export function InspectModal({
   async function handleFavorite() {
     setFavoriteSaving(true);
     setFavoriteError("");
-    const message = await onToggleFavorite(album);
-    if (message) {
-      setFavoriteError(message);
+    try {
+      const message = await onToggleFavorite(album);
+      if (message) setFavoriteError(message);
+    } finally {
+      setFavoriteSaving(false);
     }
-    setFavoriteSaving(false);
   }
 
   const releaseLabel =
@@ -126,6 +289,7 @@ export function InspectModal({
       : album.format === "cd"
         ? "CD"
         : "未标注";
+  const artwork = proxyArtwork(album.coverUrl);
 
   return (
     <motion.div
@@ -134,21 +298,32 @@ export function InspectModal({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      onClick={() => !saving && onClose()}
+      onClick={() => {
+        if (!saving) onClose();
+      }}
       role="dialog"
       aria-modal="true"
       aria-label={`${album.artist}《${album.title}》详情`}
     >
       <motion.div
-        className="inspect-panel"
-        initial={{ y: 26, opacity: 0.7, scale: 0.985 }}
+        className={`inspect-panel ${!editing ? "inspect-panel-vinyl" : ""}`}
+        style={
+          {
+            "--hero-rgb": dominantRgb,
+          } as CSSProperties
+        }
+        initial={{ y: 28, opacity: 0, scale: 0.975 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
-        exit={{ y: 20, opacity: 0, scale: 0.99 }}
-        transition={spring}
+        exit={{ y: 22, opacity: 0, scale: 0.985 }}
+        transition={panelSpring}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="sheet-handle" aria-hidden="true" />
-        <div className="inspect-toolbar">
+        <div
+          className={`inspect-toolbar ${
+            !editing ? "inspect-toolbar-vinyl" : ""
+          }`}
+        >
           <button
             type="button"
             className="circle-button"
@@ -183,14 +358,17 @@ export function InspectModal({
             <div className="edit-cover-preview">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={coverUrl || "/covers/cover-fallback.svg"}
+                src={
+                  coverUrl
+                    ? proxyArtwork(coverUrl)
+                    : "/covers/cover-fallback.svg"
+                }
                 alt="封面预览"
                 onError={(event) => {
                   event.currentTarget.src = "/covers/cover-fallback.svg";
                 }}
               />
             </div>
-
             <div className="edit-form">
               <label className="field field-wide">
                 <span>封面图片地址</span>
@@ -201,6 +379,12 @@ export function InspectModal({
                   placeholder="https://…"
                 />
               </label>
+              <CoverSearch
+                query={`${artist} ${title}`}
+                title={title}
+                artist={artist}
+                onSelect={applySearchResult}
+              />
 
               <div className="field-row">
                 <label className="field">
@@ -218,7 +402,6 @@ export function InspectModal({
                   />
                 </label>
               </div>
-
               <div className="field-row">
                 <label className="field">
                   <span>发行日期</span>
@@ -238,7 +421,6 @@ export function InspectModal({
                   />
                 </label>
               </div>
-
               <div className="field-row">
                 <label className="field">
                   <span>购买日期</span>
@@ -257,7 +439,6 @@ export function InspectModal({
                   />
                 </label>
               </div>
-
               <label className="field field-wide">
                 <span>豆瓣条目链接</span>
                 <input
@@ -267,7 +448,6 @@ export function InspectModal({
                   placeholder="https://music.douban.com/subject/…"
                 />
               </label>
-
               <label className="field field-wide">
                 <span>介质</span>
                 <select
@@ -282,101 +462,240 @@ export function InspectModal({
                 </select>
               </label>
 
+              {format === "vinyl" && (
+                <div className="edit-vinyl-section">
+                  <span className="field-label">黑胶样式</span>
+                  <div className="vinyl-style-row-edit">
+                    {VINYL_STYLES.map((style) => (
+                      <button
+                        key={style.id}
+                        type="button"
+                        className={
+                          vinylStyle === style.id ? "is-active" : ""
+                        }
+                        onClick={() => pickStyle(style.id)}
+                      >
+                        {style.label}
+                      </button>
+                    ))}
+                  </div>
+                  <span className="field-label">黑胶颜色</span>
+                  <div className="vinyl-color-row-edit">
+                    {VINYL_COLORS.map((color) => (
+                      <button
+                        key={color.color}
+                        type="button"
+                        className={`vinyl-dot ${
+                          vinylColor === color.color ? "is-active" : ""
+                        }`}
+                        style={{ background: color.color }}
+                        onClick={() => pickColor(color.color)}
+                        aria-label={color.label}
+                      />
+                    ))}
+                    <button
+                      type="button"
+                      className="vinyl-dot-custom"
+                      onClick={() => setShowColorPicker(!showColorPicker)}
+                      aria-label="自定义颜色"
+                    >
+                      +
+                    </button>
+                  </div>
+                  {showColorPicker && (
+                    <div className="vinyl-picker-row">
+                      <input
+                        type="color"
+                        value={customHex}
+                        onChange={(event) => pickColor(event.target.value)}
+                        aria-label="选择黑胶颜色"
+                      />
+                      <span>{customHex}</span>
+                    </div>
+                  )}
+                  <div className="edit-vinyl-preview">
+                    <VinylDisc
+                      color={vinylColor}
+                      style={vinylStyle}
+                      coverUrl={coverUrl}
+                      size={112}
+                    />
+                  </div>
+                </div>
+              )}
+              {format === "cd" && (
+                <div className="edit-vinyl-section">
+                  <span className="field-label">CD 预览</span>
+                  <div className="edit-vinyl-preview">
+                    <CdDisc coverUrl={coverUrl} size={112} />
+                  </div>
+                </div>
+              )}
+
               <label className="field field-wide">
                 <span>曲目（每行一首）</span>
                 <textarea
-                  rows={6}
+                  rows={7}
                   value={tracklist}
                   onChange={(event) => setTracklist(event.target.value)}
                 />
               </label>
-
               {error && <p className="form-error">{error}</p>}
             </div>
           </div>
         ) : (
-          <div className="inspect-layout">
-            <motion.div
-              className="inspect-cover"
-              layoutId={`cover-${album.id}`}
-              transition={spring}
-              drag="y"
-              dragConstraints={{ top: 0, bottom: 0 }}
-              dragElastic={{ top: 0.04, bottom: 0.55 }}
-              onDragEnd={(_, info) => {
-                if (info.offset.y > 90 || info.velocity.y > 700) {
-                  onClose();
-                }
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={album.coverUrl}
-                alt={`${album.artist}《${album.title}》封面`}
-                onError={(event) => {
-                  event.currentTarget.src = "/covers/cover-fallback.svg";
-                }}
+          <div className="inspect-layout-vinyl">
+            <section className="turntable-hero" aria-label="唱片展示">
+              <div
+                className="turntable-bg"
+                style={{ backgroundImage: `url(${artwork})` }}
+                aria-hidden="true"
               />
-            </motion.div>
-
-            <div className="inspect-info">
-              <p className="inspect-artist">{album.artist}</p>
-              <h2>{album.title}</h2>
-              <p className="inspect-release">{releaseLabel}</p>
-
-              <button
-                type="button"
-                className={`favorite-detail-button ${
-                  album.favorite ? "is-favorite" : ""
-                }`}
-                onClick={() => void handleFavorite()}
-                disabled={favoriteSaving}
-                aria-pressed={Boolean(album.favorite)}
-              >
-                <span aria-hidden="true">{album.favorite ? "♥" : "♡"}</span>
-                <strong>
-                  {favoriteSaving
-                    ? "正在更新…"
-                    : album.favorite
-                      ? "已在喜欢里"
-                      : "加入喜欢"}
-                </strong>
-                <small>最多 10 张</small>
-              </button>
-              {favoriteError && (
-                <p className="favorite-detail-error">{favoriteError}</p>
-              )}
-
-              <dl className="album-facts">
-                <div>
-                  <dt>购买日期</dt>
-                  <dd>{dateInput(album.purchaseDate) || "未记录"}</dd>
-                </div>
-                <div>
-                  <dt>购买价格</dt>
-                  <dd>{album.purchasePrice || "未记录"}</dd>
-                </div>
-                <div>
-                  <dt>介质</dt>
-                  <dd>{formatLabel}</dd>
-                </div>
-                <div>
-                  <dt>喜欢</dt>
-                  <dd>{album.favorite ? "已加入" : "未加入"}</dd>
-                </div>
-              </dl>
-
-              {album.doubanUrl && (
-                <a
-                  className="source-link"
-                  href={album.doubanUrl}
-                  target="_blank"
-                  rel="noreferrer"
+              <div className="turntable-bg-vignette" aria-hidden="true" />
+              <div className="turntable-stage">
+                <motion.button
+                  key={`disc-${album.id}`}
+                  type="button"
+                  className="turntable-disc"
+                  initial={{ x: -190, opacity: 0, rotate: -18, scale: 0.92 }}
+                  animate={{ x: 0, opacity: 1, rotate: 0, scale: 1 }}
+                  transition={{ ...objectSpring, delay: 0.14 }}
+                  onClick={() => setSpinning(!spinning)}
+                  aria-label={spinning ? "暂停唱片旋转" : "让唱片旋转"}
+                  aria-pressed={spinning}
                 >
-                  在豆瓣查看
-                  <span aria-hidden="true">↗</span>
-                </a>
-              )}
+                  {album.format === "cd" ? (
+                    <CdDisc
+                      coverUrl={album.coverUrl}
+                      size={520}
+                      spinning={spinning}
+                    />
+                  ) : (
+                    <VinylDisc
+                      color={album.vinylColor ?? vinylColor}
+                      style={album.vinylStyle ?? vinylStyle}
+                      coverUrl={album.coverUrl}
+                      size={520}
+                      spinning={spinning}
+                    />
+                  )}
+                </motion.button>
+
+                <motion.figure
+                  key={`cover-${album.id}`}
+                  className="turntable-cover"
+                  initial={{ x: 34, opacity: 0, rotate: 2.5, scale: 0.93 }}
+                  animate={{ x: 0, opacity: 1, rotate: -1.2, scale: 1 }}
+                  transition={objectSpring}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={artwork}
+                    alt={`${album.artist}《${album.title}》封面`}
+                    onError={(event) => {
+                      event.currentTarget.src = "/covers/cover-fallback.svg";
+                    }}
+                  />
+                </motion.figure>
+              </div>
+            </section>
+
+            {versions.length > 1 && (
+              <div className="version-tabs" aria-label="专辑版本">
+                {versions.map((version, index) => (
+                  <button
+                    key={version.id}
+                    type="button"
+                    className={`version-tab ${
+                      activeVersionIndex === index ? "is-active" : ""
+                    }`}
+                    onClick={() => selectVersion(index)}
+                    aria-pressed={activeVersionIndex === index}
+                  >
+                    <span
+                      className="version-tab-dot"
+                      style={
+                        version.format === "vinyl"
+                          ? {
+                              background:
+                                version.vinylColor ?? "#1a1a1a",
+                            }
+                          : {
+                              background:
+                                "linear-gradient(135deg, #d8dce2, #9298a2)",
+                            }
+                      }
+                    />
+                    <span>{versionLabel(version)}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div className="inspect-info inspect-info-vinyl">
+              <div className="inspect-summary">
+                <p className="inspect-artist">
+                  {album.artist.replace(/\s*\(\d+\)$/, "")}
+                </p>
+                <h2>{album.title}</h2>
+                <p className="inspect-release">{releaseLabel}</p>
+
+                <button
+                  type="button"
+                  className={`favorite-detail-button ${
+                    album.favorite ? "is-favorite" : ""
+                  }`}
+                  onClick={() => void handleFavorite()}
+                  disabled={favoriteSaving}
+                  aria-pressed={Boolean(album.favorite)}
+                >
+                  <span aria-hidden="true">
+                    {album.favorite ? "♥" : "♡"}
+                  </span>
+                  <strong>
+                    {favoriteSaving
+                      ? "正在更新…"
+                      : album.favorite
+                        ? "已在喜欢里"
+                        : "加入喜欢"}
+                  </strong>
+                  <small>最多 10 张</small>
+                </button>
+                {favoriteError && (
+                  <p className="favorite-detail-error">{favoriteError}</p>
+                )}
+
+                <dl className="album-facts">
+                  <div>
+                    <dt>购买日期</dt>
+                    <dd>{dateInput(album.purchaseDate) || "未记录"}</dd>
+                  </div>
+                  <div>
+                    <dt>购买价格</dt>
+                    <dd>{album.purchasePrice || "未记录"}</dd>
+                  </div>
+                  <div>
+                    <dt>介质</dt>
+                    <dd>{formatLabel}</dd>
+                  </div>
+                  <div>
+                    <dt>收藏状态</dt>
+                    <dd>{album.favorite ? "喜欢" : "普通收藏"}</dd>
+                  </div>
+                </dl>
+
+                {album.doubanUrl && (
+                  <a
+                    className="source-link"
+                    href={album.doubanUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    在豆瓣查看
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+              </div>
 
               <div className="tracklist">
                 <h3>曲目</h3>

@@ -1,5 +1,7 @@
 export type Zone = "recent" | "unsorted";
 export type Format = "vinyl" | "cd" | "unknown";
+export type VinylStyle = "standard" | "transparent" | "picture" | "splatter";
+export type ViewMode = "gallery" | "crate";
 
 export type Album = {
   id: string;
@@ -17,6 +19,8 @@ export type Album = {
   purchasePrice?: string;
   doubanUrl?: string;
   tracklist?: string[];
+  vinylColor?: string;
+  vinylStyle?: VinylStyle;
 };
 
 type AlbumsResponse = {

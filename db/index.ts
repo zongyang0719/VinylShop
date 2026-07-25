@@ -47,6 +47,17 @@ export async function ensureAlbumsTable() {
     ).run();
   }
 
+  if (!columns.results.some((column) => column.name === "vinyl_color")) {
+    await env.DB.prepare(
+      "ALTER TABLE albums ADD COLUMN vinyl_color text",
+    ).run();
+  }
+  if (!columns.results.some((column) => column.name === "vinyl_style")) {
+    await env.DB.prepare(
+      "ALTER TABLE albums ADD COLUMN vinyl_style text",
+    ).run();
+  }
+
   await env.DB.prepare(
     "UPDATE albums SET zone = 'unsorted' WHERE zone = 'frequent'",
   ).run();

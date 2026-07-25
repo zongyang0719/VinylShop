@@ -1,15 +1,19 @@
 "use client";
 
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import GlassSurface from "@/components/GlassSurface";
 import { AddModal } from "./components/AddModal";
-import { CollectionGrid } from "./components/Crate";
+import { CrateView } from "./components/CrateView";
+import { GalleryView } from "./components/GalleryView";
 import { InspectModal } from "./components/InspectModal";
+import { ViewSwitcher } from "./components/ViewSwitcher";
 import {
   getAlbums,
   upsertAlbum,
   upsertAlbums,
   type Album,
+  type ViewMode,
   type Zone,
 } from "./lib/store";
 
@@ -35,9 +39,26 @@ function sortByAdded(albums: Album[]) {
   );
 }
 
+/** 生成分组 key：同一专辑不同版本合并 */
+function groupKey(a: Album): string {
+  return `${a.artist.trim().toLowerCase()}|||${a.title.trim().toLowerCase()}`;
+}
+
+/** 去重：同一 groupKey 只保留第一条 */
+function dedup(albums: Album[]): Album[] {
+  const seen = new Set<string>();
+  return albums.filter((a) => {
+    const k = groupKey(a);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
 export default function Home() {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [activeZone, setActiveZone] = useState<ActiveZone>("recent");
+  const [viewMode, setViewMode] = useState<ViewMode>("gallery");
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -85,6 +106,16 @@ export default function Home() {
     };
   }, []);
 
+  /* ── 集中管理 body 滚动锁定 ── */
+  useEffect(() => {
+    if (selectedAlbum || addOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [selectedAlbum, addOpen]);
+
   useEffect(() => {
     if (!favoriteNotice) {
       return;
@@ -94,14 +125,41 @@ export default function Home() {
   }, [favoriteNotice]);
 
   const sortedAlbums = useMemo(() => sortByAdded(albums), [albums]);
+
+  /** 全库分组 Map：key → Album[] */
+  const albumGroups = useMemo(() => {
+    const map = new Map<string, Album[]>();
+    for (const a of sortedAlbums) {
+      const k = groupKey(a);
+      if (!map.has(k)) map.set(k, []);
+      map.get(k)!.push(a);
+    }
+    return map;
+  }, [sortedAlbums]);
+
+  /** 获取某张专辑的所有版本 */
+  const getVersions = useCallback(
+    (album: Album): Album[] => albumGroups.get(groupKey(album)) ?? [album],
+    [albumGroups],
+  );
+
+  /** 每张专辑的版本数 Map（id → count） */
+  const versionCounts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const group of albumGroups.values()) {
+      for (const a of group) map.set(a.id, group.length);
+    }
+    return map;
+  }, [albumGroups]);
+
   const visibleAlbums = useMemo(() => {
     if (activeZone === "recent") {
-      return sortedAlbums.slice(0, 24);
+      return dedup(sortedAlbums).slice(0, 24);
     }
     if (activeZone === "favorite") {
-      return sortedAlbums.filter((album) => album.favorite);
+      return dedup(sortedAlbums.filter((album) => album.favorite));
     }
-    return sortedAlbums;
+    return dedup(sortedAlbums);
   }, [activeZone, sortedAlbums]);
 
   const destinationZone: Zone =
@@ -164,70 +222,72 @@ export default function Home() {
     }
   }
 
-  function countFor(tab: ActiveZone) {
-    if (tab === "recent") {
-      return Math.min(24, albums.length);
-    }
-    if (tab === "favorite") {
-      return `${favoriteCount}/10`;
-    }
-    return albums.length;
-  }
+  const closeInspect = useCallback(() => setSelectedAlbum(null), []);
+  const closeAdd = useCallback(() => setAddOpen(false), []);
 
   return (
     <LayoutGroup>
       <main className="library-shell">
-        <header className="library-header">
-          <div>
-            <p className="library-overline">My Music Library</p>
-            <h1>唱片库</h1>
-            <p className="library-summary">
-              {loading ? "正在同步…" : `${albums.length} 张专辑`}
-              {!loading && !loadError && (
-                <span className="sync-state">
-                  <i aria-hidden="true" />
-                  已同步
-                </span>
-              )}
-            </p>
-          </div>
-
+        <GlassSurface
+          width={120}
+          height={44}
+          borderRadius={22}
+          borderWidth={0.09}
+          brightness={62}
+          opacity={0.88}
+          blur={10}
+          distortionScale={-120}
+          className="floating-actions"
+        >
+          <ViewSwitcher mode={viewMode} onChange={setViewMode} />
+          <span className="floating-action-divider" aria-hidden="true" />
           <button
             type="button"
-            className="primary-action desktop-add"
+            className="floating-action-btn"
             onClick={() => setAddOpen(true)}
+            aria-label="添加唱片"
           >
             <span aria-hidden="true">＋</span>
-            添加唱片
           </button>
-        </header>
+        </GlassSurface>
 
-        <div className="library-toolbar">
-          <nav className="segmented-control" aria-label="唱片分区">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                className={activeZone === tab.id ? "is-active" : ""}
-                onClick={() => {
-                  setSelectedAlbum(null);
-                  setActiveZone(tab.id);
-                }}
-                aria-current={activeZone === tab.id ? "page" : undefined}
-              >
-                {activeZone === tab.id && (
-                  <motion.span
-                    className="segment-highlight"
-                    layoutId="active-zone"
-                    transition={spring}
-                  />
-                )}
-                <span>{tab.label}</span>
-                <small>{countFor(tab.id)}</small>
-              </button>
-            ))}
+        <GlassSurface
+          width={190}
+          height={44}
+          borderRadius={22}
+          borderWidth={0.09}
+          brightness={62}
+          opacity={0.88}
+          blur={10}
+          distortionScale={-120}
+          className="floating-tabs"
+        >
+          <nav aria-label="唱片导航">
+            <div className="segmented-control">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  className={activeZone === tab.id ? "is-active" : ""}
+                  onClick={() => {
+                    setSelectedAlbum(null);
+                    setActiveZone(tab.id);
+                  }}
+                  aria-current={activeZone === tab.id ? "page" : undefined}
+                >
+                  {activeZone === tab.id && (
+                    <motion.span
+                      className="segment-highlight"
+                      layoutId="active-zone"
+                      transition={spring}
+                    />
+                  )}
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
           </nav>
-        </div>
+        </GlassSurface>
 
         <section className="library-content" aria-live="polite">
           {loadError ? (
@@ -250,7 +310,7 @@ export default function Home() {
           ) : (
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeZone}
+                key={`${activeZone}-${viewMode}`}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
@@ -265,32 +325,30 @@ export default function Home() {
                     <span>{favoriteCount}/10</span>
                   </div>
                 )}
-                <CollectionGrid
-                  albums={visibleAlbums}
-                  onInspect={setSelectedAlbum}
-                  onToggleFavorite={handleToggleFavorite}
-                  onAdd={() => setAddOpen(true)}
-                  onBrowseAll={() => setActiveZone("all")}
-                  favoriteView={activeZone === "favorite"}
-                />
+
+                {viewMode === "gallery" && (
+                  <GalleryView
+                    albums={visibleAlbums}
+                    versionCounts={versionCounts}
+                    onInspect={setSelectedAlbum}
+                    onAdd={() => setAddOpen(true)}
+                    onBrowseAll={() => setActiveZone("all")}
+                    favoriteView={activeZone === "favorite"}
+                  />
+                )}
+
+                {viewMode === "crate" && (
+                  <CrateView
+                    albums={visibleAlbums}
+                    onInspect={setSelectedAlbum}
+                  />
+                )}
               </motion.div>
             </AnimatePresence>
           )}
         </section>
 
-        <footer className="library-footer">
-          <p>你的收藏，只对你可见。</p>
-          <span>VinylShop · 2026</span>
-        </footer>
 
-        <button
-          type="button"
-          className="mobile-add"
-          onClick={() => setAddOpen(true)}
-          aria-label="添加唱片"
-        >
-          <span aria-hidden="true">＋</span>
-        </button>
       </main>
 
       <AnimatePresence>
@@ -298,9 +356,10 @@ export default function Home() {
           <InspectModal
             key={selectedAlbum.id}
             album={selectedAlbum}
+            versions={getVersions(selectedAlbum)}
             onSave={handleSave}
             onToggleFavorite={handleToggleFavorite}
-            onClose={() => setSelectedAlbum(null)}
+            onClose={closeInspect}
           />
         )}
       </AnimatePresence>
@@ -327,7 +386,7 @@ export default function Home() {
             zone={destinationZone}
             onAdd={handleAdd}
             onImport={handleImport}
-            onClose={() => setAddOpen(false)}
+            onClose={closeAdd}
           />
         )}
       </AnimatePresence>

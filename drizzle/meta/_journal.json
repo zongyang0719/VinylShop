@@ -15,6 +15,13 @@
       "when": 1784970555824,
       "tag": "0001_typical_jamie_braddock",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1784973099876,
+      "tag": "0002_wooden_kid_colt",
+      "breakpoints": true
     }
   ]
 }
