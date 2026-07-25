@@ -1,15 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
 import type { Album } from "@/app/lib/store";
+import type { GalleryDisplayMode } from "./LibrarySettings";
+import { AppIcon } from "./AppIcon";
 
 function proxyArtwork(url: string) {
   if (url.startsWith("/")) return url;
   return `/api/douban?img=${encodeURIComponent(url)}`;
 }
-
-type InfoField = "title" | "artist" | "year" | "format" | "versions";
 
 type GalleryViewProps = {
   albums: Album[];
@@ -18,17 +17,8 @@ type GalleryViewProps = {
   onAdd: () => void;
   onBrowseAll: () => void;
   favoriteView?: boolean;
+  displayMode: GalleryDisplayMode;
 };
-
-const INFO_OPTIONS: Array<{ id: InfoField; label: string }> = [
-  { id: "title", label: "专辑名" },
-  { id: "artist", label: "艺人" },
-  { id: "year", label: "年份" },
-  { id: "format", label: "介质" },
-  { id: "versions", label: "版本数" },
-];
-
-const defaultShown = new Set<InfoField>(["title", "artist"]);
 
 export function GalleryView({
   albums,
@@ -37,28 +27,14 @@ export function GalleryView({
   onAdd,
   onBrowseAll,
   favoriteView = false,
+  displayMode,
 }: GalleryViewProps) {
-  const [coverSize, setCoverSize] = useState(180);
-  const [gap, setGap] = useState(20);
-  const [shownInfo, setShownInfo] = useState<Set<InfoField>>(defaultShown);
-  const [controlsOpen, setControlsOpen] = useState(false);
-
-  function toggleInfo(field: InfoField) {
-    setShownInfo((prev) => {
-      const next = new Set(prev);
-      if (next.has(field)) {
-        next.delete(field);
-      } else {
-        next.add(field);
-      }
-      return next;
-    });
-  }
-
   if (albums.length === 0) {
     return (
       <div className="empty-library">
-        <span className="empty-library-icon" aria-hidden="true">♫</span>
+        <span className="empty-library-icon" aria-hidden="true">
+          <AppIcon name={favoriteView ? "favorite" : "add"} size={26} />
+        </span>
         <h2>{favoriteView ? "选出你最喜欢的唱片" : "这里还没有唱片"}</h2>
         <p>
           {favoriteView
@@ -76,75 +52,15 @@ export function GalleryView({
     f === "vinyl" ? "黑胶" : f === "cd" ? "CD" : "";
 
   return (
-    <div className="gallery-view">
-      <div className="gallery-controls-bar">
-        <button
-          type="button"
-          className="gallery-toggle-btn"
-          onClick={() => setControlsOpen(!controlsOpen)}
-          aria-label={controlsOpen ? "收起画廊设置" : "显示画廊设置"}
-          aria-expanded={controlsOpen}
-        >
-          <span aria-hidden="true">⚙</span>
-        </button>
-
-        {controlsOpen && (
-          <motion.div
-            className="gallery-controls"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.18 }}
-          >
-            <label className="gallery-slider">
-              <span>封面大小</span>
-              <input
-                type="range"
-                min={100}
-                max={360}
-                step={10}
-                value={coverSize}
-                onChange={(e) => setCoverSize(Number(e.target.value))}
-              />
-              <small>{coverSize}px</small>
-            </label>
-
-            <label className="gallery-slider">
-              <span>间距</span>
-              <input
-                type="range"
-                min={4}
-                max={48}
-                step={2}
-                value={gap}
-                onChange={(e) => setGap(Number(e.target.value))}
-              />
-              <small>{gap}px</small>
-            </label>
-
-            <div className="gallery-info-toggles">
-              <span>显示信息</span>
-              <div>
-                {INFO_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    className={shownInfo.has(opt.id) ? "is-active" : ""}
-                    onClick={() => toggleInfo(opt.id)}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </div>
-
+    <div className={`gallery-view gallery-view--${displayMode}`}>
       <div
         className="gallery-grid"
         style={{
-          gridTemplateColumns: `repeat(auto-fill, minmax(min(${coverSize}px, calc(50% - ${gap / 2}px)), 1fr))`,
-          gap: `${gap}px`,
+          gridTemplateColumns:
+            displayMode === "covers"
+              ? "repeat(auto-fill, minmax(min(116px, calc(33.333% - 8px)), 1fr))"
+              : "repeat(auto-fill, minmax(min(180px, calc(50% - 8px)), 1fr))",
+          gap: displayMode === "covers" ? "14px 10px" : "24px 16px",
         }}
       >
         {albums.map((album, index) => (
@@ -182,24 +98,18 @@ export function GalleryView({
               </div>
             </button>
 
-            {shownInfo.size > 0 && (
+            {displayMode === "standard" && (
               <div className="gallery-meta">
-                {shownInfo.has("title") && (
-                  <strong>{album.title}</strong>
-                )}
-                {shownInfo.has("artist") && (
-                  <span className="gallery-artist">{album.artist}</span>
-                )}
+                <strong>{album.title}</strong>
+                <span className="gallery-artist">{album.artist}</span>
                 <div className="gallery-meta-row">
-                  {shownInfo.has("year") && album.year && (
-                    <small>{album.year}</small>
-                  )}
-                  {shownInfo.has("format") && album.format !== "unknown" && (
+                  {album.year && <small>{album.year}</small>}
+                  {album.format !== "unknown" && (
                     <small className="gallery-format">
                       {formatLabel(album.format)}
                     </small>
                   )}
-                  {shownInfo.has("versions") && (versionCounts?.get(album.id) ?? 1) > 1 && (
+                  {(versionCounts?.get(album.id) ?? 1) > 1 && (
                     <small className="gallery-versions">
                       {versionCounts!.get(album.id)} 个版本
                     </small>

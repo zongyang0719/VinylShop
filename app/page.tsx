@@ -4,25 +4,35 @@ import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import GlassSurface from "@/components/GlassSurface";
 import { AddModal } from "./components/AddModal";
+import { AppIcon } from "./components/AppIcon";
 import { CrateView } from "./components/CrateView";
 import { GalleryView } from "./components/GalleryView";
 import { InspectModal } from "./components/InspectModal";
-import { ViewSwitcher } from "./components/ViewSwitcher";
+import { LibrarySearch } from "./components/LibrarySearch";
+import {
+  LibrarySettings,
+  type GalleryDisplayMode,
+  type LibraryFormatFilter,
+  type LibrarySortMode,
+} from "./components/LibrarySettings";
 import {
   getAlbums,
   upsertAlbum,
   upsertAlbums,
   type Album,
-  type ViewMode,
   type Zone,
 } from "./lib/store";
 
-type ActiveZone = "recent" | "favorite" | "all";
+type LibraryDestination = "gallery" | "crate" | "favorites";
 
-const tabs: Array<{ id: ActiveZone; label: string }> = [
-  { id: "recent", label: "最近" },
-  { id: "favorite", label: "喜欢" },
-  { id: "all", label: "全部" },
+const destinations: Array<{
+  id: LibraryDestination;
+  label: string;
+  icon: "gallery" | "crate" | "favorite";
+}> = [
+  { id: "gallery", label: "画廊", icon: "gallery" },
+  { id: "crate", label: "唱片架", icon: "crate" },
+  { id: "favorites", label: "喜欢", icon: "favorite" },
 ];
 
 const spring = {
@@ -57,10 +67,17 @@ function dedup(albums: Album[]): Album[] {
 
 export default function Home() {
   const [albums, setAlbums] = useState<Album[]>([]);
-  const [activeZone, setActiveZone] = useState<ActiveZone>("recent");
-  const [viewMode, setViewMode] = useState<ViewMode>("gallery");
+  const [destination, setDestination] =
+    useState<LibraryDestination>("gallery");
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const [addOpen, setAddOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [displayMode, setDisplayMode] =
+    useState<GalleryDisplayMode>("standard");
+  const [formatFilter, setFormatFilter] =
+    useState<LibraryFormatFilter>("all");
+  const [sortMode, setSortMode] = useState<LibrarySortMode>("added");
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [favoriteNotice, setFavoriteNotice] = useState("");
@@ -108,13 +125,19 @@ export default function Home() {
 
   /* ── 集中管理 body 滚动锁定 ── */
   useEffect(() => {
-    if (selectedAlbum || addOpen) {
+    if (
+      selectedAlbum ||
+      addOpen ||
+      settingsOpen ||
+      searchOpen ||
+      destination === "crate"
+    ) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [selectedAlbum, addOpen]);
+  }, [selectedAlbum, addOpen, destination, searchOpen, settingsOpen]);
 
   useEffect(() => {
     if (!favoriteNotice) {
@@ -153,17 +176,30 @@ export default function Home() {
   }, [albumGroups]);
 
   const visibleAlbums = useMemo(() => {
-    if (activeZone === "recent") {
-      return dedup(sortedAlbums).slice(0, 24);
+    let result = dedup(albums);
+    if (formatFilter !== "all") {
+      result = result.filter((album) => album.format === formatFilter);
     }
-    if (activeZone === "favorite") {
-      return dedup(sortedAlbums.filter((album) => album.favorite));
+    if (destination === "favorites") {
+      result = result.filter((album) => album.favorite);
     }
-    return dedup(sortedAlbums);
-  }, [activeZone, sortedAlbums]);
+    return [...result].sort((a, b) => {
+      if (sortMode === "artist") {
+        return a.artist.localeCompare(b.artist, "zh-CN");
+      }
+      if (sortMode === "title") {
+        return a.title.localeCompare(b.title, "zh-CN");
+      }
+      if (sortMode === "year") {
+        return (b.year ?? -1) - (a.year ?? -1);
+      }
+      return (
+        new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+      );
+    });
+  }, [albums, destination, formatFilter, sortMode]);
 
-  const destinationZone: Zone =
-    activeZone === "recent" ? "recent" : "unsorted";
+  const destinationZone: Zone = "unsorted";
   const favoriteCount = albums.filter((album) => album.favorite).length;
 
   async function handleAdd(album: Album) {
@@ -175,7 +211,7 @@ export default function Home() {
   async function handleImport(imported: Album[]) {
     const result = await upsertAlbums(imported);
     await loadLibrary();
-    setActiveZone("all");
+    setDestination("gallery");
     return {
       added: result.added ?? 0,
       updated: result.updated ?? 0,
@@ -224,70 +260,125 @@ export default function Home() {
 
   const closeInspect = useCallback(() => setSelectedAlbum(null), []);
   const closeAdd = useCallback(() => setAddOpen(false), []);
+  const closeSettings = useCallback(() => setSettingsOpen(false), []);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
 
   return (
     <LayoutGroup>
-      <main className="library-shell">
+      <main
+        className={`library-shell${
+          destination === "crate" ? " is-crate-mode" : ""
+        }`}
+      >
         <GlassSurface
-          width={120}
-          height={44}
-          borderRadius={22}
+          width={104}
+          height={52}
+          borderRadius={26}
           borderWidth={0.09}
           brightness={62}
           opacity={0.88}
           blur={10}
           distortionScale={-120}
-          className="floating-actions"
+          className="top-actions"
         >
-          <ViewSwitcher mode={viewMode} onChange={setViewMode} />
-          <span className="floating-action-divider" aria-hidden="true" />
           <button
             type="button"
-            className="floating-action-btn"
+            className={settingsOpen ? "is-active" : ""}
+            onClick={() => {
+              setSettingsOpen((current) => !current);
+              setSearchOpen(false);
+            }}
+            aria-label="显示设置"
+            aria-expanded={settingsOpen}
+          >
+            <AppIcon name="settings" />
+          </button>
+          <span aria-hidden="true" />
+          <button
+            type="button"
             onClick={() => setAddOpen(true)}
             aria-label="添加唱片"
           >
-            <span aria-hidden="true">＋</span>
+            <AppIcon name="add" />
           </button>
         </GlassSurface>
 
-        <GlassSurface
-          width={190}
-          height={44}
-          borderRadius={22}
-          borderWidth={0.09}
-          brightness={62}
-          opacity={0.88}
-          blur={10}
-          distortionScale={-120}
-          className="floating-tabs"
-        >
-          <nav aria-label="唱片导航">
-            <div className="segmented-control">
-              {tabs.map((tab) => (
+        <div className="bottom-navigation">
+          <GlassSurface
+            width={232}
+            height={62}
+            borderRadius={31}
+            borderWidth={0.09}
+            brightness={62}
+            opacity={0.88}
+            blur={10}
+            distortionScale={-120}
+            className="main-tab-bar"
+          >
+            <nav aria-label="唱片库视图">
+              {destinations.map((item) => (
                 <button
-                  key={tab.id}
+                  key={item.id}
                   type="button"
-                  className={activeZone === tab.id ? "is-active" : ""}
+                  className={destination === item.id ? "is-active" : ""}
                   onClick={() => {
                     setSelectedAlbum(null);
-                    setActiveZone(tab.id);
+                    setDestination(item.id);
                   }}
-                  aria-current={activeZone === tab.id ? "page" : undefined}
+                  aria-current={destination === item.id ? "page" : undefined}
                 >
-                  {activeZone === tab.id && (
+                  {destination === item.id && (
                     <motion.span
-                      className="segment-highlight"
-                      layoutId="active-zone"
+                      className="main-tab-highlight"
+                      layoutId="library-destination"
                       transition={spring}
                     />
                   )}
-                  <span>{tab.label}</span>
+                  <AppIcon name={item.icon} size={20} />
+                  <span>{item.label}</span>
                 </button>
               ))}
-            </div>
-          </nav>
-        </GlassSurface>
+            </nav>
+          </GlassSurface>
+
+          <GlassSurface
+            width={62}
+            height={62}
+            borderRadius={31}
+            borderWidth={0.09}
+            brightness={62}
+            opacity={0.88}
+            blur={10}
+            distortionScale={-120}
+            className="search-tab-button"
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setSearchOpen(true);
+                setSettingsOpen(false);
+              }}
+              aria-label="搜索唱片库"
+            >
+              <AppIcon name="search" size={23} />
+            </button>
+          </GlassSurface>
+        </div>
+
+        <AnimatePresence>
+          {settingsOpen && (
+            <LibrarySettings
+              key="library-settings"
+              displayMode={displayMode}
+              formatFilter={formatFilter}
+              sortMode={sortMode}
+              onDisplayModeChange={setDisplayMode}
+              onFormatFilterChange={setFormatFilter}
+              onSortModeChange={setSortMode}
+              onClose={closeSettings}
+            />
+          )}
+        </AnimatePresence>
 
         <section className="library-content" aria-live="polite">
           {loadError ? (
@@ -310,34 +401,35 @@ export default function Home() {
           ) : (
             <AnimatePresence mode="wait">
               <motion.div
-                key={`${activeZone}-${viewMode}`}
+                key={`${destination}-${displayMode}-${formatFilter}-${sortMode}`}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.22, ease: "easeOut" }}
               >
-                {activeZone === "favorite" && (
+                {destination === "favorites" && (
                   <div className="favorites-heading">
                     <div>
-                      <h2>最喜欢的唱片</h2>
-                      <p>由你亲自选择，最多保留 10 张。</p>
+                      <h2>我的最喜欢的唱片</h2>
+                      <p>最多保留 10 张。</p>
                     </div>
                     <span>{favoriteCount}/10</span>
                   </div>
                 )}
 
-                {viewMode === "gallery" && (
+                {destination !== "crate" && (
                   <GalleryView
                     albums={visibleAlbums}
                     versionCounts={versionCounts}
                     onInspect={setSelectedAlbum}
                     onAdd={() => setAddOpen(true)}
-                    onBrowseAll={() => setActiveZone("all")}
-                    favoriteView={activeZone === "favorite"}
+                    onBrowseAll={() => setDestination("gallery")}
+                    favoriteView={destination === "favorites"}
+                    displayMode={displayMode}
                   />
                 )}
 
-                {viewMode === "crate" && (
+                {destination === "crate" && (
                   <CrateView
                     albums={visibleAlbums}
                     onInspect={setSelectedAlbum}
@@ -350,6 +442,20 @@ export default function Home() {
 
 
       </main>
+
+      <AnimatePresence>
+        {searchOpen && (
+          <LibrarySearch
+            key="library-search"
+            albums={dedup(sortedAlbums)}
+            onInspect={(album) => {
+              setSearchOpen(false);
+              setSelectedAlbum(album);
+            }}
+            onClose={closeSearch}
+          />
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {selectedAlbum && (

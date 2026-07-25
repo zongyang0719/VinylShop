@@ -11,18 +11,14 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { RecordBox } from "./RecordBox";
 import type { Album } from "@/app/lib/store";
 
-const RECORD_SIZE = 3.3;
-const RECORD_DEPTH = 0.05;
-
-type CrateGroupItem = { album: Album; groupIdx: number };
+const TRACK_SPACING = 3.65;
+const TRACK_ORIGIN = -2;
 
 type CrateSceneProps = {
-  flatAlbums: CrateGroupItem[];
+  albums: Album[];
   onInspect: (album: Album) => void;
-  activeArtistIdx: number;
-  onActiveChange: (idx: number) => void;
-  onAlbumChange: (idx: number) => void;
-  groupStarts: number[];
+  activeIndex: number;
+  onActiveIndexChange: (idx: number) => void;
 };
 
 function clampIndex(value: number, count: number) {
@@ -30,53 +26,38 @@ function clampIndex(value: number, count: number) {
 }
 
 function CrateRecords({
-  flatAlbums,
+  albums,
   onInspect,
-  activeArtistIdx,
-  onActiveChange,
-  onAlbumChange,
-  groupStarts,
+  activeIndex,
+  onActiveIndexChange,
 }: CrateSceneProps) {
   const { gl } = useThree();
-  const targetIndexRef = useRef(0);
-  const currentIndexRef = useRef(0);
-  const activeIndexRef = useRef(0);
+  const targetIndexRef = useRef(activeIndex);
+  const currentIndexRef = useRef(activeIndex);
+  const activeIndexRef = useRef(activeIndex);
   const dragRef = useRef<{
     pointerId: number;
     startY: number;
     startIndex: number;
     moved: boolean;
   } | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const commitIndex = useCallback(
     (value: number) => {
-      const next = clampIndex(Math.round(value), flatAlbums.length);
+      const next = clampIndex(Math.round(value), albums.length);
       if (next === activeIndexRef.current) return;
       activeIndexRef.current = next;
-      setActiveIndex(next);
-      onAlbumChange(next);
-      const groupIndex = flatAlbums[next]?.groupIdx;
-      if (groupIndex !== undefined && groupIndex !== activeArtistIdx) {
-        onActiveChange(groupIndex);
-      }
+      onActiveIndexChange(next);
     },
-    [
-      activeArtistIdx,
-      flatAlbums,
-      onActiveChange,
-      onAlbumChange,
-    ],
+    [albums.length, onActiveIndexChange],
   );
 
   useEffect(() => {
-    const next = clampIndex(
-      groupStarts[activeArtistIdx] ?? 0,
-      flatAlbums.length,
-    );
+    const next = clampIndex(activeIndex, albums.length);
     targetIndexRef.current = next;
+    activeIndexRef.current = next;
     commitIndex(next);
-  }, [activeArtistIdx, commitIndex, flatAlbums.length, groupStarts]);
+  }, [activeIndex, albums.length, commitIndex]);
 
   useEffect(() => {
     const canvas = gl.domElement;
@@ -87,13 +68,15 @@ function CrateRecords({
         ? event.deltaY
         : event.deltaX;
       targetIndexRef.current = clampIndex(
-        targetIndexRef.current + delta / 180,
-        flatAlbums.length,
+        targetIndexRef.current +
+          Math.sign(delta) * Math.min(Math.abs(delta) / 150, 0.72),
+        albums.length,
       );
       commitIndex(targetIndexRef.current);
     };
 
     const onPointerDown = (event: PointerEvent) => {
+      canvas.focus({ preventScroll: true });
       dragRef.current = {
         pointerId: event.pointerId,
         startY: event.clientY,
@@ -109,8 +92,8 @@ function CrateRecords({
       const distance = drag.startY - event.clientY;
       if (Math.abs(distance) > 8) drag.moved = true;
       targetIndexRef.current = clampIndex(
-        drag.startIndex + distance / 74,
-        flatAlbums.length,
+        drag.startIndex + distance / 92,
+        albums.length,
       );
       commitIndex(targetIndexRef.current);
     };
@@ -120,7 +103,7 @@ function CrateRecords({
       if (!drag || drag.pointerId !== event.pointerId) return;
       targetIndexRef.current = clampIndex(
         Math.round(targetIndexRef.current),
-        flatAlbums.length,
+        albums.length,
       );
       commitIndex(targetIndexRef.current);
       dragRef.current = null;
@@ -129,11 +112,32 @@ function CrateRecords({
       }
     };
 
+    const onKeyDown = (event: KeyboardEvent) => {
+      const delta =
+        event.key === "ArrowUp"
+          ? -1
+          : event.key === "ArrowDown"
+            ? 1
+            : event.key === "PageUp"
+              ? -3
+              : event.key === "PageDown"
+                ? 3
+                : 0;
+      if (!delta) return;
+      event.preventDefault();
+      targetIndexRef.current = clampIndex(
+        Math.round(targetIndexRef.current) + delta,
+        albums.length,
+      );
+      commitIndex(targetIndexRef.current);
+    };
+
     canvas.addEventListener("wheel", onWheel, { passive: false });
     canvas.addEventListener("pointerdown", onPointerDown);
     canvas.addEventListener("pointermove", onPointerMove);
     canvas.addEventListener("pointerup", onPointerUp);
     canvas.addEventListener("pointercancel", onPointerUp);
+    canvas.addEventListener("keydown", onKeyDown);
 
     return () => {
       canvas.removeEventListener("wheel", onWheel);
@@ -141,42 +145,38 @@ function CrateRecords({
       canvas.removeEventListener("pointermove", onPointerMove);
       canvas.removeEventListener("pointerup", onPointerUp);
       canvas.removeEventListener("pointercancel", onPointerUp);
+      canvas.removeEventListener("keydown", onKeyDown);
     };
-  }, [commitIndex, flatAlbums.length, gl]);
+  }, [albums.length, commitIndex, gl]);
 
   useFrame((_, delta) => {
-    const response = 1 - Math.exp(-delta / 0.16);
+    const response = 1 - Math.exp(-delta / 0.14);
     currentIndexRef.current +=
       (targetIndexRef.current - currentIndexRef.current) * response;
   });
 
   return (
-    <group position={[0.15, -0.15, 0]}>
-      {flatAlbums.map((item, index) => {
-        const relative = index - activeIndex;
-        const distance = Math.abs(relative);
-        const visible = distance < 15;
+    <group>
+      {albums.map((album, index) => {
         const isActive = index === activeIndex;
-        const x = isActive
-          ? 0.48
-          : -0.48 + Math.sign(relative || 1) * Math.min(distance, 8) * 0.035;
-        const y = isActive ? 0.1 : distance * 0.024;
-        const z = isActive ? 0.5 : -0.25 - distance * 0.075;
-        const rotationY = isActive ? -0.08 : -0.16 + relative * 0.006;
-        const rotationZ = isActive ? -0.018 : relative * 0.004;
-
         return (
           <RecordBox
-            key={item.album.id}
-            coverUrl={item.album.coverUrl}
-            title={item.album.title}
-            position={[x, y, z]}
-            rotation={[0, rotationY, rotationZ]}
-            visible={visible}
+            key={album.id}
+            album={album}
+            index={index}
+            progressRef={currentIndexRef}
+            trackOrigin={TRACK_ORIGIN}
+            trackSpacing={TRACK_SPACING}
+            visible={Math.abs(index - activeIndex) <= 7}
             active={isActive}
             onClick={() => {
-              const drag = dragRef.current;
-              if (!drag?.moved) onInspect(item.album);
+              if (dragRef.current?.moved) return;
+              if (index === activeIndexRef.current) {
+                onInspect(album);
+                return;
+              }
+              targetIndexRef.current = index;
+              commitIndex(index);
             }}
           />
         );
@@ -186,64 +186,58 @@ function CrateRecords({
 }
 
 export function CrateScene(props: CrateSceneProps) {
-  const [compact, setCompact] = useState(
+  const [wide, setWide] = useState(
     () =>
       typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 720px)").matches,
+      window.matchMedia("(min-width: 801px)").matches,
   );
 
   useEffect(() => {
-    const query = window.matchMedia("(max-width: 720px)");
-    const onChange = (event: MediaQueryListEvent) => setCompact(event.matches);
+    const query = window.matchMedia("(min-width: 801px)");
+    const onChange = (event: MediaQueryListEvent) => setWide(event.matches);
     query.addEventListener("change", onChange);
     return () => query.removeEventListener("change", onChange);
   }, []);
 
   return (
     <Canvas
-      key={compact ? "compact" : "wide"}
+      key={wide ? "wide" : "phone"}
       dpr={[1, 1.6]}
+      tabIndex={0}
+      aria-label="3D 唱片浏览。上下滚动、拖动或使用方向键挑选，点击当前唱片打开详情。"
       camera={{
-        fov: compact ? 42 : 34,
+        fov: wide ? 6.2 : 11.5,
         near: 0.1,
-        far: 60,
-        position: compact ? [4.9, 4.2, 7.5] : [5.1, 4.7, 7.2],
+        far: 140,
+        position: [0, wide ? 3.5 : 7, 40],
       }}
-      onCreated={({ camera }) => camera.lookAt(0, 0, -0.35)}
-      gl={{ antialias: true, alpha: true }}
+      onCreated={({ camera }) =>
+        camera.lookAt(0, 0, wide ? 6.7 : 6.5)
+      }
+      gl={{
+        antialias: true,
+        alpha: false,
+        powerPreference: "high-performance",
+      }}
       style={{
         width: "100%",
         height: "100%",
-        background: "transparent",
+        background: "#99938b",
         touchAction: "none",
       }}
     >
-      <ambientLight intensity={1.65} />
-      <directionalLight position={[4, 7, 6]} intensity={2.4} />
+      <color attach="background" args={["#99938b"]} />
+      <fog attach="fog" args={["#99938b", 48, 75]} />
+      <ambientLight intensity={1.75} />
+      <directionalLight position={[3, 8, 7]} intensity={2.1} />
       <directionalLight
-        position={[-5, 2, 4]}
-        intensity={0.8}
-        color="#b8c6df"
+        position={[-4, 3, 2]}
+        intensity={0.55}
+        color="#d8d1c8"
       />
-      <pointLight position={[2, 1, 5]} intensity={0.7} color="#f8efe4" />
-
       <Suspense fallback={null}>
         <CrateRecords {...props} />
       </Suspense>
-
-      <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -RECORD_SIZE / 2 - 0.06, -0.8]}
-        receiveShadow
-      >
-        <planeGeometry args={[18, 18]} />
-        <meshStandardMaterial color="#09090b" roughness={0.88} />
-      </mesh>
-
-      <mesh position={[0, 0, -2.1]}>
-        <boxGeometry args={[5.1, 0.12, RECORD_DEPTH]} />
-        <meshStandardMaterial color="#18181b" roughness={0.6} />
-      </mesh>
     </Canvas>
   );
 }
