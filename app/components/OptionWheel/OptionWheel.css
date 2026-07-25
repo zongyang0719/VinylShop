@@ -1,61 +1,82 @@
 .option-wheel {
+  --ow-text-color: #a6a6a6;
+  --ow-active-color: #ffffff;
+  --ow-font-size: 3rem;
+  --ow-inset: 80px;
+
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  cursor: grab;
-  user-select: none;
-  touch-action: none;
   outline: none;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.option-wheel--dragging {
+  cursor: grabbing;
 }
 
 .option-wheel__item {
   position: absolute;
   top: 50%;
-  left: 8px;
+  left: var(--ow-inset);
   display: block;
-  width: calc(100% - 12px);
+  max-width: calc(100% - var(--ow-inset) - 4px);
   min-height: 38px;
-  padding: 0 15px 0 6px;
+  padding: 0;
+  overflow: hidden;
   border: 0;
-  border-radius: 19px;
   color: color-mix(
     in srgb,
-    rgba(255, 255, 255, 0.98) calc(var(--ow-proximity, 0) * 100%),
-    rgba(255, 255, 255, 0.72)
+    var(--ow-active-color) calc(var(--ow-proximity, 0) * 100%),
+    var(--ow-text-color)
   );
   background: transparent;
   font: inherit;
-  font-size: clamp(12px, 3.6vw, 15px);
-  font-weight: 520;
+  font-size: var(--ow-font-size);
+  font-weight: 450;
   letter-spacing: -0.025em;
+  line-height: 1;
   text-align: left;
   text-overflow: ellipsis;
+  text-shadow: 0 1px 7px rgba(35, 32, 30, 0.5);
   white-space: nowrap;
-  overflow: hidden;
-  cursor: pointer;
   transform-origin: left center;
-  text-shadow: 0 1px 7px rgba(35, 32, 30, 0.52);
+  cursor: pointer;
   will-change: transform, opacity, filter;
 }
 
+.option-wheel--right .option-wheel__item {
+  right: var(--ow-inset);
+  left: auto;
+  text-align: right;
+  transform-origin: right center;
+}
+
 .option-wheel__item--selected {
-  color: rgba(255, 255, 255, 0.98);
-  background: transparent;
+  color: var(--ow-active-color);
   font-weight: 650;
   text-shadow:
     0 1px 8px rgba(35, 32, 30, 0.38),
-    0 0 18px rgba(255, 255, 255, 0.22);
+    0 0 18px rgba(255, 255, 255, 0.2);
 }
 
 .option-wheel__item:active {
-  color: #fff;
+  color: var(--ow-active-color);
+}
+
+.option-wheel:focus-visible {
+  outline: none;
 }
 
 .option-wheel__item:focus-visible {
-  outline: 2px solid rgb(255 255 255 / 0.72);
-  outline-offset: -4px;
-  border-radius: 12px;
+  border-radius: 5px;
+  outline: 2px solid rgb(255 255 255 / 0.78);
+  outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {

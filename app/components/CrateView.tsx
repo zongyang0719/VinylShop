@@ -85,6 +85,24 @@ export function CrateView({ albums, onInspect }: CrateViewProps) {
         <OptionWheel
           items={artistNames}
           selected={activeArtistIdx}
+          defaultSelected={activeArtistIdx}
+          textColor="rgba(255, 255, 255, 0.58)"
+          activeColor="#ffffff"
+          side="left"
+          fontSize={0.875}
+          spacing={3.05}
+          curve={1}
+          tilt={6}
+          blur={0.55}
+          fade={0.14}
+          minOpacity={0.08}
+          smoothing={200}
+          inset={8}
+          loop={false}
+          draggable
+          soundUrl="/assets/sounds/click-soft.mp3"
+          soundVolume={0.26}
+          haptics
           onChange={handleArtistChange}
         />
       </aside>
