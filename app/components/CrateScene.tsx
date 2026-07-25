@@ -11,8 +11,8 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { RecordBox } from "./RecordBox";
 import type { Album } from "@/app/lib/store";
 
-const TRACK_SPACING = 3.65;
-const TRACK_ORIGIN = -2;
+const TRACK_SPACING = 5.2;
+const TRACK_ORIGIN = -3.2;
 
 type CrateSceneProps = {
   albums: Album[];
@@ -167,7 +167,7 @@ function CrateRecords({
             progressRef={currentIndexRef}
             trackOrigin={TRACK_ORIGIN}
             trackSpacing={TRACK_SPACING}
-            visible={Math.abs(index - activeIndex) <= 7}
+            visible={index - activeIndex >= -7 && index - activeIndex <= 3}
             active={isActive}
             onClick={() => {
               if (dragRef.current?.moved) return;
@@ -202,17 +202,17 @@ export function CrateScene(props: CrateSceneProps) {
   return (
     <Canvas
       key={wide ? "wide" : "phone"}
-      dpr={[1, 1.6]}
+      dpr={[1, 1.5]}
       tabIndex={0}
       aria-label="3D 唱片浏览。上下滚动、拖动或使用方向键挑选，点击当前唱片打开详情。"
       camera={{
-        fov: wide ? 6.2 : 11.5,
+        fov: wide ? 7.8 : 16.4,
         near: 0.1,
         far: 140,
-        position: [0, wide ? 3.5 : 7, 40],
+        position: [0, wide ? 6.2 : 7.4, 40],
       }}
       onCreated={({ camera }) =>
-        camera.lookAt(0, 0, wide ? 6.7 : 6.5)
+        camera.lookAt(0, 0, wide ? -1.3 : -1.5)
       }
       gl={{
         antialias: true,

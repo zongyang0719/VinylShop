@@ -6,7 +6,6 @@ import {
   useRef,
   type CSSProperties,
   type KeyboardEvent,
-  type UIEvent,
 } from "react";
 import "./OptionWheel.css";
 
@@ -17,7 +16,7 @@ type OptionWheelProps = {
   className?: string;
 };
 
-const ROW_HEIGHT = 58;
+const ROW_HEIGHT = 48;
 
 export default function OptionWheel({
   items,
@@ -26,7 +25,6 @@ export default function OptionWheel({
   className = "",
 }: OptionWheelProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<number | null>(null);
   const selectedRef = useRef(selected);
 
   const selectIndex = useCallback(
@@ -43,28 +41,12 @@ export default function OptionWheel({
     selectedRef.current = selected;
     const frame = requestAnimationFrame(() => {
       rootRef.current?.scrollTo({
-        top: selected * ROW_HEIGHT,
+        top: Math.max(0, selected * ROW_HEIGHT - ROW_HEIGHT * 3),
         behavior: "smooth",
       });
     });
     return () => cancelAnimationFrame(frame);
   }, [selected]);
-
-  useEffect(
-    () => () => {
-      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
-    },
-    [],
-  );
-
-  function handleScroll(event: UIEvent<HTMLDivElement>) {
-    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
-    const scrollTop = event.currentTarget.scrollTop;
-    frameRef.current = requestAnimationFrame(() => {
-      selectIndex(Math.round(scrollTop / ROW_HEIGHT), true);
-      frameRef.current = null;
-    });
-  }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     const delta =
@@ -79,8 +61,9 @@ export default function OptionWheel({
       Math.max(selectedRef.current + delta, 0),
       items.length - 1,
     );
+    selectIndex(next, true);
     rootRef.current?.scrollTo({
-      top: next * ROW_HEIGHT,
+      top: Math.max(0, next * ROW_HEIGHT - ROW_HEIGHT * 3),
       behavior: "smooth",
     });
   }
@@ -92,12 +75,10 @@ export default function OptionWheel({
       tabIndex={0}
       aria-label="按艺人浏览"
       className={`option-wheel${className ? ` ${className}` : ""}`}
-      onScroll={handleScroll}
       onKeyDown={handleKeyDown}
     >
-      <div className="option-wheel__spacer" aria-hidden="true" />
       {items.map((label, index) => {
-        const distance = Math.min(Math.abs(index - selected), 5);
+        const distance = Math.min(Math.abs(index - selected), 6);
         return (
           <button
             key={`${label}-${index}`}
@@ -109,8 +90,9 @@ export default function OptionWheel({
             }`}
             style={{ "--ow-distance": distance } as CSSProperties}
             onClick={() => {
+              selectIndex(index, true);
               rootRef.current?.scrollTo({
-                top: index * ROW_HEIGHT,
+                top: Math.max(0, index * ROW_HEIGHT - ROW_HEIGHT * 3),
                 behavior: "smooth",
               });
             }}
@@ -119,7 +101,6 @@ export default function OptionWheel({
           </button>
         );
       })}
-      <div className="option-wheel__spacer" aria-hidden="true" />
     </div>
   );
 }

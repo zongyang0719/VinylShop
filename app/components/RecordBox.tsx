@@ -21,7 +21,7 @@ import {
 import type { Album } from "@/app/lib/store";
 
 const BOX_W = 3.3;
-const BOX_H = 0.09;
+const BOX_H = 0.05;
 const BOX_D = 3.3;
 
 type RecordBoxProps = {
@@ -96,7 +96,7 @@ function readableTextColor(background: string) {
 function makeSpineTexture(title: string, artist: string, background: string) {
   const canvas = document.createElement("canvas");
   canvas.width = 1536;
-  canvas.height = 112;
+  canvas.height = 72;
   const context = canvas.getContext("2d");
   if (!context) return null;
 
@@ -106,7 +106,7 @@ function makeSpineTexture(title: string, artist: string, background: string) {
   context.fillRect(0, 0, canvas.width, canvas.height);
   context.textBaseline = "middle";
 
-  let size = 47;
+  let size = 34;
   const titleFont = (fontSize: number) =>
     `680 ${fontSize}px -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif`;
   const artistFont = (fontSize: number) =>
@@ -121,7 +121,7 @@ function makeSpineTexture(title: string, artist: string, background: string) {
   };
 
   let metrics = measure();
-  while (metrics.total > canvas.width * 0.9 && size > 29) {
+  while (metrics.total > canvas.width * 0.9 && size > 20) {
     size -= 2;
     metrics = measure();
   }
@@ -239,14 +239,14 @@ export function RecordBox({
     const relative = index - progressRef.current;
     const focus = Math.exp(-relative * relative * 1.8);
     const response = 1 - Math.exp(-delta / 0.13);
-    const hoverLift = hovered && active ? 0.1 : 0;
-    const targetX = yaw * Math.min(Math.abs(relative), 5) * 2.4;
-    const targetY = focus * 0.09 + hoverLift;
+    const hoverLift = hovered && active ? 0.08 : 0;
+    const targetX = yaw * Math.min(Math.abs(relative), 5) * 1.7;
+    const targetY = focus * 0.08 + hoverLift;
     const targetZ = relative * trackSpacing + trackOrigin;
     const perspectiveCompensation = MathUtils.clamp(
-      1 - (relative * trackSpacing) / 42,
-      0.28,
-      1.55,
+      1 - (relative * trackSpacing) / 58,
+      0.64,
+      1.3,
     );
     group.position.x = MathUtils.lerp(group.position.x, targetX, response);
     group.position.y = MathUtils.lerp(group.position.y, targetY, response);
@@ -257,7 +257,7 @@ export function RecordBox({
     group.scale.setScalar(
       MathUtils.lerp(
         group.scale.x,
-        perspectiveCompensation + focus * 0.018,
+        perspectiveCompensation + focus * 0.18,
         response,
       ),
     );
@@ -286,13 +286,13 @@ export function RecordBox({
         <boxGeometry args={[BOX_W, BOX_H, BOX_D]} />
       </mesh>
       {spineTexture && (
-        <mesh position={[0, 0, BOX_D / 2 + 0.06]} renderOrder={20}>
-          <planeGeometry args={[BOX_W - 0.018, 0.24]} />
+        <mesh position={[0, 0, BOX_D / 2 + 0.012]} renderOrder={2}>
+          <planeGeometry args={[BOX_W - 0.028, 0.1]} />
           <meshBasicMaterial
             map={spineTexture}
             transparent
-            depthTest={false}
-            depthWrite={false}
+            depthTest
+            depthWrite
           />
         </mesh>
       )}
