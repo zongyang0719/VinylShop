@@ -62,6 +62,20 @@ export async function ensureAlbumsTable() {
       "ALTER TABLE albums ADD COLUMN label text",
     ).run();
   }
+  const newTextCols = [
+    "genres_json", "styles_json", "country", "catalog_number",
+    "producers_json", "edition", "barcode",
+  ];
+  for (const col of newTextCols) {
+    if (!columns.results.some((c) => c.name === col)) {
+      await env.DB.prepare(`ALTER TABLE albums ADD COLUMN ${col} text`).run();
+    }
+  }
+  if (!columns.results.some((c) => c.name === "number_of_volumes")) {
+    await env.DB.prepare(
+      "ALTER TABLE albums ADD COLUMN number_of_volumes integer",
+    ).run();
+  }
 
   await env.DB.prepare(
     "UPDATE albums SET zone = 'unsorted' WHERE zone = 'frequent'",

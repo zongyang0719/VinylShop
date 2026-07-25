@@ -700,6 +700,54 @@ export function InspectModal({
                     <dt>介质</dt>
                     <dd>{formatLabel}</dd>
                   </div>
+                  {album.genres && album.genres.length > 0 && (
+                    <div>
+                      <dt>流派</dt>
+                      <dd>{album.genres.join(" / ")}</dd>
+                    </div>
+                  )}
+                  {album.styles && album.styles.length > 0 && (
+                    <div>
+                      <dt>风格</dt>
+                      <dd>{album.styles.join(" / ")}</dd>
+                    </div>
+                  )}
+                  {album.country && (
+                    <div>
+                      <dt>发行国家</dt>
+                      <dd>{album.country}</dd>
+                    </div>
+                  )}
+                  {album.catalogNumber && (
+                    <div>
+                      <dt>编目号</dt>
+                      <dd className="mono-text">{album.catalogNumber}</dd>
+                    </div>
+                  )}
+                  {album.edition && (
+                    <div>
+                      <dt>版本</dt>
+                      <dd>{album.edition}</dd>
+                    </div>
+                  )}
+                  {album.producers && album.producers.length > 0 && (
+                    <div>
+                      <dt>制作人</dt>
+                      <dd>{album.producers.join("、")}</dd>
+                    </div>
+                  )}
+                  {album.numberOfVolumes && album.numberOfVolumes > 1 && (
+                    <div>
+                      <dt>碟数</dt>
+                      <dd>{album.numberOfVolumes} 碟</dd>
+                    </div>
+                  )}
+                  {album.barcode && (
+                    <div>
+                      <dt>条形码</dt>
+                      <dd className="mono-text">{album.barcode}</dd>
+                    </div>
+                  )}
                   <div>
                     <dt>购买日期</dt>
                     <dd>{dateInput(album.purchaseDate) || "未记录"}</dd>

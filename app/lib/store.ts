@@ -20,6 +20,14 @@ export type Album = {
   doubanUrl?: string;
   tracklist?: string[];
   label?: string;
+  genres?: string[];
+  styles?: string[];
+  country?: string;
+  catalogNumber?: string;
+  producers?: string[];
+  edition?: string;
+  barcode?: string;
+  numberOfVolumes?: number;
   vinylColor?: string;
   vinylStyle?: VinylStyle;
 };

@@ -10,19 +10,34 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:54:55.202Z",
     "tracklist": [
-      "1. Rolling In The Deep",
-      "2. Rumour Has It",
-      "3. Turning Tables",
-      "4. Don't You Remember",
-      "5. Set Fire To The Rain",
-      "6. He Won't Go",
-      "7. Take It All",
-      "8. I'll Be Waiting",
-      "9. One And Only",
-      "10. Lovesong",
-      "11. Someone Like You"
+      "1. Rolling In The Deep [3:49]",
+      "2. Rumour Has It [3:43]",
+      "3. Turning Tables [4:10]",
+      "4. Don't You Remember [4:03]",
+      "5. Set Fire To The Rain [4:01]",
+      "6. He Won't Go [4:38]",
+      "7. Take It All [3:48]",
+      "8. I'll Be Waiting [4:01]",
+      "9. One And Only [5:48]",
+      "10. Lovesong [5:16]",
+      "11. Someone Like You [4:47]"
     ],
-    "label": "XL Recordings / Columbia"
+    "label": "XL Recordings / Columbia",
+    "genres": [
+      "Funk / Soul",
+      "Jazz",
+      "Pop",
+      "Blues"
+    ],
+    "styles": [
+      "Acoustic",
+      "Soul-Jazz",
+      "Piano Blues",
+      "Neo Soul"
+    ],
+    "country": "Argentina",
+    "catalogNumber": "8 86974 46992 6",
+    "barcode": "0886974469926"
   },
   {
     "id": "musicbuddy-wv3j9e",
@@ -47,7 +62,20 @@
       "B4. Love Song",
       "B5. Someone Like You"
     ],
-    "label": "XL Recordings / Columbia"
+    "label": "XL Recordings / Columbia",
+    "genres": [
+      "Blues",
+      "Funk / Soul",
+      "Pop",
+      "Jazz"
+    ],
+    "styles": [
+      "Ballad"
+    ],
+    "country": "Australia",
+    "catalogNumber": "XLLP520",
+    "edition": "再版",
+    "barcode": "0634904052010"
   },
   {
     "id": "musicbuddy-3heoyo",
@@ -72,7 +100,21 @@
       "B5. All I Ask",
       "B6. Sweetest Devotion"
     ],
-    "label": "XL Recordings / Columbia"
+    "label": "XL Recordings / Columbia",
+    "genres": [
+      "Funk / Soul",
+      "Pop",
+      "Blues"
+    ],
+    "styles": [
+      "Ballad",
+      "Neo Soul",
+      "Piano Blues"
+    ],
+    "country": "Europe",
+    "catalogNumber": "XLLP740",
+    "edition": "再版",
+    "barcode": "0634904074012"
   },
   {
     "id": "musicbuddy-g7dp1y",
@@ -98,7 +140,34 @@
       "D2. Adele - To Be Loved",
       "D3. Adele - Love Is A Game"
     ],
-    "label": "Columbia / Sony Music"
+    "label": "Columbia / Sony Music",
+    "genres": [
+      "Jazz",
+      "Blues",
+      "Pop",
+      "Funk / Soul"
+    ],
+    "styles": [
+      "Ballad",
+      "Contemporary R&B",
+      "Neo Soul",
+      "Soul-Jazz",
+      "Piano Blues"
+    ],
+    "country": "Japan",
+    "catalogNumber": "19439937971",
+    "producers": [
+      "Shellback (2)",
+      "Tobias Jesso Jr.",
+      "Joey Pecoraro",
+      "Shawn Everett",
+      "Ludwig Göransson",
+      "Greg Kurstin",
+      "Inflo",
+      "Max Martin"
+    ],
+    "barcode": "0194399379714",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-5vrgau",
@@ -123,7 +192,16 @@
       "B5. ་རེ་མ།（Tare Ma )",
       "B6. 譚豔梅"
     ],
-    "label": "独立发行"
+    "label": "独立发行",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop"
+    ],
+    "country": "China",
+    "catalogNumber": "9787883336136",
+    "barcode": "9787883336136"
   },
   {
     "id": "musicbuddy-5fpfi5",
@@ -137,20 +215,29 @@
     "dateAdded": "2025-10-22T14:17:44.299Z",
     "purchaseDate": "2025-10-22T00:00:00.000Z",
     "tracklist": [
-      "1. 给抱着盒子的姑娘",
-      "2. 莉莉安",
-      "3. 鸽子",
-      "4. 董小姐",
-      "5. 斑马 . 斑马",
-      "6. 梦遗少年",
-      "7. 六层楼",
-      "8. 关忆北",
-      "9. 卡比巴拉的海",
-      "10. 连衣裙",
-      "11. 安和桥",
-      "12. Intro......"
+      "1. 给抱着盒子的姑娘 [2:05]",
+      "2. 莉莉安 [4:12]",
+      "3. 鸽子 [4:04]",
+      "4. 董小姐 [5:10]",
+      "5. 斑马 . 斑马 [4:13]",
+      "6. 梦遗少年 [4:42]",
+      "7. 六层楼 [3:46]",
+      "8. 关忆北 [4:55]",
+      "9. 卡比巴拉的海 [4:24]",
+      "10. 连衣裙 [5:10]",
+      "11. 安和桥 [4:10]",
+      "12. Intro...... [3:12]"
     ],
-    "label": "摩登天空"
+    "label": "摩登天空",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country",
+      "Pop"
+    ],
+    "country": "China",
+    "catalogNumber": "CSCCD-2603",
+    "barcode": "9787798626896"
   },
   {
     "id": "musicbuddy-2vu0x",
@@ -176,7 +263,20 @@
       "D2. 安和桥 = 安和橋",
       "D3. Intro"
     ],
-    "label": "摩登天空"
+    "label": "摩登天空",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "styles": [
+      "Folk"
+    ],
+    "country": "Japan",
+    "catalogNumber": "MSJPA-1001",
+    "edition": "再版",
+    "barcode": "4997184205078",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1d1qd9r",
@@ -188,6 +288,15 @@
     "zone": "unsorted",
     "dateAdded": "2026-07-19T13:29:26.053Z",
     "label": "石皮有限公司",
+    "genres": [
+      "Rock",
+      "Pop"
+    ],
+    "styles": [
+      "Indie Rock",
+      "Post-Punk"
+    ],
+    "country": "Taiwan",
     "tracklist": [
       "1. 烂泥",
       "2. 等",
@@ -211,18 +320,24 @@
     "zone": "unsorted",
     "dateAdded": "2026-01-31T14:50:04.798Z",
     "tracklist": [
-      "1. 愛情三十六計 (36 Tricks Of Love)",
-      "2. 就是愛 (It's Love)",
-      "3. 檸檬草的味道 (The Smell Of Lemon Grass)",
-      "4. 海盜 (Pirates)",
-      "5. 始作俑者 (The Starter)",
-      "6. Love Love Love",
-      "7. 消失的城堡 (Disappearing Castle)",
-      "8. 乖猫 (Nice Cat)",
-      "9. 第一優先 (Priarity)",
-      "10. 倒帶 (Rewind)"
+      "1. 愛情三十六計 (36 Tricks Of Love) [3:35]",
+      "2. 就是愛 (It's Love) [4:17]",
+      "3. 檸檬草的味道 (The Smell Of Lemon Grass) [4:31]",
+      "4. 海盜 (Pirates) [4:36]",
+      "5. 始作俑者 (The Starter) [4:35]",
+      "6. Love Love Love [3:47]",
+      "7. 消失的城堡 (Disappearing Castle) [4:10]",
+      "8. 乖猫 (Nice Cat) [3:31]",
+      "9. 第一優先 (Priarity) [3:34]",
+      "10. 倒帶 (Rewind) [4:26]"
     ],
-    "label": "索尼音乐"
+    "label": "索尼音乐",
+    "genres": [
+      "Pop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "19075900331",
+    "barcode": "0190759003312"
   },
   {
     "id": "musicbuddy-1rb3ov0",
@@ -247,7 +362,17 @@
       "10. 三吋日光",
       "11. 原來你也唱過我的歌"
     ],
-    "label": "相信音乐"
+    "label": "相信音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop"
+    ],
+    "country": "China",
+    "catalogNumber": "RXCD058",
+    "edition": "再版",
+    "barcode": "9787798659870"
   },
   {
     "id": "musicbuddy-1053vql",
@@ -260,18 +385,35 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:05:04.293Z",
     "tracklist": [
-      "1. 玻璃心",
-      "2. 滅了我",
-      "3. 一整夜",
-      "4. 給朱利安",
-      "5. 十四號登機門",
-      "6. 討厭的艾瑞斯",
-      "7. 萊特兄弟有罪",
-      "8. 美術課",
-      "9. 夜晚出生的小孩",
-      "10. Forever Young"
+      "1. 玻璃心 [3:22]",
+      "2. 滅了我 [5:16]",
+      "3. 一整夜 [4:26]",
+      "4. 給朱利安 [5:20]",
+      "5. 十四號登機門 [4:18]",
+      "6. 討厭的艾瑞斯 [4:25]",
+      "7. 萊特兄弟有罪 [4:49]",
+      "8. 美術課 [4:29]",
+      "9. 夜晚出生的小孩 [4:40]",
+      "10. Forever Young [5:14]"
     ],
-    "label": "环球音乐"
+    "label": "环球音乐",
+    "genres": [
+      "Pop",
+      "Electronic"
+    ],
+    "styles": [
+      "Downtempo",
+      "Indie Pop",
+      "Mandopop",
+      "Breaks",
+      "Ballad"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "773655-9",
+    "producers": [
+      "陳建騏"
+    ],
+    "barcode": "0602577365591"
   },
   {
     "id": "musicbuddy-ehax9y",
@@ -296,7 +438,17 @@
       "10. 你是我心中的一句惊叹",
       "11. 幸福的地图"
     ],
-    "label": "维京音乐"
+    "label": "维京音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop"
+    ],
+    "country": "China",
+    "catalogNumber": "5MCD2023",
+    "edition": "再版",
+    "barcode": "9787798645484"
   },
   {
     "id": "musicbuddy-1nnnc1j",
@@ -309,18 +461,35 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:08:47.755Z",
     "tracklist": [
-      "1. 凄美地 = The Fog Space",
-      "2. 落地之前 = Fallen Man",
-      "3. 把你的外套留在深巷 = Put Your Face Down",
-      "4. 想着你 = About You",
-      "5. 水星记 = Mercury Records",
-      "6. 在云端 = Rain Falls",
-      "7. 保留 = Deleting",
-      "8. 每个眼神都只身荒野 = Twist The Wildfire",
-      "9. 有什么奇怪 = Original Human",
-      "10. 下次再进站 = Back To Blue"
+      "1. 凄美地 = The Fog Space [4:10]",
+      "2. 落地之前 = Fallen Man [3:54]",
+      "3. 把你的外套留在深巷 = Put Your Face Down [3:21]",
+      "4. 想着你 = About You [4:15]",
+      "5. 水星记 = Mercury Records [5:25]",
+      "6. 在云端 = Rain Falls [4:04]",
+      "7. 保留 = Deleting [4:30]",
+      "8. 每个眼神都只身荒野 = Twist The Wildfire [3:25]",
+      "9. 有什么奇怪 = Original Human [3:42]",
+      "10. 下次再进站 = Back To Blue [4:05]"
     ],
-    "label": "独立发行"
+    "label": "独立发行",
+    "genres": [
+      "Funk / Soul",
+      "Rock",
+      "Pop",
+      "Blues"
+    ],
+    "styles": [
+      "Rhythm & Blues",
+      "Ballad",
+      "Funk",
+      "Vocal",
+      "Pop Rock",
+      "Soft Rock"
+    ],
+    "country": "China",
+    "edition": "再版",
+    "barcode": "9787883301592"
   },
   {
     "id": "musicbuddy-kfivvr",
@@ -333,20 +502,29 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:00:14.197Z",
     "tracklist": [
-      "1. 橄榄树",
-      "2. 青梦湖",
-      "3. 爱之死 (演奏)",
-      "4. 答案",
-      "5. 我在梦中哭泣了",
-      "6. 摇篮曲",
-      "7. 欢颜",
-      "8. 走在雨中",
-      "9. 爱的世界",
-      "10. 预感",
-      "11. 追逐与重逢 (演奏)",
-      "12. 欢颜 (演奏)"
+      "1. 橄榄树 [3:41]",
+      "2. 青梦湖 [3:32]",
+      "3. 爱之死 (演奏) [2:40]",
+      "4. 答案 [2:59]",
+      "5. 我在梦中哭泣了 [3:49]",
+      "6. 摇篮曲 [2:23]",
+      "7. 欢颜 [3:44]",
+      "8. 走在雨中 [3:41]",
+      "9. 爱的世界 [2:54]",
+      "10. 预感 [2:09]",
+      "11. 追逐与重逢 (演奏) [2:36]",
+      "12. 欢颜 (演奏) [3:55]"
     ],
-    "label": "滚石唱片"
+    "label": "滚石唱片",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "country": "China",
+    "catalogNumber": "RCD-033",
+    "edition": "再版",
+    "barcode": "9787883719847"
   },
   {
     "id": "musicbuddy-x39nyg",
@@ -359,20 +537,38 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:37:26.110Z",
     "tracklist": [
-      "A1. 橄欖樹",
-      "A2. 青夢湖",
-      "A3. 愛之死 - 演奏曲",
-      "A4. 答案",
-      "A5. 我在夢中哭泣了",
-      "A6. 搖籃曲",
-      "B1. 歡顏",
-      "B2. 走在雨中",
-      "B3. 愛的世界",
-      "B4. 預感",
-      "B5. 追逐與重逢 - 演奏曲",
-      "B6. 歡顏 - 演奏曲"
+      "A1. 橄欖樹 [3:39]",
+      "A2. 青夢湖 [3:30]",
+      "A3. 愛之死 - 演奏曲 [2:39]",
+      "A4. 答案 [2:57]",
+      "A5. 我在夢中哭泣了 [3:49]",
+      "A6. 搖籃曲 [2:26]",
+      "B1. 歡顏 [3:40]",
+      "B2. 走在雨中 [3:39]",
+      "B3. 愛的世界 [2:52]",
+      "B4. 預感 [2:08]",
+      "B5. 追逐與重逢 - 演奏曲 [2:35]",
+      "B6. 歡顏 - 演奏曲 [3:54]"
     ],
-    "label": "滚石唱片"
+    "label": "滚石唱片",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country",
+      "Pop"
+    ],
+    "styles": [
+      "Ballad",
+      "Folk",
+      "Mandopop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "RLP022",
+    "producers": [
+      "李泰祥"
+    ],
+    "edition": "再版",
+    "barcode": "4710149662484"
   },
   {
     "id": "musicbuddy-sh2of9",
@@ -396,7 +592,14 @@
       "9. 媽媽的眼睛",
       "10. 答案"
     ],
-    "label": "滚石唱片"
+    "label": "滚石唱片",
+    "genres": [
+      "Rock",
+      "Pop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "RD2163",
+    "barcode": "4710149716798"
   },
   {
     "id": "musicbuddy-rystxy",
@@ -410,45 +613,54 @@
     "dateAdded": "2025-10-22T14:43:44.716Z",
     "tracklist": [
       "Disc 1",
-      "1-1. 無奈 (本邦初音源化）",
-      "1-2. 今晩要的愛 (本邦初音源化)",
-      "1-3. 你怎麼説",
-      "1-4. 路邊的野花不要採",
-      "1-5. 原郷情濃 (Mono)",
-      "1-6. 小城故事",
-      "1-7. 海韻",
-      "1-8. 月亮代表我的心",
-      "1-9. 忘記他",
-      "1-10. 千言萬語",
-      "1-11. 甜蜜蜜",
-      "1-12. 南海姑娘",
-      "1-13. 但願人長久",
-      "1-14. 獨上西樓",
-      "1-15. 夜來香",
-      "1-16. 難忘的一天",
-      "1-17. 梅花",
-      "1-18. 何日君再來",
+      "1-1. 無奈 (本邦初音源化） [3:50]",
+      "1-2. 今晩要的愛 (本邦初音源化) [3:33]",
+      "1-3. 你怎麼説 [3:23]",
+      "1-4. 路邊的野花不要採 [2:04]",
+      "1-5. 原郷情濃 (Mono) [3:16]",
+      "1-6. 小城故事 [2:37]",
+      "1-7. 海韻 [2:48]",
+      "1-8. 月亮代表我的心 [3:28]",
+      "1-9. 忘記他 [2:54]",
+      "1-10. 千言萬語 [3:22]",
+      "1-11. 甜蜜蜜 [3:29]",
+      "1-12. 南海姑娘 [2:46]",
+      "1-13. 但願人長久 [4:05]",
+      "1-14. 獨上西樓 [2:43]",
+      "1-15. 夜來香 [3:32]",
+      "1-16. 難忘的一天 [3:52]",
+      "1-17. 梅花 [2:33]",
+      "1-18. 何日君再來 [2:52]",
       "Disc 2",
-      "2-1. 情人的關懷 (空港)",
-      "2-2. 逍遥自在 (くちなしの花)",
-      "2-3. 冬之戀情 (雪化粧)",
-      "2-4. 一片落葉 (津軽海峡冬景色)",
-      "2-5. 祈望 (女の生きがい)",
-      "2-6. 我和你 (北国の春)",
-      "2-7. 你在我心中 (夜のフェリーボート)",
-      "2-8. 甜蜜的小雨 (なみだ恋)",
-      "2-9. 小村之戀 (ふるさとはどこですか)",
-      "2-10. 襟裳岬 (襟裳岬)",
-      "2-11. 你裝做不知道 (あなたと生きる)",
-      "2-12. 償還 (つぐない)",
-      "2-13. 你我相伴左右 (シクラメンのかほり)",
-      "2-14. 愛人 (愛人)",
-      "2-15. 誰能禁止我的愛 (禁じられた恋)",
-      "2-16. 我只在乎你 (時の流れに身をまかせ)",
-      "2-17. 星 (昴ーすばるー)",
-      "2-18. 再見!我的愛人 (グッドバイ・マイ・ラヴ)"
+      "2-1. 情人的關懷 (空港) [3:47]",
+      "2-2. 逍遥自在 (くちなしの花) [3:31]",
+      "2-3. 冬之戀情 (雪化粧) [3:40]",
+      "2-4. 一片落葉 (津軽海峡冬景色) [3:29]",
+      "2-5. 祈望 (女の生きがい) [3:36]",
+      "2-6. 我和你 (北国の春) [3:54]",
+      "2-7. 你在我心中 (夜のフェリーボート) [3:20]",
+      "2-8. 甜蜜的小雨 (なみだ恋) [3:24]",
+      "2-9. 小村之戀 (ふるさとはどこですか) [3:36]",
+      "2-10. 襟裳岬 (襟裳岬) [4:23]",
+      "2-11. 你裝做不知道 (あなたと生きる) [3:36]",
+      "2-12. 償還 (つぐない) [3:51]",
+      "2-13. 你我相伴左右 (シクラメンのかほり) [4:44]",
+      "2-14. 愛人 (愛人) [3:47]",
+      "2-15. 誰能禁止我的愛 (禁じられた恋) [3:59]",
+      "2-16. 我只在乎你 (時の流れに身をまかせ) [4:16]",
+      "2-17. 星 (昴ーすばるー) [4:43]",
+      "2-18. 再見!我的愛人 (グッドバイ・マイ・ラヴ) [3:28]"
     ],
-    "label": "环球音乐"
+    "label": "环球音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop"
+    ],
+    "country": "Japan",
+    "catalogNumber": "UPCY-6124",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-q35klm",
@@ -471,7 +683,16 @@
       "8. 漂流",
       "9. 下雨的台北",
       "10. 归"
-    ]
+    ],
+    "genres": [
+      "Pop",
+      "Folk, World, & Country"
+    ],
+    "styles": [
+      "Mandopop",
+      "Folk"
+    ],
+    "country": "Taiwan"
   },
   {
     "id": "musicbuddy-dbeeik",
@@ -495,7 +716,16 @@
       "9. 说给自己听",
       "10. 远方",
       "11. 梦田"
-    ]
+    ],
+    "genres": [
+      "Folk, World, & Country",
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop",
+      "Ballad"
+    ],
+    "country": "Taiwan"
   },
   {
     "id": "musicbuddy-xjm6tm",
@@ -520,7 +750,16 @@
       "B5. 潘越雲 - 远方",
       "B6. 齐豫 + 潘越雲 - 梦田"
     ],
-    "label": "滚石唱片"
+    "label": "滚石唱片",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "country": "China",
+    "catalogNumber": "RCLP0022",
+    "edition": "再版",
+    "barcode": "9787883360070"
   },
   {
     "id": "musicbuddy-1weu3nh",
@@ -533,21 +772,29 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:06:21.108Z",
     "tracklist": [
-      "1. 讓世界毀滅",
-      "2. 天真有邪",
-      "3. 壞與更壞",
-      "4. 熱血無賴",
-      "5. 我已經敢想你",
-      "6. 一點點",
-      "7. 飛",
-      "8. 我夢見你夢見我",
-      "9. Still Open After 10 P.M.",
-      "10. 白晝之月",
-      "11. 寵兒",
-      "12. 勿忘你",
-      "13. Off, Do Not Disturb."
+      "1. 讓世界毀滅 [4:26]",
+      "2. 天真有邪 [5:30]",
+      "3. 壞與更壞 [4:04]",
+      "4. 熱血無賴 [3:52]",
+      "5. 我已經敢想你 [4:20]",
+      "6. 一點點 [4:44]",
+      "7. 飛 [4:21]",
+      "8. 我夢見你夢見我 [4:06]",
+      "9. Still Open After 10 P.M. [0:32]",
+      "10. 白晝之月 [4:19]",
+      "11. 寵兒 [4:30]",
+      "12. 勿忘你 [4:01]",
+      "13. Off, Do Not Disturb. [4:52]"
     ],
-    "label": "华研国际"
+    "label": "华研国际",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "HIM2132A2"
   },
   {
     "id": "musicbuddy-1gqimoo",
@@ -571,7 +818,16 @@
       "B4. 比較幸福",
       "B5. 雨還是不停落下"
     ],
-    "label": "环球音乐"
+    "label": "环球音乐",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country",
+      "Pop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "8897864",
+    "edition": "重新发布"
   },
   {
     "id": "musicbuddy-13rl32v",
@@ -593,7 +849,18 @@
       "B3. 时间之外 = 時間の外 = Beyond The Time",
       "B4. 超级巨星 = スーパースター = Super Star"
     ],
-    "label": "独立发行"
+    "label": "独立发行",
+    "genres": [
+      "Rock",
+      "Pop"
+    ],
+    "styles": [
+      "Indie Rock"
+    ],
+    "country": "Japan",
+    "catalogNumber": "BRANCD-056L",
+    "edition": "重新发布",
+    "barcode": "4582561405884"
   },
   {
     "id": "musicbuddy-8myx2s",
@@ -606,19 +873,27 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-23T16:27:31.028Z",
     "tracklist": [
-      "A1. 佔有慾 Possessiveness",
-      "A2. 離心力 Centrifugal Force",
-      "A3. 如一 Just Like",
-      "A4. 渴寞 Coveting Loneliness",
-      "A5. 轉身 My Other",
-      "B1. 戀人的絮語 Lovers",
-      "B2. 濕了，就不怕會下雨 It's Okay To Get Wet",
-      "B3. 野蠻 Barbarous",
-      "B4. 豔遇 Snakes And Ladders",
-      "B5. 粉筆做的手 JX",
-      "B6. 推開世界的門 Through You"
+      "A1. 佔有慾 Possessiveness [4:27]",
+      "A2. 離心力 Centrifugal Force [5:33]",
+      "A3. 如一 Just Like [4:45]",
+      "A4. 渴寞 Coveting Loneliness [4:14]",
+      "A5. 轉身 My Other [4:22]",
+      "B1. 戀人的絮語 Lovers [5:26]",
+      "B2. 濕了，就不怕會下雨 It's Okay To Get Wet [3:00]",
+      "B3. 野蠻 Barbarous [4:49]",
+      "B4. 豔遇 Snakes And Ladders [4:36]",
+      "B5. 粉筆做的手 JX [4:39]",
+      "B6. 推開世界的門 Through You [4:42]"
     ],
-    "label": "亚神音乐"
+    "label": "亚神音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Vocal"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "8011420"
   },
   {
     "id": "musicbuddy-tuipms",
@@ -631,18 +906,33 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:22:55.423Z",
     "tracklist": [
-      "A1. 因為 = Because",
-      "A2. 戀戀真言 = Truth About Love",
-      "A3. Final Home",
-      "A4. 我離開 = I'm Leaving",
-      "A5. Dying",
-      "B1. 最後一次感動 = Touched For The Very Last Time",
-      "B2. 錯覺 = Illusion",
-      "B3. 太快 = Too Fast",
-      "B4. 秋天的海 = The Autumn Sea",
-      "B5. 和雨跳舞 = Dancing In The Rain (Live Rehearsal)"
+      "A1. 因為 = Because [3:46]",
+      "A2. 戀戀真言 = Truth About Love [3:34]",
+      "A3. Final Home [5:06]",
+      "A4. 我離開 = I'm Leaving [5:13]",
+      "A5. Dying [4:03]",
+      "B1. 最後一次感動 = Touched For The Very Last Time [4:22]",
+      "B2. 錯覺 = Illusion [4:03]",
+      "B3. 太快 = Too Fast [3:48]",
+      "B4. 秋天的海 = The Autumn Sea [4:10]",
+      "B5. 和雨跳舞 = Dancing In The Rain (Live Rehearsal) [2:58]"
     ],
-    "label": "相信音乐"
+    "label": "相信音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Ballad",
+      "Mandopop",
+      "Vocal"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "RLP091",
+    "producers": [
+      "林暐哲"
+    ],
+    "edition": "再版",
+    "barcode": "4710149677891"
   },
   {
     "id": "musicbuddy-1vx7ybm",
@@ -669,7 +959,17 @@
       "B5. 寧夏",
       "B6. 孤單北半球"
     ],
-    "label": "环球音乐"
+    "label": "环球音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "4710149715289",
+    "edition": "再版",
+    "barcode": "4710149715289"
   },
   {
     "id": "musicbuddy-1a73vxc",
@@ -692,7 +992,20 @@
       "B3. 成人世代",
       "B4. 夜曲"
     ],
-    "label": "Canyon Records"
+    "label": "Canyon Records",
+    "genres": [
+      "Rock",
+      "Pop",
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "styles": [
+      "Folk Rock",
+      "Pop Rock"
+    ],
+    "country": "Japan",
+    "catalogNumber": "C28A0141"
   },
   {
     "id": "musicbuddy-1ts1t0u",
@@ -705,20 +1018,38 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:12:48.678Z",
     "tracklist": [
-      "1. 飞鸟与鱼",
-      "2. 觉 (遥寄林觉民)",
-      "3. 有· 沒有",
-      "4. 既然你问起",
-      "5. 女人与小孩 I",
-      "6. 话题",
-      "7. 哭泣的骆驼",
-      "8. 幸福",
-      "9. 懒洋洋",
-      "10. 四十个无亲无故的年头",
-      "11. 叹息瓶",
-      "12. 女人与小孩 II"
+      "1. 飞鸟与鱼 [4:32]",
+      "2. 觉 (遥寄林觉民) [4:36]",
+      "3. 有· 沒有 [4:21]",
+      "4. 既然你问起 [6:18]",
+      "5. 女人与小孩 I [3:56]",
+      "6. 话题 [4:22]",
+      "7. 哭泣的骆驼 [3:56]",
+      "8. 幸福 [4:11]",
+      "9. 懒洋洋 [4:29]",
+      "10. 四十个无亲无故的年头 [4:51]",
+      "11. 叹息瓶 [7:13]",
+      "12. 女人与小孩 II [3:59]"
     ],
-    "label": "综一唱片"
+    "label": "综一唱片",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country",
+      "Pop"
+    ],
+    "styles": [
+      "Ballad",
+      "Mandopop",
+      "Vocal"
+    ],
+    "country": "China",
+    "catalogNumber": "RCD034",
+    "producers": [
+      "Chyi Yu"
+    ],
+    "edition": "再版",
+    "barcode": "9787883719854"
   },
   {
     "id": "musicbuddy-1wqfydz",
@@ -743,7 +1074,17 @@
       "10. 眼泪的地图",
       "11. 旅程"
     ],
-    "label": "相信音乐"
+    "label": "相信音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Chanson"
+    ],
+    "country": "China",
+    "catalogNumber": "RCD026",
+    "edition": "再版",
+    "barcode": "9787883719755"
   },
   {
     "id": "musicbuddy-1kvh14n",
@@ -768,7 +1109,20 @@
       "9. 苏慧伦 - 量力而为",
       "10. 苏慧伦 - 你会想念我吗"
     ],
-    "label": "相信音乐"
+    "label": "相信音乐",
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Mandopop",
+      "Pop Rock",
+      "Ballad"
+    ],
+    "country": "China",
+    "catalogNumber": "CSCCD-4299",
+    "barcode": "9787798659948"
   },
   {
     "id": "musicbuddy-jfnf4y",
@@ -781,20 +1135,29 @@
     "zone": "unsorted",
     "dateAdded": "2026-02-09T12:31:35.819Z",
     "tracklist": [
-      "1. 被遗忘的时光",
-      "2. 跟我说爱我",
-      "3. 你的眼神",
-      "4. 想你的时候",
-      "5. 決擇",
-      "6. 我的思念",
-      "7. 出塞曲",
-      "8. 渡口",
-      "9. 怎麼能",
-      "10. 恰似你的溫柔",
-      "11. 再愛我一次",
-      "12. 謝幕曲"
+      "1. 被遗忘的时光 [2:44]",
+      "2. 跟我说爱我 [3:45]",
+      "3. 你的眼神 [4:10]",
+      "4. 想你的时候 [4:12]",
+      "5. 決擇 [4:45]",
+      "6. 我的思念 [3:51]",
+      "7. 出塞曲 [3:40]",
+      "8. 渡口 [3:45]",
+      "9. 怎麼能 [3:28]",
+      "10. 恰似你的溫柔 [4:20]",
+      "11. 再愛我一次 [3:12]",
+      "12. 謝幕曲 [4:40]"
     ],
-    "label": "海山唱片"
+    "label": "海山唱片",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "styles": [
+      "Folk"
+    ],
+    "country": "Hong Kong"
   },
   {
     "id": "musicbuddy-zb4lry",
@@ -807,20 +1170,35 @@
     "zone": "unsorted",
     "dateAdded": "2026-07-12T13:04:18.500Z",
     "tracklist": [
-      "1. Intro",
-      "2. 無底洞",
-      "3. 夜盲症",
-      "4. 精彩",
-      "5. 失樂園",
-      "6. 陌生人",
-      "7. 沙灘",
-      "8. 你說",
-      "9. 下一站",
-      "10. 有問題",
-      "11. 愛情的路",
-      "12. 忘了"
+      "1. Intro [0:39]",
+      "2. 無底洞 [3:59]",
+      "3. 夜盲症 [3:47]",
+      "4. 精彩 [3:51]",
+      "5. 失樂園 [4:18]",
+      "6. 陌生人 [3:51]",
+      "7. 沙灘 [4:53]",
+      "8. 你說 [3:06]",
+      "9. 下一站 [3:43]",
+      "10. 有問題 [3:28]",
+      "11. 愛情的路 [4:25]",
+      "12. 忘了 [5:11]"
     ],
-    "label": "华纳音乐"
+    "label": "华纳音乐",
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Mandopop",
+      "Ballad",
+      "Pop Rock",
+      "Acoustic"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "5050466634320",
+    "producers": [
+      "林正忠"
+    ]
   },
   {
     "id": "musicbuddy-ymaq96",
@@ -843,7 +1221,16 @@
       "8. 纪念日",
       "9. 盆地",
       "10. 归途"
-    ]
+    ],
+    "genres": [
+      "Pop",
+      "Folk, World, & Country"
+    ],
+    "styles": [
+      "Mandopop",
+      "Indie Pop"
+    ],
+    "country": "Taiwan"
   },
   {
     "id": "musicbuddy-1du6r0q",
@@ -856,18 +1243,39 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:06:44.022Z",
     "tracklist": [
-      "1. 都對也都錯",
-      "2. 這樣你還要愛我嗎",
-      "3. 三月",
-      "4. 自虐",
-      "5. 偏執面",
-      "6. 跳進來",
-      "7. 狗",
-      "8. Booty Call",
-      "9. 飛高高",
-      "10. 前進烏托邦"
+      "1. 都對也都錯 [3:33]",
+      "2. 這樣你還要愛我嗎 [6:15]",
+      "3. 三月 [3:48]",
+      "4. 自虐 [5:12]",
+      "5. 偏執面 [4:14]",
+      "6. 跳進來 [3:03]",
+      "7. 狗 [3:30]",
+      "8. Booty Call [3:10]",
+      "9. 飛高高 [3:29]",
+      "10. 前進烏托邦 [3:51]"
     ],
-    "label": "华纳音乐"
+    "label": "华纳音乐",
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Alternative Rock",
+      "Vocal",
+      "Ballad",
+      "Mandopop",
+      "Synth-pop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "8897503",
+    "producers": [
+      "林欣彥",
+      "鍾濰宇",
+      "阿弟仔",
+      "A-Mei"
+    ],
+    "barcode": "0602488975032"
   },
   {
     "id": "musicbuddy-wrrpoe",
@@ -880,18 +1288,30 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:30:19.827Z",
     "tracklist": [
-      "1. 牽手",
-      "2. 心也跟着走",
-      "3. 不願愛[イ尓]愛得太疲憊",
-      "4. 風阻[才当]不住我走",
-      "5. 不願譲[イ尓]走",
-      "6. 氷冷的記憶",
-      "7. 誰的温柔改変",
-      "8. 不停地尋覓",
-      "9. 久別重逢",
-      "10. [イ尓]走了[ロ馬]"
+      "1. 牽手 [5:42]",
+      "2. 心也跟着走 [3:48]",
+      "3. 不願愛[イ尓]愛得太疲憊 [4:18]",
+      "4. 風阻[才当]不住我走 [4:55]",
+      "5. 不願譲[イ尓]走 [5:53]",
+      "6. 氷冷的記憶 [5:00]",
+      "7. 誰的温柔改変 [5:24]",
+      "8. 不停地尋覓 [4:41]",
+      "9. 久別重逢 [4:34]",
+      "10. [イ尓]走了[ロ馬] [4:44]"
     ],
-    "label": "飞碟唱片"
+    "label": "飞碟唱片",
+    "genres": [
+      "Pop",
+      "Rock",
+      "Electronic"
+    ],
+    "styles": [
+      "Ballad",
+      "Synth-pop",
+      "Acoustic",
+      "Vocal"
+    ],
+    "country": "China"
   },
   {
     "id": "musicbuddy-zlw21i",
@@ -916,7 +1336,20 @@
       "B4. 給你",
       "B5. 從何說起(Old Radio Mix)"
     ],
-    "label": "环球音乐"
+    "label": "环球音乐",
+    "genres": [
+      "Pop",
+      "Rock",
+      "Electronic"
+    ],
+    "styles": [
+      "Pop Rock",
+      "Ballad",
+      "Acoustic"
+    ],
+    "country": "Hong Kong",
+    "catalogNumber": "8803551",
+    "barcode": "0602488035514"
   },
   {
     "id": "musicbuddy-4lf5e0",
@@ -939,7 +1372,15 @@
       "9. 我需要你/I Need You",
       "10. 单人房·双人床"
     ],
-    "label": "滚石唱片"
+    "label": "滚石唱片",
+    "genres": [
+      "Pop"
+    ],
+    "country": "Hong Kong",
+    "styles": [
+      "Mandopop",
+      "Cantopop"
+    ]
   },
   {
     "id": "musicbuddy-z8huis",
@@ -962,7 +1403,16 @@
       "9. 花生酱配果酱",
       "10. Letting Go"
     ],
-    "label": "华纳音乐"
+    "label": "华纳音乐",
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Mandopop",
+      "Pop Rock"
+    ],
+    "country": "Taiwan"
   },
   {
     "id": "musicbuddy-s4fv9x",
@@ -974,6 +1424,14 @@
     "zone": "unsorted",
     "dateAdded": "2026-07-12T12:56:57.785Z",
     "label": "索尼音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop",
+      "Indie Pop"
+    ],
+    "country": "China",
     "tracklist": [
       "1. 野子",
       "2. 生活倒影",
@@ -998,18 +1456,29 @@
     "zone": "unsorted",
     "dateAdded": "2026-02-09T12:30:56.792Z",
     "tracklist": [
-      "1. 超快感",
-      "2. 爱情证书",
-      "3. 天黑黑",
-      "4. E-Lover",
-      "5. 浓眉毛",
-      "6. 和平",
-      "7. 自然",
-      "8. 终于",
-      "9. 很好",
-      "10. Leave Me Alone"
+      "1. 超快感 [3:39]",
+      "2. 爱情证书 [4:14]",
+      "3. 天黑黑 [3:56]",
+      "4. E-Lover [4:59]",
+      "5. 浓眉毛 [3:47]",
+      "6. 和平 [4:08]",
+      "7. 自然 [3:24]",
+      "8. 终于 [3:56]",
+      "9. 很好 [4:27]",
+      "10. Leave Me Alone [4:26]"
     ],
-    "label": "华纳音乐"
+    "label": "华纳音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Ballad",
+      "Pop Rock"
+    ],
+    "country": "China",
+    "catalogNumber": "5MCD2037",
+    "edition": "再版",
+    "barcode": "9787798648485"
   },
   {
     "id": "musicbuddy-1rptdsk",
@@ -1035,7 +1504,18 @@
       "11. 線的記憶",
       "12. Outsider"
     ],
-    "label": "环球音乐"
+    "label": "环球音乐",
+    "genres": [
+      "Pop",
+      "Electronic",
+      "Rock"
+    ],
+    "styles": [
+      "Mandopop",
+      "Pop Rock"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "0829160"
   },
   {
     "id": "musicbuddy-178aoru",
@@ -1048,18 +1528,41 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:16:11.985Z",
     "tracklist": [
-      "A1. 天空",
-      "A2. 棋子",
-      "A3. 天使",
-      "A4. 影子",
-      "A5. 天空 (Unplugged)",
-      "B1. 眷戀",
-      "B2. 不變",
-      "B3. 矜持",
-      "B4. 掙脫",
-      "B5. 誓言"
+      "A1. 天空 [4:19]",
+      "A2. 棋子 [4:48]",
+      "A3. 天使 [4:25]",
+      "A4. 影子 [4:56]",
+      "A5. 天空 (Unplugged) [3:38]",
+      "B1. 眷戀 [3:59]",
+      "B2. 不變 [4:46]",
+      "B3. 矜持 [4:38]",
+      "B4. 掙脫 [4:30]",
+      "B5. 誓言 [4:19]"
     ],
-    "label": "新力音乐"
+    "label": "新力音乐",
+    "genres": [
+      "Rock",
+      "Electronic",
+      "Pop",
+      "Classical",
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "styles": [
+      "Folk",
+      "Ballad",
+      "Mandopop",
+      "Contemporary",
+      "Dream Pop",
+      "Acoustic",
+      "Downtempo"
+    ],
+    "country": "Hong Kong",
+    "catalogNumber": "CP10183A",
+    "producers": [
+      "楊明煌"
+    ]
   },
   {
     "id": "musicbuddy-twlrt7",
@@ -1072,18 +1575,31 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:58:41.418Z",
     "tracklist": [
-      "1. 偷故事的人",
-      "2. 壞的好人",
-      "3. 裝醉",
-      "4. 你說了算",
-      "5. 戒斷",
-      "6. 連名帶姓",
-      "7. 身後",
-      "8. 光",
-      "9. 到底",
-      "10. 傲嬌"
+      "1. 偷故事的人 [4:18]",
+      "2. 壞的好人 [5:24]",
+      "3. 裝醉 [5:25]",
+      "4. 你說了算 [4:07]",
+      "5. 戒斷 [3:33]",
+      "6. 連名帶姓 [5:34]",
+      "7. 身後 [4:27]",
+      "8. 光 [3:27]",
+      "9. 到底 [4:07]",
+      "10. 傲嬌 [4:10]"
     ],
-    "label": "环球音乐"
+    "label": "环球音乐",
+    "genres": [
+      "Electronic",
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop",
+      "Downtempo",
+      "Ballad",
+      "Acoustic"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "6710339",
+    "barcode": "0602567103394"
   },
   {
     "id": "musicbuddy-1g6qiab",
@@ -1096,21 +1612,34 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:33:54.958Z",
     "tracklist": [
-      "1. 另外三件往事 Part 1/Another Three Past Events - Part 1",
-      "2. 无聊的/Bored",
-      "3. 思念一种爱/Missing A Kind Of Love",
-      "4. 尤物 II/Stunner II",
-      "5. 我的美丽/My Beauty",
-      "6. 另外三件往事Part 2/Another Three Past Events - Part 2",
-      "7. 雨停了/When The Rain Stops",
-      "8. 蠢货/Dummy",
-      "9. 怀疑女士/Doubtful Lady",
-      "10. 那时错，这时对/Wrong Then, Right Now",
-      "11. 另外三件往事Part 3/Another Three Past Events - Part 3",
-      "12. 梦/Dream",
-      "13. 礼貌/Manners"
+      "1. 另外三件往事 Part 1/Another Three Past Events - Part 1 [1:06]",
+      "2. 无聊的/Bored [3:24]",
+      "3. 思念一种爱/Missing A Kind Of Love [3:03]",
+      "4. 尤物 II/Stunner II [3:13]",
+      "5. 我的美丽/My Beauty [3:08]",
+      "6. 另外三件往事Part 2/Another Three Past Events - Part 2 [1:10]",
+      "7. 雨停了/When The Rain Stops [3:09]",
+      "8. 蠢货/Dummy [3:02]",
+      "9. 怀疑女士/Doubtful Lady [2:42]",
+      "10. 那时错，这时对/Wrong Then, Right Now [3:27]",
+      "11. 另外三件往事Part 3/Another Three Past Events - Part 3 [1:18]",
+      "12. 梦/Dream [3:45]",
+      "13. 礼貌/Manners [4:50]"
     ],
-    "label": "太合音乐"
+    "label": "太合音乐",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country",
+      "Pop",
+      "Classical"
+    ],
+    "styles": [
+      "Ballad"
+    ],
+    "country": "China",
+    "catalogNumber": "19439976972",
+    "barcode": "9787883340157"
   },
   {
     "id": "musicbuddy-suzqnr",
@@ -1137,7 +1666,15 @@
       "C2. 梦",
       "C3. 礼貌"
     ],
-    "label": "太合音乐"
+    "label": "太合音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Ballad"
+    ],
+    "country": "China",
+    "catalogNumber": "978883341468"
   },
   {
     "id": "musicbuddy-1wz6eln",
@@ -1160,6 +1697,14 @@
       "8. 纪念日（续）",
       "9. 如果风吹来",
       "10. 午后的木棉道"
+    ],
+    "genres": [
+      "Pop"
+    ],
+    "country": "Taiwan",
+    "styles": [
+      "Mandopop",
+      "Indie Pop"
     ]
   },
   {
@@ -1173,20 +1718,32 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:39:49.776Z",
     "tracklist": [
-      "1. 尋人啟事",
-      "2. 明天的事情",
-      "3. 樹洞的聲音",
-      "4. 不安小姐",
-      "5. 潛規則",
-      "6. 我沒時間討厭你",
-      "7. 高空彈跳",
-      "8. 糖果粉碎者",
-      "9. 耳邊風",
-      "10. 別怕",
-      "11. 只要一分鐘",
-      "12. Hidden Track"
+      "1. 尋人啟事 [4:36]",
+      "2. 明天的事情 [5:00]",
+      "3. 樹洞的聲音 [4:18]",
+      "4. 不安小姐 [3:48]",
+      "5. 潛規則 [4:08]",
+      "6. 我沒時間討厭你 [4:05]",
+      "7. 高空彈跳 [4:46]",
+      "8. 糖果粉碎者 [4:05]",
+      "9. 耳邊風 [3:44]",
+      "10. 別怕 [3:30]",
+      "11. 只要一分鐘 [5:00]",
+      "12. Hidden Track [2:30]"
     ],
-    "label": "亚神音乐"
+    "label": "亚神音乐",
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Indie Pop",
+      "Mandopop",
+      "Ballad",
+      "Acoustic"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "3875572"
   },
   {
     "id": "musicbuddy-vjifcr",
@@ -1209,7 +1766,16 @@
       "8. 盆地",
       "9. 星期天不太远",
       "10. 归途"
-    ]
+    ],
+    "genres": [
+      "Pop",
+      "Folk, World, & Country"
+    ],
+    "styles": [
+      "Mandopop",
+      "Indie Pop"
+    ],
+    "country": "Taiwan"
   },
   {
     "id": "musicbuddy-1b1ysha",
@@ -1220,6 +1786,15 @@
     "format": "cd",
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:07:10.313Z",
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Mandopop",
+      "Alternative Rock"
+    ],
+    "country": "Taiwan",
     "tracklist": [
       "1. 应该",
       "2. 静止",
@@ -1256,7 +1831,13 @@
       "9. 多数是晴天",
       "10. 最后"
     ],
-    "label": "滚石唱片"
+    "label": "滚石唱片",
+    "genres": [
+      "Pop"
+    ],
+    "country": "China",
+    "catalogNumber": "RCD025",
+    "edition": "再版"
   },
   {
     "id": "musicbuddy-1tjlr41",
@@ -1269,20 +1850,35 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:19:49.344Z",
     "tracklist": [
-      "1. 九月的高跟鞋",
-      "2. 如果真的不要",
-      "3. 忘了数羊",
-      "4. 雪中莲",
-      "5. 那個叫老的人",
-      "6. 有没有这种说法",
-      "7. 冷冷的心",
-      "8. 细说从头",
-      "9. 一面湖水",
-      "10. 十二个夜晚",
-      "11. 窗外有蓝天",
-      "12. 怨女"
+      "1. 九月的高跟鞋 [4:48]",
+      "2. 如果真的不要 [5:41]",
+      "3. 忘了数羊 [4:05]",
+      "4. 雪中莲 [4:39]",
+      "5. 那個叫老的人 [4:01]",
+      "6. 有没有这种说法 [4:27]",
+      "7. 冷冷的心 [4:01]",
+      "8. 细说从头 [4:15]",
+      "9. 一面湖水 [4:34]",
+      "10. 十二个夜晚 [4:56]",
+      "11. 窗外有蓝天 [7:28]",
+      "12. 怨女 [6:04]"
     ],
-    "label": "综一唱片"
+    "label": "综一唱片",
+    "genres": [
+      "Pop",
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "styles": [
+      "Mandopop",
+      "Ballad",
+      "Vocal"
+    ],
+    "country": "China",
+    "catalogNumber": "RCD161",
+    "edition": "再版",
+    "barcode": "9787881022819"
   },
   {
     "id": "musicbuddy-1bk1pn7",
@@ -1295,17 +1891,34 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-23T14:54:31.331Z",
     "tracklist": [
-      "A1. この世に二人だけ",
-      "A2. 夏土産",
-      "A3. 髪を洗う女",
-      "A4. ばいばいどくおぶざべい",
-      "B1. 誰のせいでもない雨が",
-      "B2. 縁",
-      "B3. テキーラを飲みほして",
-      "B4. 金魚",
-      "B5. ファイト!"
+      "A1. この世に二人だけ [4:59]",
+      "A2. 夏土産 [4:35]",
+      "A3. 髪を洗う女 [4:29]",
+      "A4. ばいばいどくおぶざべい [6:26]",
+      "B1. 誰のせいでもない雨が [6:30]",
+      "B2. 縁 [3:31]",
+      "B3. テキーラを飲みほして [3:16]",
+      "B4. 金魚 [3:05]",
+      "B5. ファイト! [7:03]"
     ],
-    "label": "Canyon Records"
+    "label": "Canyon Records",
+    "genres": [
+      "Rock",
+      "Pop",
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "styles": [
+      "Pop Rock",
+      "Folk Rock"
+    ],
+    "country": "Japan",
+    "catalogNumber": "C28A0260",
+    "producers": [
+      "Genichi Kawakami",
+      "Miyuki Nakajima"
+    ]
   },
   {
     "id": "musicbuddy-cf9njm",
@@ -1331,7 +1944,22 @@
       "B5. 左右手",
       "B6. 今生今世"
     ],
-    "label": "华纳音乐"
+    "label": "华纳音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Vocal"
+    ],
+    "country": "Hong Kong",
+    "catalogNumber": "NCKCLP001",
+    "producers": [
+      "吳慶隆",
+      "趙增熹",
+      "Kit Chan",
+      "Kevin Quah"
+    ],
+    "barcode": "2012011110010"
   },
   {
     "id": "musicbuddy-1su64dp",
@@ -1356,7 +1984,15 @@
       "11. 绿光",
       "12. 念你"
     ],
-    "label": "福茂唱片"
+    "label": "福茂唱片",
+    "genres": [
+      "Pop"
+    ],
+    "country": "Taiwan",
+    "styles": [
+      "Mandopop",
+      "Ballad"
+    ]
   },
   {
     "id": "musicbuddy-1jdc4y5",
@@ -1369,20 +2005,28 @@
     "zone": "unsorted",
     "dateAdded": "2026-07-12T12:53:57.540Z",
     "tracklist": [
-      "1. 好想好好愛妳",
-      "2. Angel Face",
-      "3. 替身",
-      "4. 太芒",
-      "5. 事到如今",
-      "6. 話題",
-      "7. 愛過不傷心",
-      "8. 不哭",
-      "9. 換季",
-      "10. 沒有你",
-      "11. 相遇太早",
-      "12. 溫度"
+      "1. 好想好好愛妳 [4:15]",
+      "2. Angel Face [4:14]",
+      "3. 替身 [5:44]",
+      "4. 太芒 [3:22]",
+      "5. 事到如今 [4:26]",
+      "6. 話題 [4:45]",
+      "7. 愛過不傷心 [4:24]",
+      "8. 不哭 [4:39]",
+      "9. 換季 [3:30]",
+      "10. 沒有你 [4:31]",
+      "11. 相遇太早 [4:40]",
+      "12. 溫度 [4:58]"
     ],
-    "label": "福茂唱片"
+    "label": "福茂唱片",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "70155"
   },
   {
     "id": "musicbuddy-1xtvoav",
@@ -1395,21 +2039,35 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:33:35.447Z",
     "tracklist": [
-      "1. 開場白",
-      "2. 生命中的精靈",
-      "3. 沒有人知道",
-      "4. 風櫃來的人",
-      "5. 你像個孩子",
-      "6. 如果你要離去",
-      "7. 寂寞難耐",
-      "8. 一個人",
-      "9. 17歲女生的溫柔",
-      "10. 我有話要說",
-      "11. 鯨",
-      "12. 愛情有什麼道理",
-      "13. 舊愛新歡"
+      "1. 開場白 [2:59]",
+      "2. 生命中的精靈 [4:01]",
+      "3. 沒有人知道 [4:04]",
+      "4. 風櫃來的人 [3:17]",
+      "5. 你像個孩子 [4:16]",
+      "6. 如果你要離去 [4:15]",
+      "7. 寂寞難耐 [3:13]",
+      "8. 一個人 [3:48]",
+      "9. 17歲女生的溫柔 [4:12]",
+      "10. 我有話要說 [4:35]",
+      "11. 鯨 [3:59]",
+      "12. 愛情有什麼道理 [5:14]",
+      "13. 舊愛新歡 [4:22]"
     ],
-    "label": "滚石唱片"
+    "label": "滚石唱片",
+    "genres": [
+      "Rock",
+      "Electronic",
+      "Pop"
+    ],
+    "styles": [
+      "Synth-pop",
+      "Ballad",
+      "Acoustic",
+      "Mandopop"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "RD-1012",
+    "edition": "再版"
   },
   {
     "id": "musicbuddy-120mxbr",
@@ -1422,42 +2080,62 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:25:09.127Z",
     "tracklist": [
-      "A1. Cast of 'A Star Is Born' - Intro",
-      "A2. Bradley Cooper - Black Eyes",
-      "A3. Lady Gaga - Somewhere Over The Rainbow (Dialogue)",
-      "A4. Lady Gaga + Bradley Cooper + Anthony Ramos + Shangela Laquifa - Fabulous French (Dialogue)",
-      "A5. Lady Gaga - La Vie En Rose",
-      "A6. Bradley Cooper + Lady Gaga - I'll Wait For You (Dialogue)",
-      "A7. Bradley Cooper - Maybe It's Time",
-      "A8. Bradley Cooper + Lady Gaga - Parking Lot (Dialogue)",
-      "A9. Bradley Cooper - Out Of Time",
-      "A10. Bradley Cooper - Alibi",
-      "B11. Bradley Cooper + Lady Gaga - Trust Me (Dialogue)",
-      "B12. Lady Gaga + Bradley Cooper - Shallow",
-      "B13. Bradley Cooper + Lady Gaga - First Stop, Arizona (Dialogue)",
-      "B14. Lady Gaga + Bradley Cooper - Music To My Eyes",
-      "B15. Lady Gaga + Bradley Cooper - Diggin' My Grave",
-      "B16. Bradley Cooper + Lady Gaga - I Love You (Dialogue)",
-      "B17. Lady Gaga - Always Remember Us This Way",
-      "B18. Lady Gaga + Rafi Gavron - Unbelievable (Dialogue)",
-      "C19. Bradley Cooper + Lady Gaga - How Do You Hear It? (Dialogue)",
-      "C20. Lady Gaga - Look What I Found",
-      "C21. Bradley Cooper + Lady Gaga - Memphis (Dialogue)",
-      "C22. Lady Gaga - Heal Me",
-      "C23. Lady Gaga + Bradley Cooper - I Don't Know What Love Is",
-      "C24. Lady Gaga - Vows (Dialogue)",
-      "C25. Lady Gaga - Is That Alright?",
-      "C26. Alec Baldwin + Donald King (3) + Michael Mancini + Gena Rositano - SNL (Dialogue)",
-      "C27. Lady Gaga - Why Did You Do That?",
-      "C28. Lady Gaga - Hair Body Face",
-      "D29. Lady Gaga + Bradley Cooper - Scene 98 (Dialogue)",
-      "D30. Lady Gaga - Before I Cry",
-      "D31. Bradley Cooper - Too Far Gone",
-      "D32. Lady Gaga + Sam Elliott - Twelve Notes (Dialogue)",
-      "D33. Lady Gaga - I'll Never Love Again (Film Version)",
-      "D34. Lady Gaga - I'll Never Love Again (Extended Version)"
+      "A1. Cast of 'A Star Is Born' - Intro [0:20]",
+      "A2. Bradley Cooper - Black Eyes [3:04]",
+      "A3. Lady Gaga - Somewhere Over The Rainbow (Dialogue) [0:42]",
+      "A4. Lady Gaga + Bradley Cooper + Anthony Ramos + Shangela Laquifa - Fabulous French (Dialogue) [0:19]",
+      "A5. Lady Gaga - La Vie En Rose [3:00]",
+      "A6. Bradley Cooper + Lady Gaga - I'll Wait For You (Dialogue) [0:19]",
+      "A7. Bradley Cooper - Maybe It's Time [2:39]",
+      "A8. Bradley Cooper + Lady Gaga - Parking Lot (Dialogue) [0:31]",
+      "A9. Bradley Cooper - Out Of Time [2:52]",
+      "A10. Bradley Cooper - Alibi [3:03]",
+      "B11. Bradley Cooper + Lady Gaga - Trust Me (Dialogue) [0:32]",
+      "B12. Lady Gaga + Bradley Cooper - Shallow [3:36]",
+      "B13. Bradley Cooper + Lady Gaga - First Stop, Arizona (Dialogue) [0:10]",
+      "B14. Lady Gaga + Bradley Cooper - Music To My Eyes [3:19]",
+      "B15. Lady Gaga + Bradley Cooper - Diggin' My Grave [3:57]",
+      "B16. Bradley Cooper + Lady Gaga - I Love You (Dialogue) [0:19]",
+      "B17. Lady Gaga - Always Remember Us This Way [3:30]",
+      "B18. Lady Gaga + Rafi Gavron - Unbelievable (Dialogue) [0:29]",
+      "C19. Bradley Cooper + Lady Gaga - How Do You Hear It? (Dialogue) [0:14]",
+      "C20. Lady Gaga - Look What I Found [2:54]",
+      "C21. Bradley Cooper + Lady Gaga - Memphis (Dialogue) [0:24]",
+      "C22. Lady Gaga - Heal Me [3:17]",
+      "C23. Lady Gaga + Bradley Cooper - I Don't Know What Love Is [2:57]",
+      "C24. Lady Gaga - Vows (Dialogue) [0:17]",
+      "C25. Lady Gaga - Is That Alright? [3:10]",
+      "C26. Alec Baldwin + Donald King (3) + Michael Mancini + Gena Rositano - SNL (Dialogue) [0:13]",
+      "C27. Lady Gaga - Why Did You Do That? [3:02]",
+      "C28. Lady Gaga - Hair Body Face [3:23]",
+      "D29. Lady Gaga + Bradley Cooper - Scene 98 (Dialogue) [0:35]",
+      "D30. Lady Gaga - Before I Cry [4:18]",
+      "D31. Bradley Cooper - Too Far Gone [1:26]",
+      "D32. Lady Gaga + Sam Elliott - Twelve Notes (Dialogue) [1:04]",
+      "D33. Lady Gaga - I'll Never Love Again (Film Version) [4:39]",
+      "D34. Lady Gaga - I'll Never Love Again (Extended Version) [5:29]"
     ],
-    "label": "Interscope Records"
+    "label": "Interscope Records",
+    "genres": [
+      "Non-Music",
+      "Stage & Screen",
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Ballad",
+      "Soundtrack",
+      "Pop Rock",
+      "Country Rock",
+      "Dialogue",
+      "Hard Rock",
+      "Vocal",
+      "Synth-pop"
+    ],
+    "country": "Europe",
+    "catalogNumber": "00602567775546",
+    "barcode": "0602567775546",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-rsr52",
@@ -1470,18 +2148,33 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:03:43.743Z",
     "tracklist": [
-      "1. 戰之祭 = The Warrior Song",
-      "2. 怪胎秀 = Freak Show",
-      "3. 母系社會 = Matriarchy",
-      "4. 衝突得很 = Super Conflicted",
-      "5. 放了那個作品 = Give The Work A Break",
-      "6. 不睡 = Insomnia",
-      "7. 牙買加的檳榔 = Jamaican Betel Nut",
-      "8. 難搞 = High Maintenance",
-      "9. 血腥愛情故事 = A Bloody Love Story",
-      "10. 你想幹什麼 = What D'ya Want?"
+      "1. 戰之祭 = The Warrior Song [3:44]",
+      "2. 怪胎秀 = Freak Show [4:22]",
+      "3. 母系社會 = Matriarchy [3:55]",
+      "4. 衝突得很 = Super Conflicted [4:21]",
+      "5. 放了那個作品 = Give The Work A Break [4:39]",
+      "6. 不睡 = Insomnia [4:38]",
+      "7. 牙買加的檳榔 = Jamaican Betel Nut [4:30]",
+      "8. 難搞 = High Maintenance [4:41]",
+      "9. 血腥愛情故事 = A Bloody Love Story [4:22]",
+      "10. 你想幹什麼 = What D'ya Want? [3:32]"
     ],
-    "label": "华纳音乐"
+    "label": "华纳音乐",
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Alternative Rock",
+      "Mandopop",
+      "Downtempo",
+      "Indie Pop",
+      "Breaks"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "8888312",
+    "barcode": "0602488883122"
   },
   {
     "id": "musicbuddy-193khui",
@@ -1494,21 +2187,37 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:40:57.018Z",
     "tracklist": [
-      "A1. 你抽的煙",
-      "A2. 鐵窗",
-      "A3. 遺憾",
-      "A4. 顏色",
-      "A5. 明知道",
-      "A6. 影子情人",
-      "A7. 快樂無罪",
-      "B1. 都是夜歸人",
-      "B2. 蔓延",
-      "B3. 單數",
-      "B4. 只是這人生",
-      "B5. 城裡的月光",
-      "B6. 邊界1999"
+      "A1. 你抽的煙 [4:13]",
+      "A2. 鐵窗 [4:43]",
+      "A3. 遺憾 [4:38]",
+      "A4. 顏色 [4:03]",
+      "A5. 明知道 [4:18]",
+      "A6. 影子情人 [3:48]",
+      "A7. 快樂無罪 [4:32]",
+      "B1. 都是夜歸人 [4:58]",
+      "B2. 蔓延 [4:53]",
+      "B3. 單數 [4:45]",
+      "B4. 只是這人生 [3:55]",
+      "B5. 城裡的月光 [5:16]",
+      "B6. 邊界1999 [4:38]"
     ],
-    "label": "华纳音乐"
+    "label": "华纳音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Mandopop",
+      "Ballad",
+      "Vocal"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "886097-7",
+    "producers": [
+      "陳建寧",
+      "陳佳明"
+    ],
+    "edition": "再版",
+    "barcode": "0602488609777"
   },
   {
     "id": "musicbuddy-1wbkwq1",
@@ -1521,18 +2230,30 @@
     "zone": "unsorted",
     "dateAdded": "2026-01-31T14:12:38.492Z",
     "tracklist": [
-      "A1. つぐない",
-      "A2. 時の流れに身をまかせ",
-      "A3. 愛人",
-      "A4. 別れの予感",
-      "A5. 悲しい自由",
-      "B1. 空港",
-      "B2. ふるさとはどこですか",
-      "B3. 女の生きがい",
-      "B4. 夜のフェリーボート",
-      "B5. 恋人たちの神話"
+      "A1. つぐない [3:50]",
+      "A2. 時の流れに身をまかせ [4:08]",
+      "A3. 愛人 [3:45]",
+      "A4. 別れの予感 [4:27]",
+      "A5. 悲しい自由 [4:11]",
+      "B1. 空港 [3:45]",
+      "B2. ふるさとはどこですか [3:35]",
+      "B3. 女の生きがい [3:35]",
+      "B4. 夜のフェリーボート [3:16]",
+      "B5. 恋人たちの神話 [4:40]"
     ],
-    "label": "Universal Music Japan"
+    "label": "Universal Music Japan",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Enka",
+      "Ballad",
+      "Kayōkyoku"
+    ],
+    "country": "Japan",
+    "catalogNumber": "PROT-7345",
+    "edition": "重新灌录",
+    "barcode": "4988031766125"
   },
   {
     "id": "musicbuddy-1qs7f8d",
@@ -1568,7 +2289,22 @@
       "D9. 杭州 (2015 Live) (杭州/Hangzhou)",
       "D10. 这个世界会好吗 (2018 Live) (この世界に未来はあるの？/Has Man A Future?)"
     ],
-    "label": "Pony Canyon"
+    "label": "Pony Canyon",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country",
+      "Rock"
+    ],
+    "styles": [
+      "Folk",
+      "Indie Rock",
+      "Folk Rock"
+    ],
+    "country": "Japan",
+    "catalogNumber": "BRANCD-005L",
+    "edition": "再版,重新灌录",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1mq24ju",
@@ -1597,7 +2333,17 @@
       "D2. Cherry Blossom",
       "D3. Sweet Carolina"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Indie Pop"
+    ],
+    "country": "USA & Europe",
+    "catalogNumber": "3859014",
+    "barcode": "0602438590148",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1gjkcdn",
@@ -1623,7 +2369,24 @@
       "B5. Summertime Sadness",
       "B6. This is What Makes Us Girls"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Rock",
+      "Pop"
+    ],
+    "styles": [
+      "Dream Pop",
+      "Indie Pop",
+      "Alt-Pop",
+      "Baroque Pop"
+    ],
+    "country": "US",
+    "catalogNumber": "602577673771",
+    "producers": [
+      "Emile Haynie"
+    ],
+    "edition": "再版",
+    "barcode": "0602577673771"
   },
   {
     "id": "musicbuddy-dhiobs",
@@ -1643,7 +2406,20 @@
       "B2. Capuchin Swing",
       "B3. On The Lion"
     ],
-    "label": "Blue Note Records"
+    "label": "Blue Note Records",
+    "genres": [
+      "Jazz"
+    ],
+    "styles": [
+      "Hard Bop"
+    ],
+    "country": "Europe",
+    "catalogNumber": "84038",
+    "producers": [
+      "Alfred Lion"
+    ],
+    "edition": "再版,重新灌录",
+    "barcode": "0602547276896"
   },
   {
     "id": "musicbuddy-13q1ker",
@@ -1656,19 +2432,32 @@
     "zone": "unsorted",
     "dateAdded": "2026-07-25T07:06:43.554Z",
     "tracklist": [
-      "A1. White Dress",
-      "A2. Chemtrails Over The Country Club",
-      "A3. Tulsa Jesus Freak",
-      "A4. Let Me Love You Like A Woman",
-      "A5. Wild At Heart",
-      "B1. Dark But Just A Game",
-      "B2. Not All Who Wander Are Lost",
-      "B3. Yosemite",
-      "B4. Breaking Up Slowly",
-      "B5. Dance Till We Die",
-      "B6. For Free"
+      "A1. White Dress [5:33]",
+      "A2. Chemtrails Over The Country Club [4:31]",
+      "A3. Tulsa Jesus Freak [3:35]",
+      "A4. Let Me Love You Like A Woman [3:21]",
+      "A5. Wild At Heart [4:06]",
+      "B1. Dark But Just A Game [3:55]",
+      "B2. Not All Who Wander Are Lost [4:07]",
+      "B3. Yosemite [5:04]",
+      "B4. Breaking Up Slowly [2:57]",
+      "B5. Dance Till We Die [4:01]",
+      "B6. For Free [4:11]"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Folk",
+      "World",
+      "& Country",
+      "Pop"
+    ],
+    "styles": [
+      "Indie Pop",
+      "Folk"
+    ],
+    "country": "USA, Canada & Europe",
+    "catalogNumber": "3553403",
+    "barcode": "0602435497808"
   },
   {
     "id": "musicbuddy-1l1zgq5",
@@ -1685,7 +2474,25 @@
       "B1. White Christmas",
       "B2. White Christmas (Happy Xmas Show! Version)"
     ],
-    "label": "Moon Records"
+    "label": "Moon Records",
+    "genres": [
+      "Jazz",
+      "Pop",
+      "Funk / Soul"
+    ],
+    "styles": [
+      "Holiday",
+      "City Pop",
+      "Soul",
+      "Ballad",
+      "Jazz-Rock"
+    ],
+    "country": "Japan",
+    "catalogNumber": "WPJL-10195",
+    "producers": [
+      "Tatsuro Yamashita"
+    ],
+    "barcode": "4943674379170"
   },
   {
     "id": "musicbuddy-1eh9ic9",
@@ -1709,7 +2516,16 @@
       "B4. 海を見ていた午後",
       "B5. Story"
     ],
-    "label": "Universal Music Japan"
+    "label": "Universal Music Japan",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Kayōkyoku"
+    ],
+    "country": "Japan",
+    "catalogNumber": "COJA-9574",
+    "barcode": "4549767360362"
   },
   {
     "id": "musicbuddy-hnqclq",
@@ -1722,18 +2538,32 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:57:48.027Z",
     "tracklist": [
-      "1. Bluebirds",
-      "2. Breakdown",
-      "3. Into The Wild",
-      "4. 出走",
-      "5. 那些小事情",
-      "6. 舊情歌",
-      "7. 全部的所有",
-      "8. Photographs",
-      "9. 讓浪漫作主",
-      "10. Om Tara"
+      "1. Bluebirds [5:35]",
+      "2. Breakdown [3:53]",
+      "3. Into The Wild [3:57]",
+      "4. 出走 [4:17]",
+      "5. 那些小事情 [4:23]",
+      "6. 舊情歌 [3:45]",
+      "7. 全部的所有 [3:15]",
+      "8. Photographs [3:55]",
+      "9. 讓浪漫作主 [4:11]",
+      "10. Om Tara [4:14]"
     ],
-    "label": "亚神音乐"
+    "label": "亚神音乐",
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Mandopop",
+      "Acoustic",
+      "Pop Rock"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "3862071",
+    "producers": [
+      "Tanya Chua"
+    ]
   },
   {
     "id": "musicbuddy-ndfj96",
@@ -1763,7 +2593,22 @@
       "D3. Peppers",
       "D4. Taco Truck x VB"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Ballad",
+      "Indie Pop",
+      "Indie Rock",
+      "Baroque Pop",
+      "Alt-Pop"
+    ],
+    "country": "Worldwide",
+    "catalogNumber": "4859191",
+    "barcode": "0602448591913",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-re4zdq",
@@ -1776,21 +2621,36 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:44:26.391Z",
     "tracklist": [
-      "1. Automatic (Album Edit)",
-      "2. Movin' On Without You",
-      "3. In My Room",
-      "4. First Love",
-      "5. 甘いワナ ~Paint It, Black",
-      "6. Time Will Tell",
-      "7. Never Let Go",
-      "8. B&C (Album Version)",
-      "9. Another Chance",
-      "10. Interlude",
-      "11. Give Me A Reason",
+      "1. Automatic (Album Edit) [5:28]",
+      "2. Movin' On Without You [4:37]",
+      "3. In My Room [4:19]",
+      "4. First Love [4:17]",
+      "5. 甘いワナ ~Paint It, Black [5:02]",
+      "6. Time Will Tell [5:26]",
+      "7. Never Let Go [3:57]",
+      "8. B&C (Album Version) [4:20]",
+      "9. Another Chance [5:21]",
+      "10. Interlude [0:16]",
+      "11. Give Me A Reason [6:22]",
       "Bonus Track",
-      "12. Automatic (Johnny Vicious Remix)"
+      "12. Automatic (Johnny Vicious Remix) [4:37]"
     ],
-    "label": "Toshiba EMI"
+    "label": "Toshiba EMI",
+    "genres": [
+      "Pop",
+      "Funk / Soul"
+    ],
+    "styles": [
+      "Contemporary R&B",
+      "Ballad",
+      "J-pop"
+    ],
+    "country": "Japan",
+    "catalogNumber": "TOCT-24067",
+    "producers": [
+      "Miyake Akira",
+      "Teruzane Sking Utada"
+    ]
   },
   {
     "id": "musicbuddy-hor8qt",
@@ -1803,22 +2663,38 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:43:24.487Z",
     "tracklist": [
-      "A1. Automatic (Album Edit)",
-      "A2. Movin' On Without You",
-      "A3. In My Room",
-      "A4. First Love",
-      "B1. 甘いワナ ~ Paint It, Black",
-      "B2. Time Will Tell",
-      "B3. Never Let Go",
-      "C1. B&C (Album Version)",
-      "C2. Another Chance",
-      "C3. Interlude",
-      "C4. Give Me A Reason",
+      "A1. Automatic (Album Edit) [5:28]",
+      "A2. Movin' On Without You [4:37]",
+      "A3. In My Room [4:19]",
+      "A4. First Love [4:17]",
+      "B1. 甘いワナ ~ Paint It, Black [5:02]",
+      "B2. Time Will Tell [5:26]",
+      "B3. Never Let Go [3:57]",
+      "C1. B&C (Album Version) [4:20]",
+      "C2. Another Chance [5:21]",
+      "C3. Interlude [0:16]",
+      "C4. Give Me A Reason [6:22]",
       "Remix Side",
-      "D1. Automatic (Johnny Vicious Remix)",
+      "D1. Automatic (Johnny Vicious Remix) [4:37]",
       "D2. First Love (John Luongo Remix)"
     ],
-    "label": "Toshiba EMI"
+    "label": "Toshiba EMI",
+    "genres": [
+      "Pop",
+      "Funk / Soul"
+    ],
+    "styles": [
+      "Ballad",
+      "Contemporary R&B",
+      "J-pop"
+    ],
+    "country": "Japan",
+    "catalogNumber": "TOJT-24141-2",
+    "producers": [
+      "Teruzane Sking Utada",
+      "Miyake Akira"
+    ],
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1gva1xy",
@@ -1831,26 +2707,46 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:42:29.230Z",
     "tracklist": [
-      "A1. The 1",
-      "A2. Cardigan",
-      "A3. The Last Great American Dynasty",
-      "A4. Exile",
-      "B1. My Tears Ricochet",
-      "B2. Mirrorball",
-      "B3. Seven",
-      "B4. August",
-      "B5. This Is Me Trying",
-      "C1. Illicit Affairs",
-      "C2. Invisible String",
-      "C3. Mad Woman",
-      "C4. Epiphany",
-      "D1. Betty",
-      "D2. Peace",
-      "D3. Hoax",
+      "A1. The 1 [3:42]",
+      "A2. Cardigan [4:11]",
+      "A3. The Last Great American Dynasty [4:03]",
+      "A4. Exile [4:57]",
+      "B1. My Tears Ricochet [4:28]",
+      "B2. Mirrorball [3:41]",
+      "B3. Seven [3:41]",
+      "B4. August [4:34]",
+      "B5. This Is Me Trying [3:27]",
+      "C1. Illicit Affairs [3:23]",
+      "C2. Invisible String [4:25]",
+      "C3. Mad Woman [4:09]",
+      "C4. Epiphany [5:01]",
+      "D1. Betty [5:06]",
+      "D2. Peace [4:06]",
+      "D3. Hoax [3:52]",
       "Bonus Track",
-      "D4. The Lakes"
+      "D4. The Lakes [3:32]"
     ],
-    "label": "Republic Records"
+    "label": "Republic Records",
+    "genres": [
+      "Pop",
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "styles": [
+      "Ballad",
+      "Folk",
+      "Acoustic"
+    ],
+    "country": "US",
+    "catalogNumber": "B0032752-01",
+    "producers": [
+      "Aaron Dessner",
+      "Jack Antonoff",
+      "Taylor Swift"
+    ],
+    "barcode": "0602435034881",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1wnd6mf",
@@ -1863,22 +2759,37 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:34:43.879Z",
     "tracklist": [
-      "1. Honeymoon  蜜月旅行",
-      "2. Music To Watch Boys To  男孩的主题曲",
-      "3. Terrence Loves You  泰伦斯爱你",
-      "4. God Knows I Tried  天知道我努力了",
-      "5. High By The Beach  海边狂欢",
-      "6. Freak  怪胎",
-      "7. Art Deco  装饰艺术",
-      "8. Burnt Norton (Interlude)  烧毁的诺顿（插曲）",
-      "9. Religion  信仰",
-      "10. Salvatore  萨尔瓦托",
-      "11. The Blackest Day  最黑暗的一天",
-      "12. 24",
-      "13. Swan Song  最黑暗的一天",
-      "14. Don't Let Me Be Misunderstood  被让我被误会"
+      "1. Honeymoon  蜜月旅行 [5:51]",
+      "2. Music To Watch Boys To  男孩的主题曲 [4:51]",
+      "3. Terrence Loves You  泰伦斯爱你 [4:51]",
+      "4. God Knows I Tried  天知道我努力了 [4:41]",
+      "5. High By The Beach  海边狂欢 [4:18]",
+      "6. Freak  怪胎 [4:55]",
+      "7. Art Deco  装饰艺术 [4:55]",
+      "8. Burnt Norton (Interlude)  烧毁的诺顿（插曲） [1:22]",
+      "9. Religion  信仰 [5:23]",
+      "10. Salvatore  萨尔瓦托 [4:41]",
+      "11. The Blackest Day  最黑暗的一天 [6:06]",
+      "12. 24 [4:56]",
+      "13. Swan Song  最黑暗的一天 [5:23]",
+      "14. Don't Let Me Be Misunderstood  被让我被误会 [3:04]"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Pop",
+      "Rock",
+      "Electronic"
+    ],
+    "styles": [
+      "Indie Pop",
+      "Ballad",
+      "Alternative Rock",
+      "Trip Hop",
+      "Downtempo"
+    ],
+    "country": "China",
+    "catalogNumber": "GE1557C",
+    "barcode": "9787883300038"
   },
   {
     "id": "musicbuddy-60srg0",
@@ -1905,7 +2816,29 @@
       "D3. Swan Song",
       "D4. Don't Let Me Be Misunderstood"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Pop",
+      "Electronic",
+      "Rock"
+    ],
+    "styles": [
+      "Ballad",
+      "Soft Rock",
+      "Downtempo",
+      "Indie Pop",
+      "Trip Hop"
+    ],
+    "country": "Europe",
+    "catalogNumber": "4750768",
+    "producers": [
+      "Lana Del Rey",
+      "Kieron Menzies",
+      "Rick Nowels"
+    ],
+    "edition": "再版",
+    "barcode": "0602547507686",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-majvw4",
@@ -1918,21 +2851,42 @@
     "zone": "unsorted",
     "dateAdded": "2026-07-12T13:05:22.115Z",
     "tracklist": [
-      "1. Doxology",
-      "2. 找自己 = Rain",
-      "3. 小鎮姑娘 = Small Town Girl",
-      "4. 夜來香 = Tuberose",
-      "5. 普通朋友 = Regular Friends",
-      "6. I'm Ok",
-      "7. 不一樣 = Different",
-      "8. 說走就走 = Leave",
-      "9. 多謝你 = Thank You",
-      "10. 馬戲團 = Circus",
-      "11. 天天 = Close To You",
-      "12. Angeline",
-      "13. Amen"
+      "1. Doxology [0:39]",
+      "2. 找自己 = Rain [4:50]",
+      "3. 小鎮姑娘 = Small Town Girl [4:53]",
+      "4. 夜來香 = Tuberose [4:19]",
+      "5. 普通朋友 = Regular Friends [4:10]",
+      "6. I'm Ok [3:58]",
+      "7. 不一樣 = Different [4:40]",
+      "8. 說走就走 = Leave [5:40]",
+      "9. 多謝你 = Thank You [4:13]",
+      "10. 馬戲團 = Circus [4:16]",
+      "11. 天天 = Close To You [4:10]",
+      "12. Angeline [4:52]",
+      "13. Amen [0:22]"
     ],
-    "label": "索尼音乐"
+    "label": "索尼音乐",
+    "genres": [
+      "Pop",
+      "Funk / Soul",
+      "Hip Hop",
+      "Electronic",
+      "Rock"
+    ],
+    "styles": [
+      "Alternative Rock",
+      "Religious",
+      "Synth-pop",
+      "Mandopop",
+      "Pop Rap",
+      "Neo Soul",
+      "Contemporary R&B"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "SCD-2001",
+    "producers": [
+      "陶喆"
+    ]
   },
   {
     "id": "musicbuddy-bkue16",
@@ -1960,7 +2914,26 @@
       "B6. Justin Hurwitz - Epilogue / The End",
       "B7. Justin Hurwitz + Emma Stone (2) - City Of Stars (Humming)"
     ],
-    "label": "Interscope Records"
+    "label": "Interscope Records",
+    "genres": [
+      "Stage & Screen"
+    ],
+    "styles": [
+      "Musical",
+      "Score",
+      "Soundtrack"
+    ],
+    "country": "Europe",
+    "catalogNumber": "00602557388046",
+    "producers": [
+      "Carter Armstrong",
+      "Steven Gizicki",
+      "Matt Robertson",
+      "Eldad Guetta",
+      "Marius de Vries",
+      "Justin Hurwitz"
+    ],
+    "barcode": "0602557388046"
   },
   {
     "id": "musicbuddy-1kyjr3z",
@@ -1985,7 +2958,22 @@
       "D1. Skin",
       "D2. Love The Way You Lie (Part II)"
     ],
-    "label": "Def Jam Recordings"
+    "label": "Def Jam Recordings",
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Hip Hop",
+      "Funk / Soul"
+    ],
+    "styles": [
+      "Contemporary R&B",
+      "Dance-pop"
+    ],
+    "country": "US",
+    "catalogNumber": "B0025453-01",
+    "edition": "再版",
+    "barcode": "0602557079807",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1qzmozr",
@@ -1998,22 +2986,38 @@
     "zone": "unsorted",
     "dateAdded": "2026-01-31T14:10:39.906Z",
     "tracklist": [
-      "1. Disease",
-      "2. Abracadabra",
-      "3. Garden Of Eden",
-      "4. Perfect Celebrity",
-      "5. Vanish Into You",
-      "6. Killah",
-      "7. Zombieboy",
-      "8. Lovedrug",
-      "9. How Bad Do U Want Me",
-      "10. Don't Call Tonight",
-      "11. Shadow Of A Man",
-      "12. The Beast",
-      "13. Blade Of Grass",
-      "14. Die With A Smile"
+      "1. Disease [3:50]",
+      "2. Abracadabra [3:45]",
+      "3. Garden Of Eden [4:00]",
+      "4. Perfect Celebrity [3:49]",
+      "5. Vanish Into You [4:06]",
+      "6. Killah [3:31]",
+      "7. Zombieboy [3:35]",
+      "8. Lovedrug [3:14]",
+      "9. How Bad Do U Want Me [3:59]",
+      "10. Don't Call Tonight [3:47]",
+      "11. Shadow Of A Man [3:21]",
+      "12. The Beast [3:56]",
+      "13. Blade Of Grass [4:18]",
+      "14. Die With A Smile [4:11]"
     ],
-    "label": "Interscope Records"
+    "label": "Interscope Records",
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Rock",
+      "Funk / Soul"
+    ],
+    "styles": [
+      "Art Rock",
+      "Electro",
+      "Nu-Disco",
+      "Dance-pop",
+      "Synth-pop",
+      "Ballad"
+    ],
+    "country": "Japan",
+    "catalogNumber": "602475451044"
   },
   {
     "id": "musicbuddy-1k6bz1u",
@@ -2026,23 +3030,32 @@
     "zone": "unsorted",
     "dateAdded": "2026-02-14T14:46:05.426Z",
     "tracklist": [
-      "A1. Disease",
-      "A2. Abracadabra",
-      "A3. Garden Of Eden",
-      "A4. Perfect Celebrity",
-      "A5. Vanish Into You",
-      "B1. Killah",
-      "B2. Zombieboy",
-      "B3. Lovedrug",
-      "B4. How Bad Do U Want Me",
-      "B5. Don't Call Tonight",
-      "C1. Kill For Love",
-      "C2. Shadow Of A Man",
-      "C3. The Beast",
-      "C4. Blade Of Grass",
-      "C5. Die With A Smile"
+      "A1. Disease [3:50]",
+      "A2. Abracadabra [3:45]",
+      "A3. Garden Of Eden [4:00]",
+      "A4. Perfect Celebrity [3:49]",
+      "A5. Vanish Into You [4:06]",
+      "B1. Killah [3:31]",
+      "B2. Zombieboy [3:35]",
+      "B3. Lovedrug [3:14]",
+      "B4. How Bad Do U Want Me [3:59]",
+      "B5. Don't Call Tonight [3:47]",
+      "C1. Kill For Love [4:09]",
+      "C2. Shadow Of A Man [3:21]",
+      "C3. The Beast [3:56]",
+      "C4. Blade Of Grass [4:18]",
+      "C5. Die With A Smile [4:11]"
     ],
-    "label": "Interscope Records"
+    "label": "Interscope Records",
+    "genres": [
+      "Electronic",
+      "Pop"
+    ],
+    "styles": [
+      "Dance-pop"
+    ],
+    "country": "US",
+    "catalogNumber": "602475451150"
   },
   {
     "id": "musicbuddy-1184pif",
@@ -2055,23 +3068,37 @@
     "zone": "unsorted",
     "dateAdded": "2026-01-31T14:08:35.394Z",
     "tracklist": [
-      "1. Disease = ディジーズ",
-      "2. Abracadabra = アブラカダブラ",
-      "3. Garden Of Eden = ガーデン・オブ・エデン",
-      "4. Perfect Celebrity = パーフェクト・セレブリティ",
-      "5. Can't Stop The High = キャント・ストップ・ザ・ハイ",
-      "6. Vanish Into You = ヴァニッシュ・イントゥ・ユー",
-      "7. Killah = キラー",
-      "8. Zombieboy = ゾンビボーイ",
-      "9. Lovedrug = ラヴドラッグ",
-      "10. How Bad Do U Want Me = ハウ・バッド・ドゥ・ユー・ウォント・ミー",
-      "11. Don't Call Tonight = ドント・コール・トゥナイト",
-      "12. Shadow Of A Man = シャドウ・オブ・ア・マン",
-      "13. The Beast = ザ・ビースト",
-      "14. Blade Of Grass = ブレイド・オブ・グラス",
-      "15. Die With A Smile = ダイ・ウィズ・ア・スマイル"
+      "1. Disease = ディジーズ [3:49]",
+      "2. Abracadabra = アブラカダブラ [3:43]",
+      "3. Garden Of Eden = ガーデン・オブ・エデン [3:59]",
+      "4. Perfect Celebrity = パーフェクト・セレブリティ [3:49]",
+      "5. Can't Stop The High = キャント・ストップ・ザ・ハイ [3:31]",
+      "6. Vanish Into You = ヴァニッシュ・イントゥ・ユー [4:04]",
+      "7. Killah = キラー [3:30]",
+      "8. Zombieboy = ゾンビボーイ [3:33]",
+      "9. Lovedrug = ラヴドラッグ [3:13]",
+      "10. How Bad Do U Want Me = ハウ・バッド・ドゥ・ユー・ウォント・ミー [3:58]",
+      "11. Don't Call Tonight = ドント・コール・トゥナイト [3:45]",
+      "12. Shadow Of A Man = シャドウ・オブ・ア・マン [3:19]",
+      "13. The Beast = ザ・ビースト [3:54]",
+      "14. Blade Of Grass = ブレイド・オブ・グラス [4:17]",
+      "15. Die With A Smile = ダイ・ウィズ・ア・スマイル [4:11]"
     ],
-    "label": "Interscope Records"
+    "label": "Interscope Records",
+    "genres": [
+      "Pop",
+      "Electronic"
+    ],
+    "styles": [
+      "Electro",
+      "Industrial",
+      "Ballad",
+      "Dance-pop",
+      "Synth-pop"
+    ],
+    "country": "Japan",
+    "catalogNumber": "UICS-9185",
+    "barcode": "4988031758267"
   },
   {
     "id": "musicbuddy-eylaw6",
@@ -2084,22 +3111,35 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:54:41.003Z",
     "tracklist": [
-      "1. Life Is Wonderful",
-      "2. Wordplay",
-      "3. Geek In The Pink",
-      "4. Did You Get My Message?",
-      "5. Mr. Curiosity",
-      "6. Clockwatching",
-      "7. Bella Luna",
-      "8. Plane",
-      "9. O. Lover",
-      "10. Please Don't Tell Her",
-      "11. The Forecast",
-      "12. Song For A Friend",
+      "1. Life Is Wonderful [4:20]",
+      "2. Wordplay [3:08]",
+      "3. Geek In The Pink [3:59]",
+      "4. Did You Get My Message? [4:00]",
+      "5. Mr. Curiosity [3:55]",
+      "6. Clockwatching [4:23]",
+      "7. Bella Luna [5:02]",
+      "8. Plane [5:13]",
+      "9. O. Lover [3:54]",
+      "10. Please Don't Tell Her [4:37]",
+      "11. The Forecast [3:45]",
+      "12. Song For A Friend [8:10]",
       "Japan Bonus Track",
-      "13. Prettiest Friend (Demo)"
+      "13. Prettiest Friend (Demo) [4:19]"
     ],
-    "label": "Atlantic Records"
+    "label": "Atlantic Records",
+    "genres": [
+      "Rock"
+    ],
+    "styles": [
+      "Soft Rock",
+      "Pop Rock"
+    ],
+    "country": "Japan",
+    "catalogNumber": "WPCR-12101",
+    "producers": [
+      "Steve Lillywhite"
+    ],
+    "barcode": "4943674057740"
   },
   {
     "id": "musicbuddy-1soijen",
@@ -2112,21 +3152,33 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:30:42.658Z",
     "tracklist": [
-      "A1. Main Theme From Merry Christmas Mr. Lawrence",
-      "A2. Endroll (From The Last Emperor)",
-      "A3. Rain (From The Last Emperor)",
-      "B1. Main Theme From The Sheltering Sky",
-      "B2. Main Theme From High Heels",
-      "B3. Main Theme From Wild Palms",
-      "C1. Acceptance (From Little Buddha)",
-      "C2. Main Theme From Snake Eyes (Long Version)",
-      "C3. Bolerisch (From Femme Fatale)",
-      "D1. Bibo No Aozora (From Babel)",
-      "D2. Small Hope (From Hara-Kiri: Death Of A Samurai)",
-      "D3. Opening Theme From Yae No Sakura",
-      "D4. Main Theme From The Revenant"
+      "A1. Main Theme From Merry Christmas Mr. Lawrence [6:02]",
+      "A2. Endroll (From The Last Emperor) [8:03]",
+      "A3. Rain (From The Last Emperor) [4:16]",
+      "B1. Main Theme From The Sheltering Sky [6:26]",
+      "B2. Main Theme From High Heels [3:08]",
+      "B3. Main Theme From Wild Palms [2:31]",
+      "C1. Acceptance (From Little Buddha) [8:49]",
+      "C2. Main Theme From Snake Eyes (Long Version) [5:26]",
+      "C3. Bolerisch (From Femme Fatale) [6:11]",
+      "D1. Bibo No Aozora (From Babel) [6:28]",
+      "D2. Small Hope (From Hara-Kiri: Death Of A Samurai) [5:00]",
+      "D3. Opening Theme From Yae No Sakura [3:02]",
+      "D4. Main Theme From The Revenant [3:07]"
     ],
-    "label": "Milan Records"
+    "label": "Milan Records",
+    "genres": [
+      "Classical",
+      "Stage & Screen"
+    ],
+    "country": "UK",
+    "catalogNumber": "SILLP1524",
+    "producers": [
+      "Valerie Dobbelaere"
+    ],
+    "edition": "再版",
+    "barcode": "0738572152475",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-19r0w17",
@@ -2139,32 +3191,42 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:40:33.305Z",
     "tracklist": [
-      "A1. 天黑黑",
-      "A2. 我要的幸福",
-      "A3. 風箏",
-      "A4. 雨天",
-      "A5. 眼淚成詩",
-      "A6. 我也很想他",
-      "B1. 開始懂了",
-      "B2. 遇見",
-      "B3. 我不難過",
-      "B4. 我的愛",
-      "B5. The Moment",
-      "B6. 隱形人",
-      "C1. 愛情證書",
-      "C2. 愛情字典",
-      "C3. 害怕",
-      "C4. 任性",
-      "C5. 同類",
-      "C6. 原點",
-      "D1. 超快感",
-      "D2. 綠光",
-      "D3. 零缺點",
-      "D4. 第一天",
-      "D5. 奔",
-      "D6. 逃亡"
+      "A1. 天黑黑 [3:53]",
+      "A2. 我要的幸福 [3:33]",
+      "A3. 風箏 [4:34]",
+      "A4. 雨天 [3:59]",
+      "A5. 眼淚成詩 [3:39]",
+      "A6. 我也很想他 [4:17]",
+      "B1. 開始懂了 [4:29]",
+      "B2. 遇見 [3:29]",
+      "B3. 我不難過 [5:19]",
+      "B4. 我的愛 [4:24]",
+      "B5. The Moment [4:10]",
+      "B6. 隱形人 [4:34]",
+      "C1. 愛情證書 [4:13]",
+      "C2. 愛情字典 [3:47]",
+      "C3. 害怕 [4:01]",
+      "C4. 任性 [3:47]",
+      "C5. 同類 [3:30]",
+      "C6. 原點 [4:06]",
+      "D1. 超快感 [3:38]",
+      "D2. 綠光 [3:11]",
+      "D3. 零缺點 [3:39]",
+      "D4. 第一天 [4:11]",
+      "D5. 奔 [3:40]",
+      "D6. 逃亡 [4:44]"
     ],
-    "label": "环球音乐"
+    "label": "环球音乐",
+    "genres": [
+      "Pop",
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "5054196906016",
+    "barcode": "5054196906016",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-6oipo3",
@@ -2177,22 +3239,38 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:56:01.839Z",
     "tracklist": [
-      "1. Norman Fucking Rockwell",
-      "2. Mariners Apartment Complex",
-      "3. Venice Bitch",
-      "4. Fuck It, I Love You",
-      "5. Doin' Time",
-      "6. Love Song",
-      "7. Cinnamon Girl",
-      "8. How To Disappear",
-      "9. California",
-      "10. The Next Best American Record",
-      "11. The Greatest",
-      "12. Bartender",
-      "13. Happiness Is A Butterfly",
-      "14. Hope Is A Dangerous Thing For A Woman Like Me To Have - But I Have It"
+      "1. Norman Fucking Rockwell [4:09]",
+      "2. Mariners Apartment Complex [4:07]",
+      "3. Venice Bitch [9:37]",
+      "4. Fuck It, I Love You [3:38]",
+      "5. Doin' Time [3:22]",
+      "6. Love Song [3:49]",
+      "7. Cinnamon Girl [5:01]",
+      "8. How To Disappear [3:48]",
+      "9. California [5:06]",
+      "10. The Next Best American Record [5:49]",
+      "11. The Greatest [5:00]",
+      "12. Bartender [4:23]",
+      "13. Happiness Is A Butterfly [4:32]",
+      "14. Hope Is A Dangerous Thing For A Woman Like Me To Have - But I Have It [5:58]"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "styles": [
+      "Alt-Pop",
+      "Folk Rock",
+      "Trip Hop",
+      "Soft Rock",
+      "Psychedelic Rock",
+      "Ballad",
+      "Dream Pop"
+    ],
+    "country": "Europe",
+    "catalogNumber": "0807588",
+    "barcode": "0602508075889"
   },
   {
     "id": "musicbuddy-1nkxhxl",
@@ -2205,22 +3283,39 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:20:40.950Z",
     "tracklist": [
-      "A1. Norman Fucking Rockwell",
-      "A2. Mariners Apartment Complex",
-      "A3. Venice Bitch",
-      "B4. Fuck It I Love You",
-      "B5. Doin' Time",
-      "B6. Love Song",
-      "B7. Cinnamon Girl",
-      "B8. How To Disappear",
-      "C9. California",
-      "C10. The Next Best American Record",
-      "C11. The Greatest",
-      "D12. Bartender",
-      "D13. Happiness Is A Butterfly",
-      "D14. Hope Is A Dangerous Thing For A Woman Like Me To Have - But I Have It"
+      "A1. Norman Fucking Rockwell [4:09]",
+      "A2. Mariners Apartment Complex [4:07]",
+      "A3. Venice Bitch [9:37]",
+      "B4. Fuck It I Love You [3:38]",
+      "B5. Doin' Time [3:22]",
+      "B6. Love Song [3:49]",
+      "B7. Cinnamon Girl [5:01]",
+      "B8. How To Disappear [3:48]",
+      "C9. California [5:06]",
+      "C10. The Next Best American Record [5:49]",
+      "C11. The Greatest [5:00]",
+      "D12. Bartender [4:23]",
+      "D13. Happiness Is A Butterfly [4:32]",
+      "D14. Hope Is A Dangerous Thing For A Woman Like Me To Have - But I Have It [5:58]"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Rock",
+      "Pop"
+    ],
+    "styles": [
+      "Psychedelic Rock",
+      "Alt-Pop",
+      "Folk Rock",
+      "Trip Hop",
+      "Soft Rock",
+      "Dream Pop",
+      "Ballad"
+    ],
+    "country": "USA & Europe",
+    "catalogNumber": "0806830",
+    "barcode": "0602508068300",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-jpz3xb",
@@ -2245,7 +3340,18 @@
       "B5. Everything's Not Lost",
       "B6. Life Is For Living"
     ],
-    "label": "Parlophone"
+    "label": "Parlophone",
+    "genres": [
+      "Rock"
+    ],
+    "styles": [
+      "Pop Rock",
+      "Alternative Rock"
+    ],
+    "country": "Worldwide",
+    "catalogNumber": "7243 5 27783 1 7.527 7831",
+    "edition": "再版",
+    "barcode": "0724352778317"
   },
   {
     "id": "musicbuddy-9ov0gr",
@@ -2268,6 +3374,15 @@
       "8. 美人計",
       "9. 大藝術家",
       "10. 特務J"
+    ],
+    "genres": [
+      "Pop",
+      "Electronic"
+    ],
+    "country": "Taiwan",
+    "styles": [
+      "Mandopop",
+      "Dance-pop"
     ]
   },
   {
@@ -2290,7 +3405,22 @@
       "B3. Ecstasy",
       "B4. Leave Me Alone"
     ],
-    "label": "Factory Records"
+    "label": "Factory Records",
+    "genres": [
+      "Rock",
+      "Electronic"
+    ],
+    "styles": [
+      "Synth-pop",
+      "New Wave"
+    ],
+    "country": "Europe",
+    "catalogNumber": "2564-68880-5",
+    "producers": [
+      "New Order"
+    ],
+    "edition": "再版",
+    "barcode": "0825646888054"
   },
   {
     "id": "musicbuddy-fyui8r",
@@ -2326,7 +3456,23 @@
       "2-8. The Writing Of Fragments Of Time",
       "2-9. Touch (2021 Epilogue)"
     ],
-    "label": "Columbia / Sony Music"
+    "label": "Columbia / Sony Music",
+    "genres": [
+      "Funk / Soul",
+      "Pop",
+      "Rock",
+      "Electronic"
+    ],
+    "styles": [
+      "Synth-pop",
+      "Funk",
+      "Disco",
+      "Electro"
+    ],
+    "country": "Japan",
+    "catalogNumber": "SICP 31615~6",
+    "edition": "再版",
+    "barcode": "4547366611366"
   },
   {
     "id": "musicbuddy-oddnjw",
@@ -2339,21 +3485,28 @@
     "zone": "unsorted",
     "dateAdded": "2026-02-09T12:30:56.810Z",
     "tracklist": [
-      "1. 奔",
-      "2. 我的爱",
-      "3. 祝你开心",
-      "4. 我也很想他",
-      "5. 听见",
-      "6. 慢慢来",
-      "7. 同类",
-      "8. 种",
-      "9. 反过来走走",
-      "10. Stefanie",
+      "1. 奔 [3:39]",
+      "2. 我的爱 [4:21]",
+      "3. 祝你开心 [3:50]",
+      "4. 我也很想他 [4:15]",
+      "5. 听见 [3:45]",
+      "6. 慢慢来 [3:43]",
+      "7. 同类 [3:30]",
+      "8. 种 [4:11]",
+      "9. 反过来走走 [3:49]",
+      "10. Stefanie [4:22]",
       "Bonus Track",
-      "11. Let's Vino",
-      "12. 未知的精彩"
+      "11. Let's Vino [3:40]",
+      "12. 未知的精彩 [3:08]"
     ],
-    "label": "华纳音乐"
+    "label": "华纳音乐",
+    "genres": [
+      "Pop"
+    ],
+    "country": "China",
+    "catalogNumber": "5MCD2044",
+    "edition": "再版",
+    "barcode": "9787799452944"
   },
   {
     "id": "musicbuddy-8a5u06",
@@ -2366,18 +3519,33 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:29:21.335Z",
     "tracklist": [
-      "A1. In My Secret Life",
-      "A2. A Thousand Kisses Deep",
-      "A3. That Don't Make It Junk",
-      "A4. Here It Is",
-      "A5. Love Itself",
-      "B1. By The Rivers Dark",
-      "B2. Alexandra Leaving",
-      "B3. You Have Loved Enough",
-      "B4. Boogie Street",
-      "B5. The Land Of Plenty"
+      "A1. In My Secret Life [4:53]",
+      "A2. A Thousand Kisses Deep [6:26]",
+      "A3. That Don't Make It Junk [4:26]",
+      "A4. Here It Is [4:16]",
+      "A5. Love Itself [5:23]",
+      "B1. By The Rivers Dark [5:18]",
+      "B2. Alexandra Leaving [5:22]",
+      "B3. You Have Loved Enough [5:39]",
+      "B4. Boogie Street [6:03]",
+      "B5. The Land Of Plenty [4:36]"
     ],
-    "label": "Columbia"
+    "label": "Columbia",
+    "genres": [
+      "Rock",
+      "Pop"
+    ],
+    "styles": [
+      "Ballad",
+      "Folk Rock"
+    ],
+    "country": "Europe",
+    "catalogNumber": "88985435371",
+    "producers": [
+      "Sharon Robinson"
+    ],
+    "edition": "再版,重新灌录",
+    "barcode": "0889854353711"
   },
   {
     "id": "musicbuddy-rgec7w",
@@ -2390,18 +3558,36 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T14:53:40.951Z",
     "tracklist": [
-      "1. Pusher Love Girl",
-      "2. Suit & Tie",
-      "3. Don’t Hold The Wall",
-      "4. Strawberry Bubblegum",
-      "5. Tunnel Vision",
-      "6. Spaceship Coupe",
-      "7. That Girl",
-      "8. Let The Groove Get In",
-      "9. Mirrors",
-      "10. Blue Ocean Floor"
+      "1. Pusher Love Girl [8:02]",
+      "2. Suit & Tie [5:26]",
+      "3. Don’t Hold The Wall [7:10]",
+      "4. Strawberry Bubblegum [7:59]",
+      "5. Tunnel Vision [6:46]",
+      "6. Spaceship Coupe [7:17]",
+      "7. That Girl [4:47]",
+      "8. Let The Groove Get In [7:11]",
+      "9. Mirrors [8:05]",
+      "10. Blue Ocean Floor [7:22]"
     ],
-    "label": "RCA Records"
+    "label": "RCA Records",
+    "genres": [
+      "Pop",
+      "Funk / Soul"
+    ],
+    "styles": [
+      "Contemporary R&B",
+      "Neo Soul"
+    ],
+    "country": "US",
+    "catalogNumber": "88765-47850-2",
+    "producers": [
+      "Rob Knox",
+      "Justin Timberlake",
+      "The Tennessee Kids",
+      "Jerome Harmon",
+      "Timbaland"
+    ],
+    "barcode": "0887654785022"
   },
   {
     "id": "musicbuddy-3iux62",
@@ -2414,27 +3600,41 @@
     "zone": "unsorted",
     "dateAdded": "2026-01-31T14:07:36.232Z",
     "tracklist": [
-      "1. 流れるは飛ぶに非ず = 流非飛",
-      "2. 私の願い = 我願意",
-      "3. 悔やまぬ心で = 執迷不悔",
-      "4. 誓言 = 誓言",
-      "5. この風,この空,この想い = 天與地",
-      "6. 夢中人 = 夢中人",
-      "7. うぬぼれ = 討好自己",
-      "8. 出口 = 出口",
-      "9. 背影 = 背影",
-      "10. 天空 = 天空",
-      "11. チェス = 棋子",
-      "12. 雪の中の蓮花 = 雪中蓮",
-      "13. 黄昏 = 黄昏",
-      "14. ディダー = Di Dar",
-      "15. 曖昧 = 曖昧",
-      "16. 無常 = 無常",
-      "17. いらいらする = 浮躁",
-      "18. がっかり= 掃興",
-      "19. 語り尽くせぬ愛 = 千言萬語 (Live)"
+      "1. 流れるは飛ぶに非ず = 流非飛 [3:46]",
+      "2. 私の願い = 我願意 [4:31]",
+      "3. 悔やまぬ心で = 執迷不悔 [5:23]",
+      "4. 誓言 = 誓言 [4:22]",
+      "5. この風,この空,この想い = 天與地 [4:44]",
+      "6. 夢中人 = 夢中人 [4:22]",
+      "7. うぬぼれ = 討好自己 [3:11]",
+      "8. 出口 = 出口 [3:59]",
+      "9. 背影 = 背影 [4:49]",
+      "10. 天空 = 天空 [4:22]",
+      "11. チェス = 棋子 [4:51]",
+      "12. 雪の中の蓮花 = 雪中蓮 [3:28]",
+      "13. 黄昏 = 黄昏 [3:18]",
+      "14. ディダー = Di Dar [2:30]",
+      "15. 曖昧 = 曖昧 [4:41]",
+      "16. 無常 = 無常 [2:36]",
+      "17. いらいらする = 浮躁 [3:02]",
+      "18. がっかり= 掃興 [4:10]",
+      "19. 語り尽くせぬ愛 = 千言萬語 (Live) [3:05]"
     ],
-    "label": "新力音乐"
+    "label": "新力音乐",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Vocal",
+      "Cantopop",
+      "Ballad",
+      "Indie Pop",
+      "Mandopop"
+    ],
+    "country": "Japan",
+    "catalogNumber": "UICY-2534",
+    "edition": "再版",
+    "barcode": "4988005304858"
   },
   {
     "id": "musicbuddy-1i3kfoz",
@@ -2448,17 +3648,30 @@
     "dateAdded": "2025-10-22T15:12:31.764Z",
     "tracklist": [
       "1 (a). Speak To Me",
-      "1 (b). Breathe In The Air",
-      "2. On The Run",
-      "3. Time",
-      "4. The Great Gig In The Sky",
-      "5. Money",
-      "6. Us And Them",
-      "7. Any Colour You Like",
-      "8. Brain Damage",
-      "9. Eclipse"
+      "1 (b). Breathe In The Air [3:57]",
+      "2. On The Run [3:31]",
+      "3. Time [7:05]",
+      "4. The Great Gig In The Sky [4:47]",
+      "5. Money [6:23]",
+      "6. Us And Them [7:48]",
+      "7. Any Colour You Like [3:25]",
+      "8. Brain Damage [3:50]",
+      "9. Eclipse [2:06]"
     ],
-    "label": "Harvest / EMI"
+    "label": "Harvest / EMI",
+    "genres": [
+      "Rock"
+    ],
+    "styles": [
+      "Prog Rock",
+      "Psychedelic Rock"
+    ],
+    "country": "UK",
+    "catalogNumber": "CDP 7 46001 2",
+    "producers": [
+      "Pink Floyd"
+    ],
+    "edition": "再版"
   },
   {
     "id": "musicbuddy-158k74e",
@@ -2482,7 +3695,19 @@
       "B4. Brain Damage",
       "B5. Eclipse"
     ],
-    "label": "Harvest / EMI"
+    "label": "Harvest / EMI",
+    "genres": [
+      "Rock"
+    ],
+    "styles": [
+      "Psychedelic Rock",
+      "Prog Rock"
+    ],
+    "country": "US",
+    "catalogNumber": "SMAS-11163",
+    "producers": [
+      "Pink Floyd"
+    ]
   },
   {
     "id": "musicbuddy-1sir1i0",
@@ -2496,34 +3721,46 @@
     "dateAdded": "2025-10-22T14:39:40.109Z",
     "tracklist": [
       "The Fame Monster",
-      "1-1. Bad Romance",
-      "1-2. Alejandro",
-      "1-3. Monster",
-      "1-4. Speechless",
-      "1-5. Dance In The Dark",
-      "1-6. Telephone",
-      "1-7. So Happy I Could Die",
-      "1-8. Teeth",
+      "1-1. Bad Romance [4:54]",
+      "1-2. Alejandro [4:34]",
+      "1-3. Monster [4:10]",
+      "1-4. Speechless [4:31]",
+      "1-5. Dance In The Dark [4:49]",
+      "1-6. Telephone [3:41]",
+      "1-7. So Happy I Could Die [3:55]",
+      "1-8. Teeth [3:41]",
       "The Fame",
-      "2-1. Just Dance",
-      "2-2. LoveGame",
-      "2-3. Paparazzi",
-      "2-4. Poker Face",
-      "2-5. I Like It Rough",
-      "2-6. Eh, Eh (Nothing Else I Can Say)",
-      "2-7. Starstruck",
-      "2-8. Beautiful, Dirty, Rich",
-      "2-9. The Fame",
-      "2-10. Money Honey",
-      "2-11. Boys Boys Boys",
-      "2-12. Paper Gangsta",
-      "2-13. Brown Eyes",
-      "2-14. Summerboy",
+      "2-1. Just Dance [3:54]",
+      "2-2. LoveGame [3:38]",
+      "2-3. Paparazzi [3:30]",
+      "2-4. Poker Face [3:48]",
+      "2-5. I Like It Rough [3:22]",
+      "2-6. Eh, Eh (Nothing Else I Can Say) [2:57]",
+      "2-7. Starstruck [3:35]",
+      "2-8. Beautiful, Dirty, Rich [2:54]",
+      "2-9. The Fame [3:44]",
+      "2-10. Money Honey [3:08]",
+      "2-11. Boys Boys Boys [3:22]",
+      "2-12. Paper Gangsta [4:23]",
+      "2-13. Brown Eyes [4:05]",
+      "2-14. Summerboy [4:16]",
       "Bonus Tracks",
-      "2-15. Disco Heaven",
-      "2-16. Retro Dance Freak"
+      "2-15. Disco Heaven [3:41]",
+      "2-16. Retro Dance Freak [3:23]"
     ],
-    "label": "Interscope Records"
+    "label": "Interscope Records",
+    "genres": [
+      "Pop",
+      "Electronic"
+    ],
+    "styles": [
+      "Dance-pop",
+      "Europop"
+    ],
+    "country": "Brazil",
+    "catalogNumber": "60252725276",
+    "barcode": "0602527252766",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-rrl1c5",
@@ -2553,7 +3790,20 @@
       "B5. Largo",
       "B6. Allegro"
     ],
-    "label": "Deutsche Grammophon"
+    "label": "Deutsche Grammophon",
+    "genres": [
+      "Classical"
+    ],
+    "styles": [
+      "Baroque"
+    ],
+    "country": "Germany",
+    "catalogNumber": "0190295871949",
+    "producers": [
+      "Peter Alward"
+    ],
+    "edition": "重新灌录,再版",
+    "barcode": "0190295871949"
   },
   {
     "id": "musicbuddy-3vkuz5",
@@ -2567,28 +3817,46 @@
     "dateAdded": "2025-10-22T13:57:34.058Z",
     "tracklist": [
       "坂本龍一",
-      "A1. First Coronation",
-      "A2. Open The Door",
-      "A3. Where Is Armo?",
-      "A4. Picking Up Brides",
-      "A5. The Last Emperor - Theme Variation 1",
-      "A6. Rain (I Want A Divorce)",
-      "A7. The Baby (Was Born Dead)",
-      "A8. The Last Emperor - Theme Variation 2",
-      "A9. The Last Emperor - Theme",
+      "A1. First Coronation [1:45]",
+      "A2. Open The Door [2:55]",
+      "A3. Where Is Armo? [2:26]",
+      "A4. Picking Up Brides [2:39]",
+      "A5. The Last Emperor - Theme Variation 1 [2:19]",
+      "A6. Rain (I Want A Divorce) [1:50]",
+      "A7. The Baby (Was Born Dead) [0:56]",
+      "A8. The Last Emperor - Theme Variation 2 [4:29]",
+      "A9. The Last Emperor - Theme [5:52]",
       "David Byrne",
-      "B1. Main Title Theme (The Last Emperor)",
-      "B2. Picking A Bride",
-      "B3. Bed",
-      "B4. Wind, Rain And Water",
-      "B5. Paper Emperor",
+      "B1. Main Title Theme (The Last Emperor) [4:01]",
+      "B2. Picking A Bride [1:59]",
+      "B3. Bed [5:00]",
+      "B4. Wind, Rain And Water [2:17]",
+      "B5. Paper Emperor [1:48]",
       "-",
-      "B6. Lunch",
-      "B7. Red Guard",
-      "B8. The Emperor's Waltz",
-      "B9. The Red Guard Dance"
+      "B6. Lunch [4:02]",
+      "B7. Red Guard [2:13]",
+      "B8. The Emperor's Waltz [3:07]",
+      "B9. The Red Guard Dance [0:37]"
     ],
-    "label": "Milan Records"
+    "label": "Milan Records",
+    "genres": [
+      "Classical",
+      "Stage & Screen"
+    ],
+    "styles": [
+      "Soundtrack",
+      "Contemporary"
+    ],
+    "country": "Europe",
+    "catalogNumber": "MOVATM305",
+    "producers": [
+      "Aki Ikuta",
+      "Ryuichi Sakamoto",
+      "David Byrne",
+      "Hans Zimmer"
+    ],
+    "edition": "重新灌录,再版",
+    "barcode": "0600753927441"
   },
   {
     "id": "musicbuddy-3pbs9w",
@@ -2601,19 +3869,34 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:08:05.292Z",
     "tracklist": [
-      "1. 惡之必要",
-      "2. 玫瑰少年",
-      "3. 怪美的",
-      "4. 你也有今天",
-      "5. 紅衣女孩",
-      "6. 甜秘密",
-      "7. 愛的羅曼死",
-      "8. 如果我沒有傷口",
-      "9. 腦公",
-      "10. 消極掰",
-      "11. 你睡醒再看"
+      "1. 惡之必要 [3:50]",
+      "2. 玫瑰少年 [3:11]",
+      "3. 怪美的 [3:03]",
+      "4. 你也有今天 [3:06]",
+      "5. 紅衣女孩 [3:15]",
+      "6. 甜秘密 [3:27]",
+      "7. 愛的羅曼死 [4:39]",
+      "8. 如果我沒有傷口 [5:02]",
+      "9. 腦公 [2:55]",
+      "10. 消極掰 [3:02]",
+      "11. 你睡醒再看 [3:42]"
     ],
-    "label": "索尼音乐"
+    "label": "索尼音乐",
+    "genres": [
+      "Electronic",
+      "Pop"
+    ],
+    "styles": [
+      "Tropical House",
+      "Mandopop",
+      "Trip Hop",
+      "Downtempo",
+      "Big Beat",
+      "Trap",
+      "Ballad"
+    ],
+    "country": "Taiwan",
+    "catalogNumber": "19075923992"
   },
   {
     "id": "musicbuddy-1if4ljd",
@@ -2642,7 +3925,31 @@
       "D3. Guns And Roses",
       "D4. Florida Kilos"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Rock",
+      "Electronic",
+      "Pop"
+    ],
+    "styles": [
+      "Ballad",
+      "Downtempo",
+      "Dream Pop"
+    ],
+    "country": "UK",
+    "catalogNumber": "3787448",
+    "producers": [
+      "Blake Stranathan",
+      "Rick Nowels",
+      "Dan Auerbach",
+      "Dan Heath",
+      "Paul Epworth",
+      "Greg Kurstin",
+      "Lee Foster (3)",
+      "Lana Del Rey"
+    ],
+    "barcode": "0602537874484",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-18cia3c",
@@ -2655,22 +3962,37 @@
     "zone": "unsorted",
     "dateAdded": "2025-10-22T15:39:15.400Z",
     "tracklist": [
-      "A1. L.A. Who Am I To Love You",
-      "A2. The Land Of 1,000 Fires",
-      "A3. Violet Bent Backwards Over The Grass",
-      "A4. Past The Bushes Cypress Thriving",
-      "A5. Salamander",
-      "A6. Never To Heaven",
-      "B1. Sportcruiser",
-      "B2. Tess Dipietro",
-      "B3. Quiet Waiter Blue Forever",
-      "B4. What Happened When I Left You",
-      "B5. Happy",
-      "B6. My Bedroom Is A Sacred Place Now - There Are Children At The Foot Of My Bed",
-      "B7. Paradise Is Very Fragile",
-      "B8. Bare Feet On Linoleum"
+      "A1. L.A. Who Am I To Love You [5:20]",
+      "A2. The Land Of 1,000 Fires [4:04]",
+      "A3. Violet Bent Backwards Over The Grass [1:05]",
+      "A4. Past The Bushes Cypress Thriving [1:54]",
+      "A5. Salamander [1:54]",
+      "A6. Never To Heaven [2:06]",
+      "B1. Sportcruiser [6:54]",
+      "B2. Tess Dipietro [2:01]",
+      "B3. Quiet Waiter Blue Forever [1:29]",
+      "B4. What Happened When I Left You [1:19]",
+      "B5. Happy [2:22]",
+      "B6. My Bedroom Is A Sacred Place Now - There Are Children At The Foot Of My Bed [2:02]",
+      "B7. Paradise Is Very Fragile [3:38]",
+      "B8. Bare Feet On Linoleum [2:54]"
     ],
-    "label": "Polydor / Interscope"
+    "label": "Polydor / Interscope",
+    "genres": [
+      "Rock"
+    ],
+    "styles": [
+      "Poetry",
+      "Experimental",
+      "Spoken Word"
+    ],
+    "country": "US",
+    "catalogNumber": "B0032628-01",
+    "producers": [
+      "Lana Del Rey",
+      "Jack Antonoff"
+    ],
+    "barcode": "0602507429812"
   },
   {
     "id": "musicbuddy-1pp17bz",
@@ -2697,7 +4019,20 @@
       "D3. 翼をください",
       "D4. 卒業写真"
     ],
-    "label": "Universal Music Japan"
+    "label": "Universal Music Japan",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "J-pop"
+    ],
+    "country": "Japan",
+    "catalogNumber": "UPJY-9490/1",
+    "producers": [
+      "Hideaki Tokunaga"
+    ],
+    "barcode": "4988031681169",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1v55dos",
@@ -2724,7 +4059,21 @@
       "D3. あの鐘を鳴らすのはあなた",
       "D4. 未来予想図"
     ],
-    "label": "Universal Music Japan"
+    "label": "Universal Music Japan",
+    "genres": [
+      "Pop",
+      "Folk",
+      "World",
+      "& Country"
+    ],
+    "styles": [
+      "J-pop",
+      "Enka"
+    ],
+    "country": "Japan",
+    "catalogNumber": "UPJY-9496/7",
+    "barcode": "4988031687352",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-mp9gdd",
@@ -2751,7 +4100,17 @@
       "D2. 告白",
       "D3. 春なのに"
     ],
-    "label": "Universal Music Japan"
+    "label": "Universal Music Japan",
+    "genres": [
+      "Pop"
+    ],
+    "styles": [
+      "Kayōkyoku"
+    ],
+    "country": "Japan",
+    "catalogNumber": "UPJY-9502",
+    "barcode": "4988031690178",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1sk9bue",
@@ -2790,7 +4149,25 @@
       "D1. The Lady Caliph: Dinner",
       "D2. The Lady Caliph: Nocturne"
     ],
-    "label": "Sony Classical"
+    "label": "Sony Classical",
+    "genres": [
+      "Stage & Screen",
+      "Classical"
+    ],
+    "styles": [
+      "Contemporary",
+      "Neo-Classical",
+      "Theme",
+      "Post-Modern",
+      "Modern"
+    ],
+    "country": "Europe",
+    "catalogNumber": "MOVATM075",
+    "producers": [
+      "Ennio Morricone"
+    ],
+    "edition": "再版",
+    "numberOfVolumes": 2
   },
   {
     "id": "musicbuddy-1t7oysg",
@@ -2804,31 +4181,49 @@
     "dateAdded": "2026-07-12T12:58:04.421Z",
     "tracklist": [
       "The Mission",
-      "1. Gabriel's Oboe",
-      "2. The Falls",
+      "1. Gabriel's Oboe [3:11]",
+      "2. The Falls [2:27]",
       "Giuseppe Tornatore Suite",
-      "3. The Legend Of 1900: Playing Love",
-      "4. Cinema Paradiso: Nostalgia",
-      "5. Cinema Paradiso: Looking For You",
-      "6. Malena: Main Theme",
-      "7. A Pure Formality: Main Theme",
+      "3. The Legend Of 1900: Playing Love [1:49]",
+      "4. Cinema Paradiso: Nostalgia [1:58]",
+      "5. Cinema Paradiso: Looking For You [1:43]",
+      "6. Malena: Main Theme [4:22]",
+      "7. A Pure Formality: Main Theme [3:49]",
       "Sergio Leone Suite",
-      "8. Once Upon A Time In America: Deborah's Theme",
-      "9. Once Upon A Time In America: Cockeye's Song",
-      "10. Once Upon A Time In America: Main Theme",
-      "11. Once Upon A Time In The West: Main Theme",
-      "12. The Good, The Bad And The Ugly: Ecstasy Of Gold",
+      "8. Once Upon A Time In America: Deborah's Theme [3:32]",
+      "9. Once Upon A Time In America: Cockeye's Song [2:13]",
+      "10. Once Upon A Time In America: Main Theme [1:49]",
+      "11. Once Upon A Time In The West: Main Theme [3:21]",
+      "12. The Good, The Bad And The Ugly: Ecstasy Of Gold [3:57]",
       "Brian De Palma Suite",
-      "13. Casualties Of War: Main Theme",
-      "14. The Untouchables: Death Theme",
+      "13. Casualties Of War: Main Theme [3:54]",
+      "14. The Untouchables: Death Theme [3:10]",
       "Moses And Marco Polo Suite",
-      "15. Moses: Journey",
-      "16. Moses: Main Theme",
-      "17. Marco Polo: Main Theme",
+      "15. Moses: Journey [2:34]",
+      "16. Moses: Main Theme [2:07]",
+      "17. Marco Polo: Main Theme [3:21]",
       "The Lady Caliph",
-      "18. Dinner",
-      "19. Nocturne"
+      "18. Dinner [3:51]",
+      "19. Nocturne [2:33]"
     ],
-    "label": "Sony Classical"
+    "label": "Sony Classical",
+    "genres": [
+      "Stage & Screen",
+      "Classical"
+    ],
+    "styles": [
+      "Post-Modern",
+      "Neo-Classical",
+      "Theme",
+      "Contemporary",
+      "Modern"
+    ],
+    "country": "US",
+    "catalogNumber": "88697 56280 2",
+    "producers": [
+      "Ennio Morricone"
+    ],
+    "edition": "再版",
+    "barcode": "0886975628025"
   }
 ]

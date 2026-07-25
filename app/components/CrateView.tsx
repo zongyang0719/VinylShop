@@ -51,9 +51,18 @@ export function CrateView({ albums, onInspect }: CrateViewProps) {
   }, [artistGroups]);
 
   const [activeAlbumIdx, setActiveAlbumIdx] = useState(4);
+  const [rackJump, setRackJump] = useState<{
+    index: number;
+    token: number;
+  } | null>(null);
   const handleArtistChange = useCallback(
     (index: number) => {
-      setActiveAlbumIdx(groupStarts[index] ?? 0);
+      const albumIndex = groupStarts[index] ?? 0;
+      setActiveAlbumIdx(albumIndex);
+      setRackJump((previous) => ({
+        index: albumIndex,
+        token: (previous?.token ?? 0) + 1,
+      }));
     },
     [groupStarts],
   );
@@ -86,15 +95,11 @@ export function CrateView({ albums, onInspect }: CrateViewProps) {
           onInspect={onInspect}
           activeIndex={safeActiveIndex}
           onActiveIndexChange={setActiveAlbumIdx}
+          jumpRequest={rackJump}
         />
         <div className="crate-depth-blur crate-depth-blur--top" aria-hidden="true" />
         <div className="crate-depth-blur crate-depth-blur--bottom" aria-hidden="true" />
-        <div
-          className="crate-position-dots"
-          data-at-start={safeActiveIndex === 0 || undefined}
-          data-at-end={safeActiveIndex === albums.length - 1 || undefined}
-          aria-hidden="true"
-        >
+        <div className="crate-position-dots" aria-hidden="true">
           <span />
           <span className="is-current" />
           <span />

@@ -2387,6 +2387,12 @@ a:focus-visible {
   background: rgba(0, 113, 227, 0.14);
 }
 
+.mono-text {
+  font-family: "SF Mono", "Menlo", "Monaco", "Cascadia Mono", monospace;
+  font-size: 0.88em;
+  letter-spacing: 0.03em;
+}
+
 .cover-search {
   width: 100%;
 }

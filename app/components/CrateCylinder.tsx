@@ -8,7 +8,11 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { recordRackTransform } from "./recordRackGeometry";
+import {
+  nearestRecordOccurrence,
+  recordRackTransform,
+  wrapRecordIndex,
+} from "./recordRackGeometry";
 import type { Album } from "@/app/lib/store";
 
 /* ─── cylinder geometry ──────────────────────────── */
@@ -20,10 +24,6 @@ function proxy(url: string) {
   return url.startsWith("/")
     ? url
     : `/api/douban?img=${encodeURIComponent(url)}`;
-}
-
-function clamp(v: number, n: number) {
-  return Math.min(Math.max(v, 0), Math.max(n - 1, 0));
 }
 
 const PAL = [
@@ -150,6 +150,7 @@ type Props = {
   onInspect: (album: Album) => void;
   activeIndex: number;
   onActiveIndexChange: (i: number) => void;
+  jumpRequest: { index: number; token: number } | null;
 };
 
 export function CrateCylinder({
@@ -157,11 +158,14 @@ export function CrateCylinder({
   onInspect,
   activeIndex,
   onActiveIndexChange,
+  jumpRequest,
 }: Props) {
   const vp = useRef<HTMLDivElement>(null);
   const scroll = useRef(activeIndex);
   const target = useRef(activeIndex);
-  const active = useRef(activeIndex);
+  const activeAlbum = useRef(activeIndex);
+  const activeVirtual = useRef(activeIndex);
+  const [renderCenter, setRenderCenter] = useState(activeIndex);
   const vel = useRef(0);
   const raf = useRef(0);
   const pt = useRef(0);
@@ -177,21 +181,39 @@ export function CrateCylinder({
 
   const commit = useCallback(
     (v: number) => {
-      const n = clamp(Math.round(v), albums.length);
-      if (n !== active.current) {
-        active.current = n;
-        onActiveIndexChange(n);
+      if (!albums.length) return;
+      const virtualIndex = Math.round(v);
+      const albumIndex = wrapRecordIndex(
+        virtualIndex,
+        albums.length,
+      );
+
+      if (virtualIndex !== activeVirtual.current) {
+        activeVirtual.current = virtualIndex;
+        setRenderCenter(virtualIndex);
+      }
+      if (albumIndex !== activeAlbum.current) {
+        activeAlbum.current = albumIndex;
+        onActiveIndexChange(albumIndex);
       }
     },
     [albums.length, onActiveIndexChange],
   );
 
   useEffect(() => {
-    const changedOutsideRack = activeIndex !== active.current;
-    active.current = activeIndex;
-    if (changedOutsideRack) target.current = activeIndex;
+    if (!albums.length || !jumpRequest) return;
+    const normalizedIndex = wrapRecordIndex(
+      jumpRequest.index,
+      albums.length,
+    );
+    activeAlbum.current = normalizedIndex;
+    target.current = nearestRecordOccurrence(
+      normalizedIndex,
+      target.current,
+      albums.length,
+    );
     wake.current();
-  }, [activeIndex]);
+  }, [albums.length, jumpRequest]);
 
   /* ── animation loop ── */
   useEffect(() => {
@@ -204,17 +226,13 @@ export function CrateCylinder({
 
       if (Math.abs(vel.current) > 0.06) {
         target.current += vel.current * dt;
-        target.current = clamp(target.current, albums.length);
         vel.current *= Math.pow(0.9, dt * 60);
       } else if (
         Math.abs(vel.current) > 0.001 &&
         !drag.current
       ) {
         vel.current = 0;
-        target.current = clamp(
-          Math.round(target.current),
-          albums.length,
-        );
+        target.current = Math.round(target.current);
       }
 
       const diff = target.current - scroll.current;
@@ -279,11 +297,8 @@ export function CrateCylinder({
         Math.abs(e.deltaY) >= Math.abs(e.deltaX)
           ? e.deltaY
           : e.deltaX;
-      target.current = clamp(
-        target.current +
-          Math.sign(d) * Math.min(Math.abs(d) / 120, 0.8),
-        albums.length,
-      );
+      target.current +=
+        Math.sign(d) * Math.min(Math.abs(d) / 120, 0.8);
       vel.current = 0;
       wake.current();
     };
@@ -315,10 +330,7 @@ export function CrateCylinder({
         d.ly = e.clientY;
         d.lt = now;
       }
-      target.current = clamp(
-        d.s0 + dist / PX_PER,
-        albums.length,
-      );
+      target.current = d.s0 + dist / PX_PER;
       wake.current();
     };
 
@@ -326,10 +338,7 @@ export function CrateCylinder({
       const d = drag.current;
       if (!d || d.pid !== e.pointerId) return;
       if (Math.abs(vel.current) < 0.4) {
-        target.current = clamp(
-          Math.round(target.current),
-          albums.length,
-        );
+        target.current = Math.round(target.current);
         vel.current = 0;
       }
       drag.current = null;
@@ -351,10 +360,7 @@ export function CrateCylinder({
                 : 0;
       if (!delta) return;
       e.preventDefault();
-      target.current = clamp(
-        Math.round(target.current) + delta,
-        albums.length,
-      );
+      target.current = Math.round(target.current) + delta;
       vel.current = 0;
       wake.current();
     };
@@ -376,14 +382,28 @@ export function CrateCylinder({
   }, [albums.length, commit]);
 
   /* ── render ── */
-  const s = Math.max(0, activeIndex - RANGE);
-  const e = Math.min(albums.length, activeIndex + RANGE + 1);
-  const visibleRecords = albums
-    .slice(s, e)
-    .map((album, offset) => ({ album, index: s + offset }))
+  const visibleRecords = Array.from(
+    { length: albums.length ? RANGE * 2 + 1 : 0 },
+    (_, offset) => {
+      const virtualIndex = renderCenter - RANGE + offset;
+      const albumIndex = wrapRecordIndex(
+        virtualIndex,
+        albums.length,
+      );
+      return {
+        album: albums[albumIndex],
+        albumIndex,
+        virtualIndex,
+      };
+    },
+  )
     .sort((left, right) => {
-      const leftDistance = Math.abs(left.index - activeIndex);
-      const rightDistance = Math.abs(right.index - activeIndex);
+      const leftDistance = Math.abs(
+        left.virtualIndex - renderCenter,
+      );
+      const rightDistance = Math.abs(
+        right.virtualIndex - renderCenter,
+      );
       return rightDistance - leftDistance;
     });
 
@@ -392,33 +412,41 @@ export function CrateCylinder({
       ref={vp}
       className="cyl-viewport"
       tabIndex={0}
-      aria-label="3D 唱片浏览。上下滚动、拖动或使用方向键挑选，点击当前唱片打开详情。"
+      aria-label="3D 唱片浏览。可无限循环；上下滚动、拖动或使用方向键挑选，点击当前唱片打开详情。"
     >
-      {visibleRecords.map(({ album: a, index: i }) => {
-        return (
-          <div
-            key={a.id}
-            className="cyl-item"
-            data-i={i}
-            data-active={i === activeIndex || undefined}
-            style={{
-              transform: recordRackTransform(i, activeIndex),
-            }}
-            onClick={() => {
-              if (drag.current?.moved) return;
-              if (i === active.current) {
-                onInspect(a);
-              } else {
-                target.current = i;
-                vel.current = 0;
-                wake.current();
+      {visibleRecords.map(
+        ({ album: a, albumIndex, virtualIndex }) => {
+          return (
+            <div
+              key={`${a.id}:${virtualIndex}`}
+              className="cyl-item"
+              data-i={virtualIndex}
+              data-album-index={albumIndex}
+              data-active={
+                virtualIndex === renderCenter || undefined
               }
-            }}
-          >
-            <Slot album={a} />
-          </div>
-        );
-      })}
+              style={{
+                transform: recordRackTransform(
+                  virtualIndex,
+                  renderCenter,
+                ),
+              }}
+              onClick={() => {
+                if (drag.current?.moved) return;
+                if (virtualIndex === activeVirtual.current) {
+                  onInspect(a);
+                } else {
+                  target.current = virtualIndex;
+                  vel.current = 0;
+                  wake.current();
+                }
+              }}
+            >
+              <Slot album={a} />
+            </div>
+          );
+        },
+      )}
     </div>
   );
 }

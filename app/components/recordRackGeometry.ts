@@ -27,6 +27,24 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
+export function wrapRecordIndex(index: number, length: number) {
+  if (length <= 0) return 0;
+  return ((index % length) + length) % length;
+}
+
+export function nearestRecordOccurrence(
+  index: number,
+  reference: number,
+  length: number,
+) {
+  if (length <= 0) return 0;
+  const normalized = wrapRecordIndex(index, length);
+  return (
+    normalized +
+    Math.round((reference - normalized) / length) * length
+  );
+}
+
 export function computeRecordRackPose(
   index: number,
   scroll: number,

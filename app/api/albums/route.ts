@@ -61,6 +61,24 @@ function normalizeAlbum(value: unknown): Album | null {
         }
       : {}),
     ...(input.label?.trim() ? { label: input.label.trim() } : {}),
+    ...(Array.isArray(input.genres) && input.genres.length
+      ? { genres: input.genres.map((g) => g.trim()).filter(Boolean) }
+      : {}),
+    ...(Array.isArray(input.styles) && input.styles.length
+      ? { styles: input.styles.map((s) => s.trim()).filter(Boolean) }
+      : {}),
+    ...(input.country?.trim() ? { country: input.country.trim() } : {}),
+    ...(input.catalogNumber?.trim()
+      ? { catalogNumber: input.catalogNumber.trim() }
+      : {}),
+    ...(Array.isArray(input.producers) && input.producers.length
+      ? { producers: input.producers.map((p) => p.trim()).filter(Boolean) }
+      : {}),
+    ...(input.edition?.trim() ? { edition: input.edition.trim() } : {}),
+    ...(input.barcode?.trim() ? { barcode: input.barcode.trim() } : {}),
+    ...(input.numberOfVolumes && Number(input.numberOfVolumes) > 1
+      ? { numberOfVolumes: Number(input.numberOfVolumes) }
+      : {}),
     ...(input.vinylColor?.trim() ? { vinylColor: input.vinylColor.trim() } : {}),
     ...(input.vinylStyle ? { vinylStyle: input.vinylStyle as VinylStyle } : {}),
   };
@@ -84,6 +102,16 @@ function toRow(album: Album) {
     doubanUrl: album.doubanUrl ?? null,
     tracklistJson: album.tracklist ? JSON.stringify(album.tracklist) : null,
     label: album.label ?? null,
+    genresJson: album.genres?.length ? JSON.stringify(album.genres) : null,
+    stylesJson: album.styles?.length ? JSON.stringify(album.styles) : null,
+    country: album.country ?? null,
+    catalogNumber: album.catalogNumber ?? null,
+    producersJson: album.producers?.length
+      ? JSON.stringify(album.producers)
+      : null,
+    edition: album.edition ?? null,
+    barcode: album.barcode ?? null,
+    numberOfVolumes: album.numberOfVolumes ?? null,
     vinylColor: album.vinylColor ?? null,
     vinylStyle: album.vinylStyle ?? null,
     updatedAt: new Date().toISOString(),
@@ -122,6 +150,22 @@ function fromRow(row: typeof albumsTable.$inferSelect): Album {
     ...(row.doubanUrl ? { doubanUrl: row.doubanUrl } : {}),
     ...(tracklist?.length ? { tracklist } : {}),
     ...(row.label ? { label: row.label } : {}),
+    ...(row.genresJson
+      ? { genres: JSON.parse(row.genresJson as string) as string[] }
+      : {}),
+    ...(row.stylesJson
+      ? { styles: JSON.parse(row.stylesJson as string) as string[] }
+      : {}),
+    ...(row.country ? { country: row.country } : {}),
+    ...(row.catalogNumber ? { catalogNumber: row.catalogNumber } : {}),
+    ...(row.producersJson
+      ? { producers: JSON.parse(row.producersJson as string) as string[] }
+      : {}),
+    ...(row.edition ? { edition: row.edition } : {}),
+    ...(row.barcode ? { barcode: row.barcode } : {}),
+    ...(row.numberOfVolumes && (row.numberOfVolumes as number) > 1
+      ? { numberOfVolumes: row.numberOfVolumes as number }
+      : {}),
     ...(row.vinylColor ? { vinylColor: row.vinylColor } : {}),
     ...(row.vinylStyle ? { vinylStyle: row.vinylStyle as VinylStyle } : {}),
   };
@@ -247,6 +291,14 @@ export async function POST(request: Request) {
             doubanUrl: sql`excluded.douban_url`,
             tracklistJson: sql`excluded.tracklist_json`,
             label: sql`excluded.label`,
+            genresJson: sql`excluded.genres_json`,
+            stylesJson: sql`excluded.styles_json`,
+            country: sql`excluded.country`,
+            catalogNumber: sql`excluded.catalog_number`,
+            producersJson: sql`excluded.producers_json`,
+            edition: sql`excluded.edition`,
+            barcode: sql`excluded.barcode`,
+            numberOfVolumes: sql`excluded.number_of_volumes`,
             vinylColor: sql`excluded.vinyl_color`,
             vinylStyle: sql`excluded.vinyl_style`,
             updatedAt: sql`excluded.updated_at`,
