@@ -11,8 +11,9 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { RecordBox } from "./RecordBox";
 import type { Album } from "@/app/lib/store";
 
-const TRACK_SPACING = 5.2;
-const TRACK_ORIGIN = -3.2;
+const RING_RADIUS = 3.55;
+const RING_STEP = 0.285;
+const RING_ORIGIN_Z = -2.7;
 
 type CrateSceneProps = {
   albums: Album[];
@@ -31,7 +32,7 @@ function CrateRecords({
   activeIndex,
   onActiveIndexChange,
 }: CrateSceneProps) {
-  const { gl } = useThree();
+  const { gl, invalidate } = useThree();
   const targetIndexRef = useRef(activeIndex);
   const currentIndexRef = useRef(activeIndex);
   const activeIndexRef = useRef(activeIndex);
@@ -73,6 +74,7 @@ function CrateRecords({
         albums.length,
       );
       commitIndex(targetIndexRef.current);
+      invalidate();
     };
 
     const onPointerDown = (event: PointerEvent) => {
@@ -96,6 +98,7 @@ function CrateRecords({
         albums.length,
       );
       commitIndex(targetIndexRef.current);
+      invalidate();
     };
 
     const onPointerUp = (event: PointerEvent) => {
@@ -106,6 +109,7 @@ function CrateRecords({
         albums.length,
       );
       commitIndex(targetIndexRef.current);
+      invalidate();
       dragRef.current = null;
       if (canvas.hasPointerCapture(event.pointerId)) {
         canvas.releasePointerCapture(event.pointerId);
@@ -130,6 +134,7 @@ function CrateRecords({
         albums.length,
       );
       commitIndex(targetIndexRef.current);
+      invalidate();
     };
 
     canvas.addEventListener("wheel", onWheel, { passive: false });
@@ -147,17 +152,26 @@ function CrateRecords({
       canvas.removeEventListener("pointercancel", onPointerUp);
       canvas.removeEventListener("keydown", onKeyDown);
     };
-  }, [albums.length, commitIndex, gl]);
+  }, [albums.length, commitIndex, gl, invalidate]);
 
   useFrame((_, delta) => {
+    const difference = targetIndexRef.current - currentIndexRef.current;
+    if (Math.abs(difference) < 0.0005) {
+      currentIndexRef.current = targetIndexRef.current;
+      return;
+    }
     const response = 1 - Math.exp(-delta / 0.14);
-    currentIndexRef.current +=
-      (targetIndexRef.current - currentIndexRef.current) * response;
+    currentIndexRef.current += difference * response;
+    invalidate();
   });
+
+  const visibleStart = Math.max(0, activeIndex - 6);
+  const visibleEnd = Math.min(albums.length, activeIndex + 7);
 
   return (
     <group>
-      {albums.map((album, index) => {
+      {albums.slice(visibleStart, visibleEnd).map((album, offset) => {
+        const index = visibleStart + offset;
         const isActive = index === activeIndex;
         return (
           <RecordBox
@@ -165,9 +179,9 @@ function CrateRecords({
             album={album}
             index={index}
             progressRef={currentIndexRef}
-            trackOrigin={TRACK_ORIGIN}
-            trackSpacing={TRACK_SPACING}
-            visible={index - activeIndex >= -7 && index - activeIndex <= 3}
+            ringRadius={RING_RADIUS}
+            ringStep={RING_STEP}
+            ringOriginZ={RING_ORIGIN_Z}
             active={isActive}
             onClick={() => {
               if (dragRef.current?.moved) return;
@@ -203,17 +217,16 @@ export function CrateScene(props: CrateSceneProps) {
     <Canvas
       key={wide ? "wide" : "phone"}
       dpr={[1, 1.5]}
+      frameloop="demand"
       tabIndex={0}
       aria-label="3D 唱片浏览。上下滚动、拖动或使用方向键挑选，点击当前唱片打开详情。"
       camera={{
-        fov: wide ? 7.8 : 16.4,
+        fov: wide ? 7.4 : 12.2,
         near: 0.1,
         far: 140,
-        position: [0, wide ? 6.2 : 7.4, 40],
+        position: [0, 0, 40],
       }}
-      onCreated={({ camera }) =>
-        camera.lookAt(0, 0, wide ? -1.3 : -1.5)
-      }
+      onCreated={({ camera }) => camera.lookAt(0, wide ? -0.1 : -0.28, -2.2)}
       gl={{
         antialias: true,
         alpha: false,

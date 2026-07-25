@@ -7,12 +7,15 @@ import {
   useState,
   type MutableRefObject,
 } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import {
+  BoxGeometry,
   CanvasTexture,
+  LinearMipmapLinearFilter,
   LinearFilter,
   MathUtils,
   MeshBasicMaterial,
+  PlaneGeometry,
   SRGBColorSpace,
   TextureLoader,
   type Group,
@@ -23,14 +26,18 @@ import type { Album } from "@/app/lib/store";
 const BOX_W = 3.3;
 const BOX_H = 0.05;
 const BOX_D = 3.3;
+const BOX_GEOMETRY = new BoxGeometry(BOX_W, BOX_H, BOX_D);
+const SPINE_GEOMETRY = new PlaneGeometry(BOX_W - 0.028, 0.1);
+const ACTIVE_HIT_GEOMETRY = new PlaneGeometry(BOX_W, 0.48);
+const COVER_LOADER = new TextureLoader();
 
 type RecordBoxProps = {
   album: Album;
   index: number;
   progressRef: MutableRefObject<number>;
-  trackOrigin: number;
-  trackSpacing: number;
-  visible?: boolean;
+  ringRadius: number;
+  ringStep: number;
+  ringOriginZ: number;
   active?: boolean;
   onClick?: () => void;
 };
@@ -147,13 +154,14 @@ export function RecordBox({
   album,
   index,
   progressRef,
-  trackOrigin,
-  trackSpacing,
-  visible = true,
+  ringRadius,
+  ringStep,
+  ringOriginZ,
   active = false,
   onClick,
 }: RecordBoxProps) {
   const groupRef = useRef<Group>(null);
+  const invalidate = useThree((state) => state.invalidate);
   const [hovered, setHovered] = useState(false);
   const [texture, setTexture] = useState<Texture | null>(null);
   const [spineColor, setSpineColor] = useState(() =>
@@ -162,18 +170,18 @@ export function RecordBox({
 
   useEffect(() => {
     let cancelled = false;
-    const loader = new TextureLoader();
     let loadedTexture: Texture | null = null;
 
-    loader.load(
+    COVER_LOADER.load(
       proxyCoverUrl(album.coverUrl),
       (nextTexture) => {
         if (cancelled) {
           nextTexture.dispose();
           return;
         }
-        nextTexture.minFilter = LinearFilter;
-        nextTexture.generateMipmaps = false;
+        nextTexture.minFilter = LinearMipmapLinearFilter;
+        nextTexture.generateMipmaps = true;
+        nextTexture.anisotropy = 4;
         nextTexture.colorSpace = SRGBColorSpace;
         loadedTexture = nextTexture;
         setTexture(nextTexture);
@@ -205,23 +213,24 @@ export function RecordBox({
   );
 
   const boxMaterials = useMemo(() => {
-    const edge = () => new MeshBasicMaterial({ color: spineColor });
+    const edge = new MeshBasicMaterial({ color: spineColor });
+    const cover = new MeshBasicMaterial({
+      color: texture ? "#ffffff" : spineColor,
+      map: texture,
+    });
     return [
-      edge(),
-      edge(),
-      new MeshBasicMaterial({
-        color: texture ? "#ffffff" : spineColor,
-        map: texture,
-      }),
-      edge(),
-      edge(),
-      edge(),
+      edge,
+      edge,
+      cover,
+      cover,
+      edge,
+      edge,
     ];
   }, [spineColor, texture]);
 
   useEffect(
     () => () => {
-      boxMaterials.forEach((material) => material.dispose());
+      new Set(boxMaterials).forEach((material) => material.dispose());
     },
     [boxMaterials],
   );
@@ -240,34 +249,38 @@ export function RecordBox({
     const focus = Math.exp(-relative * relative * 1.8);
     const response = 1 - Math.exp(-delta / 0.13);
     const hoverLift = hovered && active ? 0.08 : 0;
-    const targetX = yaw * Math.min(Math.abs(relative), 5) * 1.7;
-    const targetY = focus * 0.08 + hoverLift;
-    const targetZ = relative * trackSpacing + trackOrigin;
-    const perspectiveCompensation = MathUtils.clamp(
-      1 - (relative * trackSpacing) / 58,
-      0.64,
-      1.3,
+    const angle = MathUtils.clamp(
+      relative * ringStep,
+      -Math.PI * 0.47,
+      Math.PI * 0.47,
     );
+    const targetX = yaw * Math.min(Math.abs(relative), 5) * 0.6;
+    const targetY = -Math.sin(angle) * ringRadius + hoverLift;
+    const targetZ =
+      ringOriginZ + (1 - Math.cos(angle)) * ringRadius + focus * 0.08;
+    const targetScale = 1 + focus * 0.045;
+    const moving =
+      Math.abs(group.position.x - targetX) > 0.0005 ||
+      Math.abs(group.position.y - targetY) > 0.0005 ||
+      Math.abs(group.position.z - targetZ) > 0.0005 ||
+      Math.abs(group.rotation.x - angle) > 0.0005 ||
+      Math.abs(group.scale.x - targetScale) > 0.0005;
     group.position.x = MathUtils.lerp(group.position.x, targetX, response);
     group.position.y = MathUtils.lerp(group.position.y, targetY, response);
     group.position.z = MathUtils.lerp(group.position.z, targetZ, response);
-    group.rotation.x = MathUtils.lerp(group.rotation.x, 0, response);
+    group.rotation.x = MathUtils.lerp(group.rotation.x, angle, response);
     group.rotation.y = MathUtils.lerp(group.rotation.y, yaw, response);
     group.rotation.z = MathUtils.lerp(group.rotation.z, yaw * -0.65, response);
     group.scale.setScalar(
-      MathUtils.lerp(
-        group.scale.x,
-        perspectiveCompensation + focus * 0.18,
-        response,
-      ),
+      MathUtils.lerp(group.scale.x, targetScale, response),
     );
+    if (moving) invalidate();
   });
 
   return (
     <group
       ref={groupRef}
-      position={[0, 0, index * trackSpacing + trackOrigin]}
-      visible={visible}
+      position={[0, 0, ringOriginZ]}
       onClick={(event) => {
         event.stopPropagation();
         if (event.delta < 7) onClick?.();
@@ -282,12 +295,27 @@ export function RecordBox({
         document.body.style.cursor = "";
       }}
     >
-      <mesh material={boxMaterials}>
-        <boxGeometry args={[BOX_W, BOX_H, BOX_D]} />
-      </mesh>
+      <mesh geometry={BOX_GEOMETRY} material={boxMaterials} dispose={null} />
+      {active && (
+        <mesh
+          geometry={ACTIVE_HIT_GEOMETRY}
+          position={[0, 0, BOX_D / 2 + 0.018]}
+          dispose={null}
+        >
+          <meshBasicMaterial
+            transparent
+            opacity={0}
+            depthWrite={false}
+          />
+        </mesh>
+      )}
       {spineTexture && (
-        <mesh position={[0, 0, BOX_D / 2 + 0.012]} renderOrder={2}>
-          <planeGeometry args={[BOX_W - 0.028, 0.1]} />
+        <mesh
+          geometry={SPINE_GEOMETRY}
+          position={[0, 0, BOX_D / 2 + 0.012]}
+          renderOrder={2}
+          dispose={null}
+        >
           <meshBasicMaterial
             map={spineTexture}
             transparent

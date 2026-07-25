@@ -91,10 +91,6 @@ export function CrateView({ albums, onInspect }: CrateViewProps) {
   return (
     <div className="crate-fullscreen">
       <aside className="crate-wheel-side" aria-label="歌手索引">
-        <p className="crate-wheel-label">
-          <span>艺人</span>
-          <small>{artistNames.length}</small>
-        </p>
         <OptionWheel
           items={artistNames}
           selected={activeArtistIdx}
