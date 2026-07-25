@@ -21,6 +21,7 @@ const albumsSchemaSql = `
     cover_url text NOT NULL,
     format text NOT NULL,
     zone text NOT NULL,
+    is_favorite integer DEFAULT 0 NOT NULL,
     date_added text NOT NULL,
     purchase_date text,
     purchase_price text,
@@ -36,4 +37,17 @@ export async function ensureAlbumsTable() {
     throw new Error("Cloudflare D1 binding `DB` is unavailable.");
   }
   await env.DB.prepare(albumsSchemaSql).run();
+
+  const columns = await env.DB.prepare("PRAGMA table_info(albums)").all<{
+    name: string;
+  }>();
+  if (!columns.results.some((column) => column.name === "is_favorite")) {
+    await env.DB.prepare(
+      "ALTER TABLE albums ADD COLUMN is_favorite integer DEFAULT 0 NOT NULL",
+    ).run();
+  }
+
+  await env.DB.prepare(
+    "UPDATE albums SET zone = 'unsorted' WHERE zone = 'frequent'",
+  ).run();
 }

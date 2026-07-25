@@ -6,6 +6,7 @@ import type { Album } from "@/app/lib/store";
 type AlbumCardProps = {
   album: Album;
   onInspect: (album: Album) => void;
+  onToggleFavorite: (album: Album) => Promise<string | null>;
   priority?: boolean;
 };
 
@@ -19,6 +20,7 @@ const coverTransition = {
 export function AlbumCard({
   album,
   onInspect,
+  onToggleFavorite,
   priority = false,
 }: AlbumCardProps) {
   return (
@@ -55,6 +57,23 @@ export function AlbumCard({
           <strong>{album.title}</strong>
           <span>{album.artist}</span>
         </span>
+      </motion.button>
+      <motion.button
+        type="button"
+        className={`favorite-toggle ${album.favorite ? "is-favorite" : ""}`}
+        onClick={() => {
+          void onToggleFavorite(album);
+        }}
+        whileTap={{ scale: 0.86 }}
+        transition={coverTransition}
+        aria-label={
+          album.favorite
+            ? `从喜欢中移除 ${album.title}`
+            : `把 ${album.title} 加入喜欢`
+        }
+        aria-pressed={Boolean(album.favorite)}
+      >
+        <span aria-hidden="true">{album.favorite ? "♥" : "♡"}</span>
       </motion.button>
     </motion.article>
   );

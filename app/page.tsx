@@ -13,11 +13,11 @@ import {
   type Zone,
 } from "./lib/store";
 
-type ActiveZone = "recent" | "frequent" | "all";
+type ActiveZone = "recent" | "favorite" | "all";
 
 const tabs: Array<{ id: ActiveZone; label: string }> = [
   { id: "recent", label: "最近" },
-  { id: "frequent", label: "常听" },
+  { id: "favorite", label: "喜欢" },
   { id: "all", label: "全部" },
 ];
 
@@ -42,6 +42,7 @@ export default function Home() {
   const [addOpen, setAddOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
+  const [favoriteNotice, setFavoriteNotice] = useState("");
 
   async function loadLibrary() {
     setLoading(true);
@@ -84,19 +85,28 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!favoriteNotice) {
+      return;
+    }
+    const timer = window.setTimeout(() => setFavoriteNotice(""), 2400);
+    return () => window.clearTimeout(timer);
+  }, [favoriteNotice]);
+
   const sortedAlbums = useMemo(() => sortByAdded(albums), [albums]);
   const visibleAlbums = useMemo(() => {
     if (activeZone === "recent") {
       return sortedAlbums.slice(0, 24);
     }
-    if (activeZone === "frequent") {
-      return sortedAlbums.filter((album) => album.zone === "frequent");
+    if (activeZone === "favorite") {
+      return sortedAlbums.filter((album) => album.favorite);
     }
     return sortedAlbums;
   }, [activeZone, sortedAlbums]);
 
   const destinationZone: Zone =
-    activeZone === "all" ? "unsorted" : activeZone;
+    activeZone === "recent" ? "recent" : "unsorted";
+  const favoriteCount = albums.filter((album) => album.favorite).length;
 
   async function handleAdd(album: Album) {
     const saved = await upsertAlbum(album);
@@ -122,12 +132,44 @@ export default function Home() {
     setSelectedAlbum(saved);
   }
 
+  async function handleToggleFavorite(album: Album) {
+    if (!album.favorite && favoriteCount >= 10) {
+      const message = "喜欢已经满 10 张，请先移除一张";
+      setFavoriteNotice(message);
+      return message;
+    }
+
+    try {
+      const saved = await upsertAlbum({
+        ...album,
+        favorite: !album.favorite,
+      });
+      setAlbums((current) =>
+        current.map((item) => (item.id === saved.id ? saved : item)),
+      );
+      setSelectedAlbum((current) =>
+        current?.id === saved.id ? saved : current,
+      );
+      setFavoriteNotice(
+        saved.favorite
+          ? `已加入喜欢 · ${favoriteCount + 1}/10`
+          : "已从喜欢中移除",
+      );
+      return null;
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "暂时无法更新喜欢";
+      setFavoriteNotice(message);
+      return message;
+    }
+  }
+
   function countFor(tab: ActiveZone) {
     if (tab === "recent") {
       return Math.min(24, albums.length);
     }
-    if (tab === "frequent") {
-      return albums.filter((album) => album.zone === "frequent").length;
+    if (tab === "favorite") {
+      return `${favoriteCount}/10`;
     }
     return albums.length;
   }
@@ -214,10 +256,22 @@ export default function Home() {
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.22, ease: "easeOut" }}
               >
+                {activeZone === "favorite" && (
+                  <div className="favorites-heading">
+                    <div>
+                      <h2>最喜欢的唱片</h2>
+                      <p>由你亲自选择，最多保留 10 张。</p>
+                    </div>
+                    <span>{favoriteCount}/10</span>
+                  </div>
+                )}
                 <CollectionGrid
                   albums={visibleAlbums}
                   onInspect={setSelectedAlbum}
+                  onToggleFavorite={handleToggleFavorite}
                   onAdd={() => setAddOpen(true)}
+                  onBrowseAll={() => setActiveZone("all")}
+                  favoriteView={activeZone === "favorite"}
                 />
               </motion.div>
             </AnimatePresence>
@@ -245,8 +299,24 @@ export default function Home() {
             key={selectedAlbum.id}
             album={selectedAlbum}
             onSave={handleSave}
+            onToggleFavorite={handleToggleFavorite}
             onClose={() => setSelectedAlbum(null)}
           />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {favoriteNotice && (
+          <motion.div
+            className="favorite-toast"
+            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+            transition={spring}
+            role="status"
+          >
+            {favoriteNotice}
+          </motion.div>
         )}
       </AnimatePresence>
 

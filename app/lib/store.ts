@@ -1,4 +1,4 @@
-export type Zone = "recent" | "frequent" | "unsorted";
+export type Zone = "recent" | "unsorted";
 export type Format = "vinyl" | "cd" | "unknown";
 
 export type Album = {
@@ -11,6 +11,7 @@ export type Album = {
   coverUrl: string;
   format: Format;
   zone: Zone;
+  favorite?: boolean;
   dateAdded: string;
   purchaseDate?: string;
   purchasePrice?: string;

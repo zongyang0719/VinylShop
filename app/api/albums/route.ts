@@ -1,4 +1,4 @@
-import { desc, inArray, sql } from "drizzle-orm";
+import { desc, eq, inArray, sql } from "drizzle-orm";
 import initialLibrary from "@/app/data/initial-library.json";
 import type { Album, Format, Zone } from "@/app/lib/store";
 import { ensureAlbumsTable, getDb } from "@/db";
@@ -7,7 +7,7 @@ import { albums as albumsTable } from "@/db/schema";
 export const dynamic = "force-dynamic";
 
 const formats = new Set<Format>(["vinyl", "cd", "unknown"]);
-const zones = new Set<Zone>(["recent", "frequent", "unsorted"]);
+const zones = new Set<Zone>(["recent", "unsorted"]);
 
 function normalizeAlbum(value: unknown): Album | null {
   if (!value || typeof value !== "object") {
@@ -42,6 +42,9 @@ function normalizeAlbum(value: unknown): Album | null {
     coverUrl,
     format,
     zone,
+    ...(typeof input.favorite === "boolean"
+      ? { favorite: input.favorite }
+      : {}),
     dateAdded: input.dateAdded || new Date().toISOString(),
     ...(input.purchaseDate?.trim()
       ? { purchaseDate: input.purchaseDate.trim() }
@@ -71,6 +74,7 @@ function toRow(album: Album) {
     coverUrl: album.coverUrl,
     format: album.format,
     zone: album.zone,
+    isFavorite: album.favorite ?? false,
     dateAdded: album.dateAdded,
     purchaseDate: album.purchaseDate ?? null,
     purchasePrice: album.purchasePrice ?? null,
@@ -105,6 +109,7 @@ function fromRow(row: typeof albumsTable.$inferSelect): Album {
     coverUrl: row.coverUrl,
     format: row.format as Format,
     zone: row.zone as Zone,
+    favorite: row.isFavorite,
     dateAdded: row.dateAdded,
     ...(row.purchaseDate ? { purchaseDate: row.purchaseDate } : {}),
     ...(row.purchasePrice ? { purchasePrice: row.purchasePrice } : {}),
@@ -165,18 +170,51 @@ export async function POST(request: Request) {
     }
 
     const db = getDb();
-    const existing: Array<{ id: string }> = [];
+    const existing: Array<{ id: string; isFavorite: boolean }> = [];
     const incomingIds = incoming.map((album) => album.id);
     for (let index = 0; index < incomingIds.length; index += 80) {
       existing.push(
         ...(await db
-          .select({ id: albumsTable.id })
+          .select({
+            id: albumsTable.id,
+            isFavorite: albumsTable.isFavorite,
+          })
           .from(albumsTable)
           .where(inArray(albumsTable.id, incomingIds.slice(index, index + 80)))),
       );
     }
     const existingIds = new Set(existing.map((row) => row.id));
-    const rows = incoming.map(toRow);
+    const existingFavoritesById = new Map(
+      existing.map((row) => [row.id, row.isFavorite]),
+    );
+    const resolvedIncoming = incoming.map((album) => ({
+      ...album,
+      favorite:
+        typeof album.favorite === "boolean"
+          ? album.favorite
+          : (existingFavoritesById.get(album.id) ?? false),
+    }));
+
+    const favoriteRows = await db
+      .select({ id: albumsTable.id })
+      .from(albumsTable)
+      .where(eq(albumsTable.isFavorite, true));
+    const nextFavoriteIds = new Set(favoriteRows.map((row) => row.id));
+    resolvedIncoming.forEach((album) => {
+      if (album.favorite) {
+        nextFavoriteIds.add(album.id);
+      } else {
+        nextFavoriteIds.delete(album.id);
+      }
+    });
+    if (nextFavoriteIds.size > 10) {
+      return Response.json(
+        { error: "喜欢最多只能保留 10 张唱片，请先移除一张" },
+        { status: 409 },
+      );
+    }
+
+    const rows = resolvedIncoming.map(toRow);
 
     for (let index = 0; index < rows.length; index += 5) {
       await db
@@ -193,6 +231,7 @@ export async function POST(request: Request) {
             coverUrl: sql`excluded.cover_url`,
             format: sql`excluded.format`,
             zone: sql`excluded.zone`,
+            isFavorite: sql`excluded.is_favorite`,
             dateAdded: sql`excluded.date_added`,
             purchaseDate: sql`excluded.purchase_date`,
             purchasePrice: sql`excluded.purchase_price`,
@@ -204,9 +243,11 @@ export async function POST(request: Request) {
     }
 
     return Response.json({
-      albums: incoming,
-      added: incoming.filter((album) => !existingIds.has(album.id)).length,
-      updated: incoming.filter((album) => existingIds.has(album.id)).length,
+      albums: resolvedIncoming,
+      added: resolvedIncoming.filter((album) => !existingIds.has(album.id))
+        .length,
+      updated: resolvedIncoming.filter((album) => existingIds.has(album.id))
+        .length,
     });
   } catch (error) {
     return Response.json(

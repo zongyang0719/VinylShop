@@ -1,0 +1,1 @@
+ALTER TABLE `albums` ADD `is_favorite` integer DEFAULT false NOT NULL;

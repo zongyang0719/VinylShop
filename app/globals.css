@@ -258,6 +258,34 @@ a:focus-visible {
   min-height: 54vh;
 }
 
+.favorites-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 2px 30px;
+}
+
+.favorites-heading h2 {
+  margin: 0;
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 680;
+  letter-spacing: -0.04em;
+}
+
+.favorites-heading p {
+  margin: 7px 0 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.favorites-heading > span {
+  color: var(--text-tertiary);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
 .album-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -265,6 +293,7 @@ a:focus-visible {
 }
 
 .album-card {
+  position: relative;
   min-width: 0;
 }
 
@@ -353,6 +382,65 @@ a:focus-visible {
   font-weight: 430;
   letter-spacing: -0.008em;
   line-height: 1.35;
+}
+
+.favorite-toggle {
+  position: absolute;
+  z-index: 3;
+  top: 8px;
+  right: 8px;
+  display: grid !important;
+  width: 34px !important;
+  height: 34px;
+  place-items: center;
+  padding: 0 !important;
+  border: 0.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  color: rgba(29, 29, 31, 0.68);
+  background: rgba(255, 255, 255, 0.72) !important;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 4px 14px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.favorite-toggle.is-favorite {
+  color: #ff375f;
+  background: rgba(255, 255, 255, 0.88) !important;
+}
+
+@media (hover: hover) {
+  .favorite-toggle:hover {
+    color: #ff375f;
+    transform: scale(1.06);
+  }
+}
+
+.favorite-toast {
+  position: fixed;
+  z-index: 80;
+  right: 50%;
+  bottom: 28px;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 11px 16px;
+  border: 0.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    0 14px 36px rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  font-size: 12px;
+  font-weight: 590;
+  text-align: center;
+  transform: translateX(50%);
+  pointer-events: none;
 }
 
 .empty-library,
@@ -615,6 +703,65 @@ a:focus-visible {
   margin: 16px 0 34px;
   color: var(--text-secondary);
   font-size: 15px;
+}
+
+.favorite-detail-button {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 52px;
+  margin: -8px 0 22px;
+  padding: 0 15px;
+  border-radius: 15px;
+  color: var(--text);
+  background: rgba(118, 118, 128, 0.09);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 130ms ease,
+    transform 130ms ease;
+}
+
+.favorite-detail-button:hover {
+  background: rgba(118, 118, 128, 0.14);
+}
+
+.favorite-detail-button:active {
+  transform: scale(0.99);
+}
+
+.favorite-detail-button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.favorite-detail-button > span {
+  color: var(--text-secondary);
+  font-size: 22px;
+  text-align: center;
+}
+
+.favorite-detail-button.is-favorite > span {
+  color: #ff375f;
+}
+
+.favorite-detail-button strong {
+  font-size: 13px;
+  font-weight: 620;
+}
+
+.favorite-detail-button small {
+  color: var(--text-tertiary);
+  font-size: 10px;
+}
+
+.favorite-detail-error {
+  margin: -12px 0 20px;
+  color: var(--danger);
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .album-facts {
@@ -1254,6 +1401,27 @@ a:focus-visible {
     font-size: 10px;
   }
 
+  .favorites-heading {
+    margin: 0 3px 22px;
+  }
+
+  .favorites-heading h2 {
+    font-size: 24px;
+  }
+
+  .favorites-heading p {
+    max-width: 240px;
+    font-size: 11px;
+  }
+
+  .favorite-toggle {
+    top: 6px;
+    right: 6px;
+    width: 31px !important;
+    height: 31px;
+    font-size: 16px;
+  }
+
   .library-footer {
     margin-top: 58px;
     font-size: 9px;
@@ -1282,6 +1450,10 @@ a:focus-visible {
   .mobile-add:active {
     background: var(--accent-pressed);
     transform: scale(0.94);
+  }
+
+  .favorite-toast {
+    bottom: calc(82px + env(safe-area-inset-bottom));
   }
 
   .modal-backdrop {
@@ -1474,6 +1646,21 @@ a:focus-visible {
       #242426;
     background-size: 220% 100%;
   }
+
+  .favorite-toggle {
+    border-color: rgba(255, 255, 255, 0.14);
+    color: rgba(245, 245, 247, 0.78);
+    background: rgba(44, 44, 46, 0.74) !important;
+  }
+
+  .favorite-toggle.is-favorite {
+    background: rgba(44, 44, 46, 0.9) !important;
+  }
+
+  .favorite-toast {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(44, 44, 46, 0.88);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1489,6 +1676,8 @@ a:focus-visible {
 
 @media (prefers-reduced-transparency: reduce) {
   .segmented-control,
+  .favorite-toggle,
+  .favorite-toast,
   .inspect-panel,
   .add-panel,
   .inspect-toolbar,
@@ -1499,6 +1688,8 @@ a:focus-visible {
   }
 
   .segmented-control,
+  .favorite-toggle,
+  .favorite-toast,
   .inspect-panel,
   .add-panel {
     background: var(--surface-solid);

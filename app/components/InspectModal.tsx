@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import type { Album, Format, Zone } from "@/app/lib/store";
+import type { Album, Format } from "@/app/lib/store";
 
 type InspectModalProps = {
   album: Album;
   onSave: (album: Album) => Promise<void>;
+  onToggleFavorite: (album: Album) => Promise<string | null>;
   onClose: () => void;
 };
 
@@ -24,11 +25,14 @@ function dateInput(value?: string) {
 export function InspectModal({
   album,
   onSave,
+  onToggleFavorite,
   onClose,
 }: InspectModalProps) {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [favoriteSaving, setFavoriteSaving] = useState(false);
   const [error, setError] = useState("");
+  const [favoriteError, setFavoriteError] = useState("");
   const [title, setTitle] = useState(album.title);
   const [artist, setArtist] = useState(album.artist);
   const [coverUrl, setCoverUrl] = useState(album.coverUrl);
@@ -44,7 +48,6 @@ export function InspectModal({
   );
   const [doubanUrl, setDoubanUrl] = useState(album.doubanUrl ?? "");
   const [format, setFormat] = useState<Format>(album.format);
-  const [zone, setZone] = useState<Zone>(album.zone);
   const [tracklist, setTracklist] = useState(
     album.tracklist?.join("\n") ?? "",
   );
@@ -90,7 +93,6 @@ export function InspectModal({
         purchasePrice: purchasePrice.trim() || undefined,
         doubanUrl: doubanUrl.trim() || undefined,
         format,
-        zone,
         tracklist:
           tracklist
             .split("\n")
@@ -103,6 +105,16 @@ export function InspectModal({
     } finally {
       setSaving(false);
     }
+  }
+
+  async function handleFavorite() {
+    setFavoriteSaving(true);
+    setFavoriteError("");
+    const message = await onToggleFavorite(album);
+    if (message) {
+      setFavoriteError(message);
+    }
+    setFavoriteSaving(false);
   }
 
   const releaseLabel =
@@ -256,32 +268,19 @@ export function InspectModal({
                 />
               </label>
 
-              <div className="field-row">
-                <label className="field">
-                  <span>介质</span>
-                  <select
-                    value={format}
-                    onChange={(event) =>
-                      setFormat(event.target.value as Format)
-                    }
-                  >
-                    <option value="vinyl">黑胶</option>
-                    <option value="cd">CD</option>
-                    <option value="unknown">未标注</option>
-                  </select>
-                </label>
-                <label className="field">
-                  <span>分区</span>
-                  <select
-                    value={zone}
-                    onChange={(event) => setZone(event.target.value as Zone)}
-                  >
-                    <option value="recent">最近入手</option>
-                    <option value="frequent">常听</option>
-                    <option value="unsorted">全部</option>
-                  </select>
-                </label>
-              </div>
+              <label className="field field-wide">
+                <span>介质</span>
+                <select
+                  value={format}
+                  onChange={(event) =>
+                    setFormat(event.target.value as Format)
+                  }
+                >
+                  <option value="vinyl">黑胶</option>
+                  <option value="cd">CD</option>
+                  <option value="unknown">未标注</option>
+                </select>
+              </label>
 
               <label className="field field-wide">
                 <span>曲目（每行一首）</span>
@@ -325,6 +324,29 @@ export function InspectModal({
               <h2>{album.title}</h2>
               <p className="inspect-release">{releaseLabel}</p>
 
+              <button
+                type="button"
+                className={`favorite-detail-button ${
+                  album.favorite ? "is-favorite" : ""
+                }`}
+                onClick={() => void handleFavorite()}
+                disabled={favoriteSaving}
+                aria-pressed={Boolean(album.favorite)}
+              >
+                <span aria-hidden="true">{album.favorite ? "♥" : "♡"}</span>
+                <strong>
+                  {favoriteSaving
+                    ? "正在更新…"
+                    : album.favorite
+                      ? "已在喜欢里"
+                      : "加入喜欢"}
+                </strong>
+                <small>最多 10 张</small>
+              </button>
+              {favoriteError && (
+                <p className="favorite-detail-error">{favoriteError}</p>
+              )}
+
               <dl className="album-facts">
                 <div>
                   <dt>购买日期</dt>
@@ -339,14 +361,8 @@ export function InspectModal({
                   <dd>{formatLabel}</dd>
                 </div>
                 <div>
-                  <dt>分区</dt>
-                  <dd>
-                    {album.zone === "frequent"
-                      ? "常听"
-                      : album.zone === "recent"
-                        ? "最近入手"
-                        : "全部"}
-                  </dd>
+                  <dt>喜欢</dt>
+                  <dd>{album.favorite ? "已加入" : "未加入"}</dd>
                 </div>
               </dl>
 
