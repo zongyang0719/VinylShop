@@ -1935,6 +1935,34 @@ a:focus-visible {
   -webkit-backdrop-filter: blur(40px) saturate(160%);
 }
 
+.inspect-panel-vinyl .edit-layout {
+  color: #f0f0f0;
+}
+
+.inspect-panel-vinyl .field span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.inspect-panel-vinyl .field input,
+.inspect-panel-vinyl .field select,
+.inspect-panel-vinyl .field textarea {
+  color: #f0f0f0;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.inspect-panel-vinyl .field input:focus,
+.inspect-panel-vinyl .field select:focus,
+.inspect-panel-vinyl .field textarea:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(100, 160, 255, 0.5);
+}
+
+.inspect-panel-vinyl .field input::placeholder,
+.inspect-panel-vinyl .field textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
 .inspect-toolbar-vinyl {
   background: rgba(0, 0, 0, 0.25);
   border-bottom-color: rgba(255, 255, 255, 0.08);
@@ -2391,6 +2419,75 @@ a:focus-visible {
   font-family: "SF Mono", "Menlo", "Monaco", "Cascadia Mono", monospace;
   font-size: 0.88em;
   letter-spacing: 0.03em;
+}
+
+.delete-section {
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.delete-version-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ff453a;
+  background: rgba(255, 69, 58, 0.1);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.delete-version-button:hover {
+  background: rgba(255, 69, 58, 0.18);
+}
+
+.delete-confirm-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.delete-confirm-button {
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: #ff453a;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.delete-confirm-button:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.delete-confirm-button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.delete-cancel-button {
+  padding: 7px 16px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.delete-cancel-button:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .cover-search {

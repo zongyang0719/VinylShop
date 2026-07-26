@@ -13,6 +13,7 @@ type InspectModalProps = {
   album: Album;
   versions?: Album[];
   onSave: (album: Album) => Promise<void>;
+  onDelete?: (album: Album) => Promise<void>;
   onToggleFavorite: (album: Album) => Promise<string | null>;
   onClose: () => void;
 };
@@ -132,6 +133,7 @@ export function InspectModal({
   album: initialAlbum,
   versions: suppliedVersions,
   onSave,
+  onDelete,
   onToggleFavorite,
   onClose,
 }: InspectModalProps) {
@@ -144,6 +146,8 @@ export function InspectModal({
 
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [favoriteSaving, setFavoriteSaving] = useState(false);
   const [error, setError] = useState("");
   const [favoriteError, setFavoriteError] = useState("");
@@ -323,6 +327,19 @@ export function InspectModal({
     }
   }
 
+  async function handleDeleteVersion() {
+    if (!onDelete) return;
+    setDeleting(true);
+    setError("");
+    try {
+      await onDelete(album);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "删除失败");
+      setDeleting(false);
+      setConfirmDelete(false);
+    }
+  }
+
   async function handleFavorite() {
     setFavoriteSaving(true);
     setFavoriteError("");
@@ -377,7 +394,7 @@ export function InspectModal({
       aria-label={`${album.artist}《${album.title}》详情`}
     >
       <motion.div
-        className={`inspect-panel ${!editing ? "inspect-panel-vinyl" : ""}`}
+        className="inspect-panel inspect-panel-vinyl"
         style={
           {
             "--hero-rgb": dominantRgb,
@@ -391,9 +408,7 @@ export function InspectModal({
       >
         <div className="sheet-handle" aria-hidden="true" />
         <div
-          className={`inspect-toolbar ${
-            !editing ? "inspect-toolbar-vinyl" : ""
-          }`}
+          className="inspect-toolbar inspect-toolbar-vinyl"
         >
           <button
             type="button"
@@ -502,20 +517,13 @@ export function InspectModal({
                   <input
                     type="date"
                     value={releaseDate}
-                    onChange={(event) => setReleaseDate(event.target.value)}
+                    onChange={(event) => {
+                      setReleaseDate(event.target.value);
+                      const y = event.target.value.slice(0, 4);
+                      if (y && /^\d{4}$/.test(y)) setYear(y);
+                    }}
                   />
                 </label>
-                <label className="field">
-                  <span>发行年份</span>
-                  <input
-                    inputMode="numeric"
-                    value={year}
-                    onChange={(event) => setYear(event.target.value)}
-                    placeholder="例如 1998"
-                  />
-                </label>
-              </div>
-              <div className="field-row">
                 <label className="field">
                   <span>购买日期</span>
                   <input
@@ -524,15 +532,15 @@ export function InspectModal({
                     onChange={(event) => setPurchaseDate(event.target.value)}
                   />
                 </label>
-                <label className="field">
-                  <span>购买价格</span>
-                  <input
-                    value={purchasePrice}
-                    onChange={(event) => setPurchasePrice(event.target.value)}
-                    placeholder="例如 ¥268"
-                  />
-                </label>
               </div>
+              <label className="field field-wide">
+                <span>购买价格</span>
+                <input
+                  value={purchasePrice}
+                  onChange={(event) => setPurchasePrice(event.target.value)}
+                  placeholder="例如 ¥268"
+                />
+              </label>
               <label className="field field-wide">
                 <span>厂牌 / 唱片公司</span>
                 <input
@@ -707,6 +715,40 @@ export function InspectModal({
                 />
               </label>
               {error && <p className="form-error">{error}</p>}
+
+              {onDelete && (
+                <div className="delete-section">
+                  {confirmDelete ? (
+                    <div className="delete-confirm-row">
+                      <span>确定删除此版本？此操作不可撤销。</span>
+                      <button
+                        type="button"
+                        className="delete-confirm-button"
+                        onClick={() => void handleDeleteVersion()}
+                        disabled={deleting}
+                      >
+                        {deleting ? "删除中…" : "确认删除"}
+                      </button>
+                      <button
+                        type="button"
+                        className="delete-cancel-button"
+                        onClick={() => setConfirmDelete(false)}
+                        disabled={deleting}
+                      >
+                        取消
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      className="delete-version-button"
+                      onClick={() => setConfirmDelete(true)}
+                    >
+                      删除此版本
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         ) : (

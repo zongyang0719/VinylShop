@@ -16,6 +16,7 @@ import {
   type LibrarySortMode,
 } from "./components/LibrarySettings";
 import {
+  deleteAlbum,
   getAlbums,
   upsertAlbum,
   upsertAlbums,
@@ -238,6 +239,12 @@ export default function Home() {
       current.map((item) => (item.id === saved.id ? saved : item)),
     );
     setSelectedAlbum(saved);
+  }
+
+  async function handleDelete(album: Album) {
+    await deleteAlbum(album.id);
+    setAlbums((current) => current.filter((item) => item.id !== album.id));
+    setSelectedAlbum(null);
   }
 
   async function handleToggleFavorite(album: Album) {
@@ -487,6 +494,7 @@ export default function Home() {
             album={selectedAlbum}
             versions={getVersions(selectedAlbum)}
             onSave={handleSave}
+            onDelete={handleDelete}
             onToggleFavorite={handleToggleFavorite}
             onClose={closeInspect}
           />

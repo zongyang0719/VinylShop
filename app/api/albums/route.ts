@@ -323,3 +323,24 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { id } = (await request.json()) as { id?: string };
+    if (!id || typeof id !== "string") {
+      return Response.json({ error: "缺少专辑 ID" }, { status: 400 });
+    }
+    await ensureAlbumsTable();
+    const db = getDb();
+    await db.delete(albumsTable).where(eq(albumsTable.id, id));
+    return Response.json({ deleted: id });
+  } catch (error) {
+    return Response.json(
+      {
+        error:
+          error instanceof Error ? error.message : "删除唱片时发生错误",
+      },
+      { status: 500 },
+    );
+  }
+}

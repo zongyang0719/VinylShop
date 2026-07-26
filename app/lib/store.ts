@@ -127,6 +127,24 @@ export async function upsertAlbum(album: Album) {
   return response.albums?.[0] ?? album;
 }
 
+export async function deleteAlbum(id: string) {
+  const response = await fetch("/api/albums", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id }),
+  });
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(
+      (data as { error?: string }).error ?? "删除失败",
+    );
+  }
+  const cached = readCache();
+  if (cached) {
+    writeCache(cached.filter((a) => a.id !== id));
+  }
+}
+
 export function makeLocalId(discogsId?: number) {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();
