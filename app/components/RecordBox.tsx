@@ -21,6 +21,7 @@ import {
   type Group,
   type Texture,
 } from "three";
+import { resolveArtworkURL } from "@/app/lib/artwork";
 import type { Album } from "@/app/lib/store";
 
 const BOX_W = 3.3;
@@ -43,8 +44,7 @@ type RecordBoxProps = {
 };
 
 function proxyCoverUrl(url: string) {
-  if (url.startsWith("/")) return url;
-  return `/api/douban?img=${encodeURIComponent(url)}`;
+  return resolveArtworkURL(url);
 }
 
 function fallbackSpineColor(seed: string) {

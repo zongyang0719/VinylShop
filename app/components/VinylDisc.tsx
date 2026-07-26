@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useId } from "react";
+import { resolveArtworkURL } from "@/app/lib/artwork";
 import type { VinylStyle } from "@/app/lib/store";
 
 type VinylDiscProps = {
@@ -20,8 +21,7 @@ function seededUnit(index: number, salt: number) {
 }
 
 function proxyArtwork(url?: string) {
-  if (!url || url.startsWith("/")) return url;
-  return `/api/douban?img=${encodeURIComponent(url)}`;
+  return url ? resolveArtworkURL(url) : url;
 }
 
 export function VinylDisc({

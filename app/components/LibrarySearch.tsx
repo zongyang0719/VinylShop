@@ -2,12 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { resolveArtworkURL } from "@/app/lib/artwork";
 import type { Album } from "@/app/lib/store";
 import { AppIcon } from "./AppIcon";
 
 function proxyArtwork(url: string) {
-  if (url.startsWith("/")) return url;
-  return `/api/douban?img=${encodeURIComponent(url)}`;
+  return resolveArtworkURL(url);
 }
 
 type LibrarySearchProps = {

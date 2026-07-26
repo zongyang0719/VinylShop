@@ -2,8 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState, type CSSProperties } from "react";
+import { resolveArtworkURL } from "@/app/lib/artwork";
 import type { MetadataProposal } from "@/app/lib/metadata";
-import type { Album, Format, VinylStyle } from "@/app/lib/store";
+import {
+  isNativeApp,
+  type Album,
+  type Format,
+  type VinylStyle,
+} from "@/app/lib/store";
 import { CdDisc } from "./CdDisc";
 import { CoverSearch, type CoverSelection } from "./CoverSearch";
 import { MetadataUpdater } from "./MetadataUpdater";
@@ -70,8 +76,7 @@ function dateInput(value?: string) {
 }
 
 function proxyArtwork(url: string) {
-  if (url.startsWith("/")) return url;
-  return `/api/douban?img=${encodeURIComponent(url)}`;
+  return resolveArtworkURL(url);
 }
 
 function cleanTracks(value: string) {
@@ -510,7 +515,9 @@ export function InspectModal({
                   />
                 </label>
               </div>
-              <MetadataUpdater album={metadataDraft} onApply={applyMetadata} />
+              {!isNativeApp() && (
+                <MetadataUpdater album={metadataDraft} onApply={applyMetadata} />
+              )}
               <div className="field-row">
                 <label className="field">
                   <span>发行日期</span>

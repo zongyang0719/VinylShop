@@ -20,8 +20,8 @@ import {
 } from "./lib/library-preferences";
 import {
   deleteAlbum,
+  getAlbums,
   getCachedAlbums,
-  refreshAlbums,
   upsertAlbum,
   upsertAlbums,
   type Album,
@@ -95,7 +95,7 @@ export default function Home() {
     setLoading(true);
     setLoadError("");
     try {
-      setAlbums(await refreshAlbums());
+      setAlbums(await getAlbums());
     } catch (error) {
       setLoadError(
         error instanceof Error ? error.message : "唱片库暂时无法打开",
@@ -118,7 +118,7 @@ export default function Home() {
       });
     }
 
-    refreshAlbums()
+    getAlbums()
       .then((library) => {
         if (active) {
           setAlbums(library);

@@ -1,3 +1,5 @@
+import initialLibrary from "@/app/data/initial-library.json";
+
 export type Zone = "recent" | "unsorted";
 export type Format = "vinyl" | "cd" | "unknown";
 export type VinylStyle = "standard" | "transparent" | "picture" | "splatter";
@@ -67,6 +69,7 @@ const CACHE_KEY = "vinylshop_albums";
 const CACHE_TS_KEY = "vinylshop_albums_ts";
 const CACHE_VER_KEY = "vinylshop_cache_ver";
 const CACHE_VERSION = "2026-07-26-v5-local";
+const NATIVE_CACHE_KEY = "vinylshop_native_albums_v1";
 
 /* ── native-local mode ───────────────────────────── */
 
@@ -88,12 +91,22 @@ function isNativeApp(): boolean {
 export function getCachedAlbums(): Album[] | null {
   if (typeof window === "undefined") return null;
   try {
-    if (window.localStorage.getItem(CACHE_VER_KEY) !== CACHE_VERSION) {
+    if (
+      !isNativeApp() &&
+      window.localStorage.getItem(CACHE_VER_KEY) !== CACHE_VERSION
+    ) {
       return null;
     }
-    const raw = window.localStorage.getItem(CACHE_KEY);
+    const key = isNativeApp() ? NATIVE_CACHE_KEY : CACHE_KEY;
+    const raw =
+      window.localStorage.getItem(key) ??
+      (isNativeApp() ? window.localStorage.getItem(CACHE_KEY) : null);
     if (!raw) return null;
-    return JSON.parse(raw) as Album[];
+    const albums = JSON.parse(raw) as Album[];
+    if (isNativeApp() && !window.localStorage.getItem(NATIVE_CACHE_KEY)) {
+      window.localStorage.setItem(NATIVE_CACHE_KEY, raw);
+    }
+    return albums;
   } catch {
     return null;
   }
@@ -102,16 +115,20 @@ export function getCachedAlbums(): Album[] | null {
 function writeCache(albums: Album[]) {
   if (typeof window === "undefined") return;
   try {
-    window.localStorage.setItem(CACHE_KEY, JSON.stringify(albums));
+    const key = isNativeApp() ? NATIVE_CACHE_KEY : CACHE_KEY;
+    window.localStorage.setItem(key, JSON.stringify(albums));
     window.localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
-    window.localStorage.setItem(CACHE_VER_KEY, CACHE_VERSION);
+    if (!isNativeApp()) {
+      window.localStorage.setItem(CACHE_VER_KEY, CACHE_VERSION);
+    }
   } catch { /* quota exceeded — ignore */ }
 }
 
 function patchCache(updated: Album[]) {
   if (typeof window === "undefined") return;
   try {
-    const raw = window.localStorage.getItem(CACHE_KEY);
+    const key = isNativeApp() ? NATIVE_CACHE_KEY : CACHE_KEY;
+    const raw = window.localStorage.getItem(key);
     if (!raw) { writeCache(updated); return; }
     const existing = JSON.parse(raw) as Album[];
     const map = new Map(existing.map((a) => [a.id, a]));
@@ -123,25 +140,24 @@ function patchCache(updated: Album[]) {
 export async function getAlbums(): Promise<Album[]> {
   if (isNativeApp()) {
     const local = getCachedAlbums();
-    if (local && local.length > 0) return local;
-    // First launch: one-time seed from server, then local forever
-    try {
-      return await refreshAlbums();
-    } catch {
-      return [];
-    }
-  }
+    if (local !== null) return local;
 
-  const cached = getCachedAlbums();
-  if (cached) {
-    void refreshAlbums().catch(() => {});
-    return cached;
+    // First launch: seed from the copy bundled inside the app. From this
+    // point on the phone's store is authoritative and never overwritten by
+    // a web cache version or a background server refresh.
+    const seed = (initialLibrary as Album[]).map((album) => ({ ...album }));
+    writeCache(seed);
+    return seed;
   }
 
   return refreshAlbums();
 }
 
 export async function refreshAlbums(): Promise<Album[]> {
+  if (isNativeApp()) {
+    return getAlbums();
+  }
+
   const response = await fetch("/api/albums", {
     cache: "no-store",
   });
@@ -211,11 +227,6 @@ export async function deleteAlbum(id: string) {
 /* ── native-local helpers (exposed for settings UI) ──── */
 
 export { isNativeApp };
-
-/** Re-fetch all albums from the remote server into local cache (one-time or manual re-sync). */
-export async function syncFromServer(): Promise<Album[]> {
-  return refreshAlbums();
-}
 
 /** Export the full library as a JSON string (for Share / Files / iCloud backup). */
 export function exportLibraryJson(): string {

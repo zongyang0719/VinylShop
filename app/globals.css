@@ -3441,7 +3441,11 @@ a:focus-visible {
   z-index: 45;
   top: calc(env(safe-area-inset-top) + 70px);
   right: max(16px, env(safe-area-inset-right));
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(
+    100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 86px
+  );
   width: min(336px, calc(100vw - 32px));
   padding: 8px;
   border: 0.5px solid rgba(255, 255, 255, 0.82);
@@ -3453,6 +3457,8 @@ a:focus-visible {
     0 24px 70px rgba(22, 22, 27, 0.24);
   backdrop-filter: blur(34px) saturate(180%);
   -webkit-backdrop-filter: blur(34px) saturate(180%);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .library-settings-panel header {
@@ -3524,6 +3530,36 @@ a:focus-visible {
 .library-settings-group button.is-selected {
   color: var(--accent);
   font-weight: 610;
+}
+
+.library-settings-native-select,
+.library-settings-native-switch {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 16px;
+  color: var(--text);
+  background: rgba(118, 118, 128, 0.09);
+  font: inherit;
+}
+
+.library-settings-native-select {
+  padding: 0 42px 0 14px;
+  font-size: 15px;
+}
+
+.library-settings-native-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px 0 14px;
+  font-size: 15px;
+}
+
+.library-settings-native-switch input {
+  flex: none;
+  margin: 0;
 }
 
 .library-settings-sync {

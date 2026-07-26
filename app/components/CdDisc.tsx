@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useId } from "react";
+import { resolveArtworkURL } from "@/app/lib/artwork";
 
 type CdDiscProps = {
   coverUrl?: string;
@@ -15,10 +16,7 @@ export function CdDisc({ coverUrl, size = 300, spinning = false }: CdDiscProps) 
   const ringR = r * 0.19;
   const artR = r * 0.34;
   const uid = `cd-${useId().replaceAll(":", "")}`;
-  const artworkUrl =
-    coverUrl && !coverUrl.startsWith("/")
-      ? `/api/douban?img=${encodeURIComponent(coverUrl)}`
-      : coverUrl;
+  const artworkUrl = coverUrl ? resolveArtworkURL(coverUrl) : coverUrl;
 
   return (
     <motion.div

@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Directory, Encoding, Filesystem } from "@capacitor/filesystem";
+import { Share } from "@capacitor/share";
 import { motion } from "framer-motion";
 import type {
   GalleryDisplayMode,
@@ -11,8 +13,8 @@ import { getInteractionFeedback } from "../lib/interaction-feedback";
 import {
   isNativeApp,
   exportLibraryJson,
-  syncFromServer,
   getCachedAlbums,
+  importLibraryJson,
 } from "../lib/store";
 import { AppIcon } from "./AppIcon";
 
@@ -51,6 +53,26 @@ function OptionGroup<T extends string>({
   options: Array<{ id: T; label: string }>;
   onChange: (value: T) => void;
 }) {
+  if (isNativeApp()) {
+    return (
+      <fieldset className="library-settings-group">
+        <legend>{title}</legend>
+        <select
+          className="library-settings-native-select"
+          value={value}
+          onChange={(event) => onChange(event.target.value as T)}
+          aria-label={title}
+        >
+          {options.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </fieldset>
+    );
+  }
+
   return (
     <fieldset className="library-settings-group">
       <legend>{title}</legend>
@@ -84,6 +106,38 @@ function OptionGroup<T extends string>({
           </button>
         ))}
       </div>
+    </fieldset>
+  );
+}
+
+function NativeSwitchRow({
+  title,
+  checked,
+  onChange,
+}: {
+  title: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.setAttribute("switch", "");
+  }, []);
+
+  return (
+    <fieldset className="library-settings-group">
+      <legend>{title}</legend>
+      <label className="library-settings-native-switch">
+        <span>{checked ? "开启" : "关闭"}</span>
+        <input
+          ref={inputRef}
+          type="checkbox"
+          role="switch"
+          checked={checked}
+          onChange={(event) => onChange(event.target.checked)}
+        />
+      </label>
     </fieldset>
   );
 }
@@ -187,24 +241,45 @@ export function LibrarySettings({
           ]}
           onChange={onSortModeChange}
         />
-        <OptionGroup
-          title="滚动触觉"
-          value={hapticOn ? "on" : "off"}
-          options={[
-            { id: "on", label: "开启" },
-            { id: "off", label: "关闭" },
-          ]}
-          onChange={handleHapticToggle}
-        />
-        <OptionGroup
-          title="滚动声音"
-          value={soundOn ? "on" : "off"}
-          options={[
-            { id: "on", label: "开启" },
-            { id: "off", label: "关闭" },
-          ]}
-          onChange={handleSoundToggle}
-        />
+        {isNativeApp() ? (
+          <>
+            <NativeSwitchRow
+              title="滚动触觉"
+              checked={hapticOn}
+              onChange={(checked) =>
+                handleHapticToggle(checked ? "on" : "off")
+              }
+            />
+            <NativeSwitchRow
+              title="滚动声音"
+              checked={soundOn}
+              onChange={(checked) =>
+                handleSoundToggle(checked ? "on" : "off")
+              }
+            />
+          </>
+        ) : (
+          <>
+            <OptionGroup
+              title="滚动触觉"
+              value={hapticOn ? "on" : "off"}
+              options={[
+                { id: "on", label: "开启" },
+                { id: "off", label: "关闭" },
+              ]}
+              onChange={handleHapticToggle}
+            />
+            <OptionGroup
+              title="滚动声音"
+              value={soundOn ? "on" : "off"}
+              options={[
+                { id: "on", label: "开启" },
+                { id: "off", label: "关闭" },
+              ]}
+              onChange={handleSoundToggle}
+            />
+          </>
+        )}
         {isNativeApp() ? (
           <NativeDataSection />
         ) : (
@@ -226,32 +301,55 @@ export function LibrarySettings({
 /* ── native-only data management section ──── */
 
 function NativeDataSection() {
-  const [busy, setBusy] = useState<"idle" | "syncing" | "done" | "error">(
-    "idle",
-  );
+  const [busy, setBusy] = useState<
+    "idle" | "exporting" | "importing" | "done" | "error"
+  >("idle");
+  const [message, setMessage] = useState("");
   const albumCount = getCachedAlbums()?.length ?? 0;
 
-  async function handleResync() {
-    setBusy("syncing");
+  async function handleExport() {
+    setBusy("exporting");
+    setMessage("");
     try {
-      await syncFromServer();
+      const filename = `vinylshop-backup-${new Date()
+        .toISOString()
+        .slice(0, 10)}.json`;
+      const result = await Filesystem.writeFile({
+        path: filename,
+        data: exportLibraryJson(),
+        directory: Directory.Cache,
+        encoding: Encoding.UTF8,
+      });
+      await Share.share({
+        title: "唱片库备份",
+        files: [result.uri],
+      });
       setBusy("done");
+      setMessage("备份已生成，可存入“文件”或 iCloud Drive");
     } catch {
       setBusy("error");
+      setMessage("导出失败，请重试");
     }
   }
 
-  async function handleExport() {
-    const json = exportLibraryJson();
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-
-    // On iOS Capacitor this opens the Share sheet via a download link
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `vinylshop-backup-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+  async function handleImport(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setBusy("importing");
+    setMessage("");
+    try {
+      const result = importLibraryJson(await file.text());
+      setBusy("done");
+      setMessage(
+        `已恢复 ${result.total} 张：新增 ${result.added}，更新 ${result.updated}`,
+      );
+      window.setTimeout(() => window.location.reload(), 700);
+    } catch {
+      setBusy("error");
+      setMessage("无法读取这个备份文件");
+    } finally {
+      event.target.value = "";
+    }
   }
 
   return (
@@ -260,24 +358,35 @@ function NativeDataSection() {
         📱 数据存储在本机 · {albumCount} 张唱片
       </p>
       <div className="library-settings-actions">
-        <button type="button" onClick={handleExport} className="settings-action-btn">
-          导出备份
-        </button>
         <button
           type="button"
-          onClick={handleResync}
-          disabled={busy === "syncing"}
+          onClick={() => void handleExport()}
+          disabled={busy === "exporting"}
           className="settings-action-btn"
         >
-          {busy === "syncing"
-            ? "同步中…"
-            : busy === "done"
-              ? "✓ 已同步"
-              : busy === "error"
-                ? "同步失败，重试"
-                : "从服务器重新同步"}
+          {busy === "exporting" ? "正在导出…" : "导出到文件 / iCloud"}
         </button>
+        <label className="settings-action-btn">
+          {busy === "importing" ? "正在导入…" : "从备份恢复"}
+          <input
+            type="file"
+            accept="application/json,.json"
+            onChange={(event) => void handleImport(event)}
+            disabled={busy === "importing"}
+            hidden
+          />
+        </label>
       </div>
+      {message && (
+        <p
+          className={`library-settings-sync is-${
+            busy === "error" ? "offline" : "saved"
+          }`}
+          role={busy === "error" ? "alert" : "status"}
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 }

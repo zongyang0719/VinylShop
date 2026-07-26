@@ -27,6 +27,7 @@ class InteractionFeedback {
   private listeners: Set<() => void> = new Set();
   /* cached Capacitor native haptic function (resolved once on init) */
   private nativeHaptic: (() => void) | null = null;
+  private nativeHapticPrepare: (() => void) | null = null;
 
   constructor() {
     if (typeof window !== "undefined") {
@@ -48,9 +49,13 @@ class InteractionFeedback {
       const { Capacitor } = await import("@capacitor/core");
       if (Capacitor.isNativePlatform()) {
         const { Haptics } = await import("@capacitor/haptics");
-        this.nativeHaptic = () => {
-          Haptics.selectionChanged();
+        this.nativeHapticPrepare = () => {
+          void Haptics.selectionStart();
         };
+        this.nativeHaptic = () => {
+          void Haptics.selectionChanged();
+        };
+        this.nativeHapticPrepare();
       }
     } catch {
       /* not in a Capacitor shell — fall through to web APIs */
@@ -99,6 +104,7 @@ class InteractionFeedback {
    */
   unlock() {
     if (typeof window === "undefined") return;
+    this.nativeHapticPrepare?.();
     if (!this.ctx) {
       try {
         this.ctx = new AudioContext();

@@ -8,6 +8,7 @@ import {
   useState,
   type CSSProperties,
 } from "react";
+import { resolveArtworkURL } from "@/app/lib/artwork";
 import {
   nearestRecordOccurrence,
   recordRackTransform,
@@ -27,9 +28,7 @@ const MAX_LEAD = 5; // max items target can lead scroll during wheel input
 
 /* ─── helpers ────────────────────────────────────── */
 function proxy(url: string) {
-  return url.startsWith("/")
-    ? url
-    : `/api/douban?img=${encodeURIComponent(url)}`;
+  return resolveArtworkURL(url);
 }
 
 const PAL = [

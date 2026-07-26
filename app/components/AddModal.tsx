@@ -22,6 +22,7 @@ import {
 import { parseMusicBuddyCsv } from "@/app/lib/musicbuddy";
 import {
   makeLocalId,
+  isNativeApp,
   type Album,
   type Format,
   type Zone,
@@ -326,13 +327,15 @@ export function AddModal({
                   >
                     MusicBrainz
                   </button>
-                  <button
-                    type="button"
-                    className={searchSource === "discogs" ? "is-active" : ""}
-                    onClick={() => { setSearchSource("discogs"); setResults([]); setMbResults([]); }}
-                  >
-                    Discogs
-                  </button>
+                  {!isNativeApp() && (
+                    <button
+                      type="button"
+                      className={searchSource === "discogs" ? "is-active" : ""}
+                      onClick={() => { setSearchSource("discogs"); setResults([]); setMbResults([]); }}
+                    >
+                      Discogs
+                    </button>
+                  )}
                 </div>
                 <span className="source-hint">
                   {searchSource === "musicbrainz"
