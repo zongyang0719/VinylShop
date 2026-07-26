@@ -1848,6 +1848,7 @@ a:focus-visible {
 
 .gallery-meta-row {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
@@ -2080,14 +2081,19 @@ a:focus-visible {
   filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.5));
 }
 
-/* ── Version badge on gallery cover ── */
+/* ── Version badge in gallery metadata ── */
 .gallery-versions {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 5px;
+  border-radius: 3px;
   color: var(--text-tertiary);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  background: rgba(118, 118, 128, 0.08);
+  font-size: 9px;
+  font-weight: 560;
+  line-height: normal;
+  white-space: nowrap;
   pointer-events: none;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* ── Version tabs in detail view ── */
