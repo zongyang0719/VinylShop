@@ -8,8 +8,7 @@ const config: CapacitorConfig = {
   // In production, load from deployed Cloudflare Workers URL.
   // Comment this out and run `npx cap sync` to use embedded local assets instead.
   server: {
-    // Replace with your actual deployed URL:
-    url: "https://vinylshop.mazongyang.workers.dev",
+    url: "https://mazys-record-library.chatplus-3746.chatgpt.site/",
     // Allow cleartext for local dev (`http://localhost:3000`):
     androidScheme: "https",
   },

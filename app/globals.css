@@ -3541,6 +3541,33 @@ a:focus-visible {
   color: #9a6a32;
 }
 
+.library-settings-native-data {
+  margin: 14px 18px 4px;
+}
+.library-settings-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.settings-action-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.settings-action-btn:active {
+  background: rgba(255, 255, 255, 0.14);
+}
+.settings-action-btn:disabled {
+  opacity: 0.5;
+}
+
 .library-search-backdrop {
   position: fixed;
   z-index: 60;

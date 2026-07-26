@@ -8,6 +8,12 @@ import type {
   LibrarySortMode,
 } from "../lib/library-preferences";
 import { getInteractionFeedback } from "../lib/interaction-feedback";
+import {
+  isNativeApp,
+  exportLibraryJson,
+  syncFromServer,
+  getCachedAlbums,
+} from "../lib/store";
 import { AppIcon } from "./AppIcon";
 
 export type {
@@ -199,16 +205,79 @@ export function LibrarySettings({
           ]}
           onChange={handleSoundToggle}
         />
-        <p className={`library-settings-sync is-${syncStatus}`} role="status">
-          {syncStatus === "idle"
-            ? "正在读取云端设置…"
-            : syncStatus === "saving"
-            ? "正在同步到云端…"
-            : syncStatus === "offline"
-              ? "已保存在本机，联网后再同步"
-              : "已在手机和电脑间同步"}
-        </p>
+        {isNativeApp() ? (
+          <NativeDataSection />
+        ) : (
+          <p className={`library-settings-sync is-${syncStatus}`} role="status">
+            {syncStatus === "idle"
+              ? "正在读取云端设置…"
+              : syncStatus === "saving"
+              ? "正在同步到云端…"
+              : syncStatus === "offline"
+                ? "已保存在本机，联网后再同步"
+                : "已在手机和电脑间同步"}
+          </p>
+        )}
       </motion.section>
     </>
+  );
+}
+
+/* ── native-only data management section ──── */
+
+function NativeDataSection() {
+  const [busy, setBusy] = useState<"idle" | "syncing" | "done" | "error">(
+    "idle",
+  );
+  const albumCount = getCachedAlbums()?.length ?? 0;
+
+  async function handleResync() {
+    setBusy("syncing");
+    try {
+      await syncFromServer();
+      setBusy("done");
+    } catch {
+      setBusy("error");
+    }
+  }
+
+  async function handleExport() {
+    const json = exportLibraryJson();
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    // On iOS Capacitor this opens the Share sheet via a download link
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `vinylshop-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <div className="library-settings-native-data">
+      <p className="library-settings-sync is-saved" role="status">
+        📱 数据存储在本机 · {albumCount} 张唱片
+      </p>
+      <div className="library-settings-actions">
+        <button type="button" onClick={handleExport} className="settings-action-btn">
+          导出备份
+        </button>
+        <button
+          type="button"
+          onClick={handleResync}
+          disabled={busy === "syncing"}
+          className="settings-action-btn"
+        >
+          {busy === "syncing"
+            ? "同步中…"
+            : busy === "done"
+              ? "✓ 已同步"
+              : busy === "error"
+                ? "同步失败，重试"
+                : "从服务器重新同步"}
+        </button>
+      </div>
+    </div>
   );
 }

@@ -118,6 +118,16 @@ export function cacheLibraryPreferences(
   }
 }
 
+function isNativeApp(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const cap = (window as Window & { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor;
+    return cap?.isNativePlatform?.() === true;
+  } catch {
+    return false;
+  }
+}
+
 async function readJson<T>(response: Response): Promise<T> {
   const data = (await response.json()) as T & { error?: string };
   if (!response.ok) {
@@ -127,6 +137,11 @@ async function readJson<T>(response: Response): Promise<T> {
 }
 
 export async function fetchLibraryPreferences(): Promise<LibraryPreferences> {
+  if (isNativeApp()) {
+    const cached = readCachedLibraryPreferences();
+    return cached ?? DEFAULT_LIBRARY_PREFERENCES;
+  }
+
   const response = await fetch("/api/preferences", { cache: "no-store" });
   const data = await readJson<PreferencesResponse>(response);
   const preferences = parseLibraryPreferences(data.preferences);
@@ -140,6 +155,11 @@ export async function fetchLibraryPreferences(): Promise<LibraryPreferences> {
 export async function saveLibraryPreferences(
   preferences: LibraryPreferences,
 ): Promise<LibraryPreferences> {
+  if (isNativeApp()) {
+    cacheLibraryPreferences(preferences);
+    return preferences;
+  }
+
   cacheLibraryPreferences(preferences, true);
   const response = await fetch("/api/preferences", {
     method: "PUT",

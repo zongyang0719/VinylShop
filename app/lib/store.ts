@@ -66,7 +66,24 @@ async function readJson<T>(response: Response): Promise<T> {
 const CACHE_KEY = "vinylshop_albums";
 const CACHE_TS_KEY = "vinylshop_albums_ts";
 const CACHE_VER_KEY = "vinylshop_cache_ver";
-const CACHE_VERSION = "2026-07-26-v4-enriched";
+const CACHE_VERSION = "2026-07-26-v5-local";
+
+/* ── native-local mode ───────────────────────────── */
+
+/**
+ * Detect if the app is running inside a Capacitor native shell.
+ * When true, all data operations use localStorage as the authoritative
+ * store — no server API calls are made for CRUD.
+ */
+function isNativeApp(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const cap = (window as Window & { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor;
+    return cap?.isNativePlatform?.() === true;
+  } catch {
+    return false;
+  }
+}
 
 export function getCachedAlbums(): Album[] | null {
   if (typeof window === "undefined") return null;
@@ -104,6 +121,17 @@ function patchCache(updated: Album[]) {
 }
 
 export async function getAlbums(): Promise<Album[]> {
+  if (isNativeApp()) {
+    const local = getCachedAlbums();
+    if (local && local.length > 0) return local;
+    // First launch: one-time seed from server, then local forever
+    try {
+      return await refreshAlbums();
+    } catch {
+      return [];
+    }
+  }
+
   const cached = getCachedAlbums();
   if (cached) {
     void refreshAlbums().catch(() => {});
@@ -124,6 +152,21 @@ export async function refreshAlbums(): Promise<Album[]> {
 }
 
 export async function upsertAlbums(items: Album[]) {
+  if (isNativeApp()) {
+    const existing = getCachedAlbums() ?? [];
+    const map = new Map(existing.map((a) => [a.id, a]));
+    let added = 0;
+    let updated = 0;
+    for (const album of items) {
+      if (map.has(album.id)) updated++;
+      else added++;
+      map.set(album.id, album);
+    }
+    const merged = Array.from(map.values());
+    writeCache(merged);
+    return { albums: items, added, updated };
+  }
+
   const response = await fetch("/api/albums", {
     method: "POST",
     headers: {
@@ -142,6 +185,12 @@ export async function upsertAlbum(album: Album) {
 }
 
 export async function deleteAlbum(id: string) {
+  if (isNativeApp()) {
+    const cached = getCachedAlbums();
+    if (cached) writeCache(cached.filter((a) => a.id !== id));
+    return;
+  }
+
   const response = await fetch("/api/albums", {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
@@ -157,6 +206,38 @@ export async function deleteAlbum(id: string) {
   if (cached) {
     writeCache(cached.filter((a) => a.id !== id));
   }
+}
+
+/* ── native-local helpers (exposed for settings UI) ──── */
+
+export { isNativeApp };
+
+/** Re-fetch all albums from the remote server into local cache (one-time or manual re-sync). */
+export async function syncFromServer(): Promise<Album[]> {
+  return refreshAlbums();
+}
+
+/** Export the full library as a JSON string (for Share / Files / iCloud backup). */
+export function exportLibraryJson(): string {
+  const albums = getCachedAlbums() ?? [];
+  return JSON.stringify({ albums, exportedAt: new Date().toISOString() }, null, 2);
+}
+
+/** Import a previously exported JSON string, merging into local store. */
+export function importLibraryJson(json: string): { total: number; added: number; updated: number } {
+  const data = JSON.parse(json) as { albums?: Album[] };
+  const items = data.albums ?? [];
+  const existing = getCachedAlbums() ?? [];
+  const map = new Map(existing.map((a) => [a.id, a]));
+  let added = 0;
+  let updated = 0;
+  for (const album of items) {
+    if (map.has(album.id)) updated++;
+    else added++;
+    map.set(album.id, album);
+  }
+  writeCache(Array.from(map.values()));
+  return { total: map.size, added, updated };
 }
 
 export function makeLocalId(discogsId?: number) {
