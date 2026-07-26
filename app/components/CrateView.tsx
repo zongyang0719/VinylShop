@@ -96,13 +96,9 @@ export function CrateView({ albums, onInspect }: CrateViewProps) {
           blur={0.55}
           fade={0.14}
           minOpacity={0.08}
-          smoothing={200}
           inset={8}
           loop={false}
           draggable
-          soundUrl="/assets/sounds/click-soft.mp3"
-          soundVolume={0.26}
-          haptics
           onChange={handleArtistChange}
         />
       </aside>

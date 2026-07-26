@@ -1,11 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import type {
   GalleryDisplayMode,
   LibraryFormatFilter,
   LibrarySortMode,
 } from "../lib/library-preferences";
+import { getInteractionFeedback } from "../lib/interaction-feedback";
 import { AppIcon } from "./AppIcon";
 
 export type {
@@ -90,6 +92,40 @@ export function LibrarySettings({
   syncStatus,
   onClose,
 }: LibrarySettingsProps) {
+  /* device-local scroll feedback settings (not synced to cloud) */
+  const [hapticOn, setHapticOn] = useState(() =>
+    typeof window !== "undefined"
+      ? getInteractionFeedback().hapticEnabled
+      : true,
+  );
+  const [soundOn, setSoundOn] = useState(() =>
+    typeof window !== "undefined"
+      ? getInteractionFeedback().soundEnabled
+      : false,
+  );
+
+  useEffect(() => {
+    const fb = getInteractionFeedback();
+    return fb.subscribe(() => {
+      setHapticOn(fb.hapticEnabled);
+      setSoundOn(fb.soundEnabled);
+    });
+  }, []);
+
+  function handleHapticToggle(v: string) {
+    const on = v === "on";
+    setHapticOn(on);
+    getInteractionFeedback().setHapticEnabled(on);
+  }
+
+  function handleSoundToggle(v: string) {
+    const on = v === "on";
+    setSoundOn(on);
+    const fb = getInteractionFeedback();
+    fb.setSoundEnabled(on);
+    if (on) fb.unlock();
+  }
+
   return (
     <>
       <button
@@ -144,6 +180,24 @@ export function LibrarySettings({
             { id: "year", label: "年份" },
           ]}
           onChange={onSortModeChange}
+        />
+        <OptionGroup
+          title="滚动触觉"
+          value={hapticOn ? "on" : "off"}
+          options={[
+            { id: "on", label: "开启" },
+            { id: "off", label: "关闭" },
+          ]}
+          onChange={handleHapticToggle}
+        />
+        <OptionGroup
+          title="滚动声音"
+          value={soundOn ? "on" : "off"}
+          options={[
+            { id: "on", label: "开启" },
+            { id: "off", label: "关闭" },
+          ]}
+          onChange={handleSoundToggle}
         />
         <p className={`library-settings-sync is-${syncStatus}`} role="status">
           {syncStatus === "idle"

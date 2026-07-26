@@ -13,11 +13,17 @@ import {
   recordRackTransform,
   wrapRecordIndex,
 } from "./recordRackGeometry";
+import { getInteractionFeedback } from "@/app/lib/interaction-feedback";
 import type { Album } from "@/app/lib/store";
 
 /* ─── cylinder geometry ──────────────────────────── */
-const RANGE = 12; // render ±N items from active; enough for 12+ on iPhone Safari
-const PX_PER = 88; // px of drag per 1 index change
+const RANGE = 12;
+const PX_PER = 88;
+
+/* inertia constants */
+const DECAY_RATE = 6.32; // ≈ 60 * ln(1/0.9)
+const MAX_FLING_EXTRA = 4;
+const MAX_LEAD = 5; // max items target can lead scroll during wheel input
 
 /* ─── helpers ────────────────────────────────────── */
 function proxy(url: string) {
@@ -98,14 +104,11 @@ const Slot = memo(function Slot({ album }: { album: Album }) {
       className="cyl-box"
       style={{ "--record-edge": bg } as CSSProperties}
     >
-      {/* top edge */}
       <div
         className="cyl-spine cyl-spine--top"
         style={{ background: bg }}
         aria-hidden="true"
       />
-
-      {/* labelled edge, visible when the centred record is side-on */}
       <div
         className="cyl-spine cyl-spine--bottom"
         style={{ background: bg, color: fg }}
@@ -113,8 +116,6 @@ const Slot = memo(function Slot({ album }: { album: Album }) {
         <strong>{album.title}</strong>
         <span>{artist}</span>
       </div>
-
-      {/* front cover — visible below the centre spine */}
       <div className="cyl-cover cyl-cover--front">
         <img
           src={src}
@@ -125,13 +126,9 @@ const Slot = memo(function Slot({ album }: { album: Album }) {
           draggable={false}
         />
       </div>
-
-      {/* back/underside — visible above the centre spine */}
       <div className="cyl-cover cyl-cover--back">
         <img src={src} alt="" loading="lazy" draggable={false} />
       </div>
-
-      {/* left / right edges */}
       <div
         className="cyl-edge cyl-edge--left"
         style={{ background: bg }}
@@ -179,18 +176,25 @@ export function CrateCylinder({
     lt: number;
   } | null>(null);
 
+  /* feedback suppression: true on mount and during programmatic jumps */
+  const feedbackSuppressedRef = useRef(true);
+  const wheelTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reducedMotionRef = useRef(false);
+
+  /* ── commit: detect crossing & fire feedback ── */
   const commit = useCallback(
     (v: number) => {
       if (!albums.length) return;
       const virtualIndex = Math.round(v);
-      const albumIndex = wrapRecordIndex(
-        virtualIndex,
-        albums.length,
-      );
+      const albumIndex = wrapRecordIndex(virtualIndex, albums.length);
 
       if (virtualIndex !== activeVirtual.current) {
+        const wasSuppressed = feedbackSuppressedRef.current;
         activeVirtual.current = virtualIndex;
         setRenderCenter(virtualIndex);
+        if (!wasSuppressed) {
+          getInteractionFeedback().fire("user");
+        }
       }
       if (albumIndex !== activeAlbum.current) {
         activeAlbum.current = albumIndex;
@@ -200,8 +204,10 @@ export function CrateCylinder({
     [albums.length, onActiveIndexChange],
   );
 
+  /* ── programmatic jump from OptionWheel ── */
   useEffect(() => {
     if (!albums.length || !jumpRequest) return;
+    feedbackSuppressedRef.current = true;
     const normalizedIndex = wrapRecordIndex(
       jumpRequest.index,
       albums.length,
@@ -212,10 +218,22 @@ export function CrateCylinder({
       target.current,
       albums.length,
     );
+    vel.current = 0;
     wake.current();
   }, [albums.length, jumpRequest]);
 
-  /* ── animation loop ── */
+  /* ── reduced motion ── */
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => {
+      reducedMotionRef.current = media.matches;
+    };
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  /* ── animation loop (spring-only, no velocity-based inertia) ── */
   useEffect(() => {
     let running = false;
 
@@ -224,20 +242,16 @@ export function CrateCylinder({
       const dt = Math.min((t - pt.current) / 1000, 0.05);
       pt.current = t;
 
-      if (Math.abs(vel.current) > 0.06) {
-        target.current += vel.current * dt;
-        vel.current *= Math.pow(0.9, dt * 60);
-      } else if (
-        Math.abs(vel.current) > 0.001 &&
-        !drag.current
-      ) {
-        vel.current = 0;
-        target.current = Math.round(target.current);
-      }
+      const isDragging = drag.current !== null;
+      const tau = isDragging
+        ? 0.015
+        : reducedMotionRef.current
+          ? 0.001
+          : 0.065;
 
       const diff = target.current - scroll.current;
       if (Math.abs(diff) > 0.0002) {
-        scroll.current += diff * (1 - Math.exp(-dt / 0.13));
+        scroll.current += diff * (1 - Math.exp(-dt / tau));
       } else {
         scroll.current = target.current;
       }
@@ -246,20 +260,15 @@ export function CrateCylinder({
 
       const el = vp.current;
       if (el) {
-        for (const c of el.querySelectorAll<HTMLElement>(
-          "[data-i]",
-        )) {
+        for (const c of el.querySelectorAll<HTMLElement>("[data-i]")) {
           const i = Number(c.dataset.i);
           c.style.transform = recordRackTransform(i, scroll.current);
-          // Opacity below 1 flattens preserve-3d descendants in browsers.
-          // Depth fading is handled by the viewport overlays instead.
           c.style.opacity = "1";
         }
       }
 
       const shouldContinue =
-        drag.current !== null ||
-        Math.abs(vel.current) > 0.001 ||
+        isDragging ||
         Math.abs(target.current - scroll.current) > 0.0002;
 
       if (shouldContinue) {
@@ -293,18 +302,41 @@ export function CrateCylinder({
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
+      feedbackSuppressedRef.current = false;
+      getInteractionFeedback().unlock();
+
       const d =
-        Math.abs(e.deltaY) >= Math.abs(e.deltaX)
-          ? e.deltaY
-          : e.deltaX;
-      target.current +=
-        Math.sign(d) * Math.min(Math.abs(d) / 120, 0.8);
+        Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+
+      if (Math.abs(d) >= 40) {
+        /* discrete mouse wheel: one detent = one item */
+        target.current = Math.round(target.current) + Math.sign(d);
+      } else {
+        /* continuous trackpad */
+        target.current += d / PX_PER;
+      }
+
+      /* clamp lead distance so fast spinning doesn't fly away */
+      target.current = Math.max(
+        scroll.current - MAX_LEAD,
+        Math.min(scroll.current + MAX_LEAD, target.current),
+      );
+
       vel.current = 0;
+
+      if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
+      wheelTimerRef.current = setTimeout(() => {
+        target.current = Math.round(target.current);
+        wake.current();
+      }, 120);
+
       wake.current();
     };
 
     const onDown = (e: PointerEvent) => {
       el.focus({ preventScroll: true });
+      feedbackSuppressedRef.current = false;
+      getInteractionFeedback().unlock();
       drag.current = {
         pid: e.pointerId,
         y0: e.clientY,
@@ -323,6 +355,7 @@ export function CrateCylinder({
       if (!d || d.pid !== e.pointerId) return;
       const dist = d.y0 - e.clientY;
       if (Math.abs(dist) > 6) d.moved = true;
+
       const now = performance.now();
       const dtS = (now - d.lt) / 1000;
       if (dtS > 0.008) {
@@ -337,10 +370,23 @@ export function CrateCylinder({
     const onUp = (e: PointerEvent) => {
       const d = drag.current;
       if (!d || d.pid !== e.pointerId) return;
-      if (Math.abs(vel.current) < 0.4) {
+
+      const v = vel.current;
+
+      if (Math.abs(v) > 0.5) {
+        /* predict landing from fling velocity; clamp to ±MAX_FLING_EXTRA */
+        const predicted = target.current + v / DECAY_RATE;
+        const rounded = Math.round(predicted);
+        const currentRound = Math.round(scroll.current);
+        target.current = Math.max(
+          currentRound - MAX_FLING_EXTRA,
+          Math.min(currentRound + MAX_FLING_EXTRA, rounded),
+        );
+      } else {
         target.current = Math.round(target.current);
-        vel.current = 0;
       }
+
+      vel.current = 0;
       drag.current = null;
       if (el.hasPointerCapture(e.pointerId))
         el.releasePointerCapture(e.pointerId);
@@ -360,6 +406,8 @@ export function CrateCylinder({
                 : 0;
       if (!delta) return;
       e.preventDefault();
+      feedbackSuppressedRef.current = false;
+      getInteractionFeedback().unlock();
       target.current = Math.round(target.current) + delta;
       vel.current = 0;
       wake.current();
@@ -378,6 +426,7 @@ export function CrateCylinder({
       el.removeEventListener("pointerup", onUp);
       el.removeEventListener("pointercancel", onUp);
       el.removeEventListener("keydown", onKey);
+      if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
     };
   }, [albums.length, commit]);
 
@@ -386,26 +435,18 @@ export function CrateCylinder({
     { length: albums.length ? RANGE * 2 + 1 : 0 },
     (_, offset) => {
       const virtualIndex = renderCenter - RANGE + offset;
-      const albumIndex = wrapRecordIndex(
-        virtualIndex,
-        albums.length,
-      );
+      const albumIndex = wrapRecordIndex(virtualIndex, albums.length);
       return {
         album: albums[albumIndex],
         albumIndex,
         virtualIndex,
       };
     },
-  )
-    .sort((left, right) => {
-      const leftDistance = Math.abs(
-        left.virtualIndex - renderCenter,
-      );
-      const rightDistance = Math.abs(
-        right.virtualIndex - renderCenter,
-      );
-      return rightDistance - leftDistance;
-    });
+  ).sort((left, right) => {
+    const leftDistance = Math.abs(left.virtualIndex - renderCenter);
+    const rightDistance = Math.abs(right.virtualIndex - renderCenter);
+    return rightDistance - leftDistance;
+  });
 
   return (
     <div
@@ -433,6 +474,8 @@ export function CrateCylinder({
               }}
               onClick={() => {
                 if (drag.current?.moved) return;
+                feedbackSuppressedRef.current = false;
+                getInteractionFeedback().unlock();
                 if (virtualIndex === activeVirtual.current) {
                   onInspect(a);
                 } else {
