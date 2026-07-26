@@ -8224,5 +8224,353 @@
     "composers": [
       "Wolfgang Amadeus Mozart"
     ]
+  },
+  {
+    "id": "musicbuddy-1hnht8f",
+    "title": "崇拜",
+    "artist": "梁静茹",
+    "coverUrl": "https://i.discogs.com/Nn_EuPmLCayFLQqNhTub2McGCFh12M8BCdbgJzU4XHQ/rs:fit/g:sm/q:90/h:600/w:541/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NDE4/Mzg2LTE3NTEzODE2/NTYtOTE4Ni5qcGVn.jpeg",
+    "year": 2007,
+    "format": "cd",
+    "discogsId": 34418386,
+    "barcode": "9787798659870",
+    "catalogNumber": "RXCD058",
+    "country": "China",
+    "genres": [
+      "Pop"
+    ],
+    "label": "",
+    "dateAdded": "2026-07-26T17:23:09.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "edition": "第二份实体副本",
+    "notes": "与 musicbuddy-1rb3ov0 为同一发行版本的第二张实体唱片"
+  },
+  {
+    "id": "musicbuddy-1qnbv7a",
+    "title": "忽然有一天我离开了台北",
+    "artist": "郑兴",
+    "coverUrl": "https://i.scdn.co/image/ab67616d0000b27361551ceb1551105050f9ed4d",
+    "format": "cd",
+    "dateAdded": "2026-07-26T17:21:49.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "edition": "EP",
+    "notes": "EP 版本，与完整版 CD (musicbuddy-q35klm) 为不同发行"
+  },
+  {
+    "id": "musicbuddy-1yg4ivv",
+    "title": "Mozart: Piano Concertos K.467 & K.595",
+    "artist": "Ingrid Haebler",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/CACED2FF-02DB-4CAE-87CA-A8FC9D0AFCBC",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:18:05.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Wolfgang Amadeus Mozart"
+    ],
+    "conductors": [
+      "Witold Rowicki",
+      "Alceo Galliera"
+    ],
+    "performers": [
+      "Ingrid Haebler"
+    ],
+    "orchestras": [
+      "London Symphony Orchestra"
+    ]
+  },
+  {
+    "id": "musicbuddy-h93j23",
+    "title": "Haydn: Symphonies \"Surprise\" & \"The Clock\"",
+    "artist": "Joseph Haydn",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/E0798849-CAAC-4F7E-BE23-C4375137465C",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:39:54.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Joseph Haydn"
+    ]
+  },
+  {
+    "id": "musicbuddy-1njsx6o",
+    "title": "Haydn: Symphonies No. 92 \"Oxford\" & No. 103 \"Drum Roll\"",
+    "artist": "Lorin Maazel",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/16066286-06FF-4B6E-9327-D89CF1D77F76",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:22:11.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Joseph Haydn"
+    ],
+    "conductors": [
+      "Lorin Maazel"
+    ]
+  },
+  {
+    "id": "musicbuddy-1u179p6",
+    "title": "J.S. Bach: Kantate BWV 18 & BWV 106",
+    "artist": "Johann Sebastian Bach",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/26744D4D-75FD-470D-8632-C30CD7FD5846",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:30:48.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Johann Sebastian Bach"
+    ]
+  },
+  {
+    "id": "musicbuddy-te6ocm",
+    "title": "Prokofiev: Symphony No. 5",
+    "artist": "Leonard Bernstein",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/9809A1C2-C7AF-4E31-A90C-B91DD52DDB5A",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:09:18.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Sergei Prokofiev"
+    ],
+    "conductors": [
+      "Leonard Bernstein"
+    ],
+    "orchestras": [
+      "New York Philharmonic"
+    ]
+  },
+  {
+    "id": "musicbuddy-eclb61",
+    "title": "Beethoven: Symphony No. 7 / Overture Leonore III",
+    "artist": "Ludwig van Beethoven",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/694EB7B5-DF61-45B0-B641-F87C467005C8",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:37:46.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Ludwig van Beethoven"
+    ]
+  },
+  {
+    "id": "musicbuddy-1sugmcl",
+    "title": "Mozart: Violin Concertos",
+    "artist": "Wolfgang Amadeus Mozart",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/4DF136B5-2A60-413F-A76E-E4E33CB7399F",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:20:21.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Wolfgang Amadeus Mozart"
+    ]
+  },
+  {
+    "id": "musicbuddy-1b1fnh8",
+    "title": "Blockflöten Werke Des Barock",
+    "artist": "Frans Brüggen",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/FC35421A-552B-4BB1-B4A3-0989153F9E38",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:01:11.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "performers": [
+      "Frans Brüggen"
+    ]
+  },
+  {
+    "id": "musicbuddy-1wjcpvd",
+    "title": "Tchaikovsky: Piano Concerto No. 1 / Slavonic March",
+    "artist": "Sviatoslav Richter",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/FA07C7D2-37C8-4249-ACE4-E5711DD7DD79",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:44:12.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Pyotr Ilyich Tchaikovsky"
+    ],
+    "conductors": [
+      "Herbert von Karajan"
+    ],
+    "performers": [
+      "Sviatoslav Richter"
+    ],
+    "orchestras": [
+      "Vienna Symphony Orchestra"
+    ]
+  },
+  {
+    "id": "musicbuddy-e23c6k",
+    "title": "Schoenberg: Gurre-Lieder",
+    "artist": "Pierre Boulez",
+    "coverUrl": "https://i.discogs.com/bbVuD8HAGSwek4kskSmRaxD-Yb30bjjKj23WwmXK3CU/rs:fit/g:sm/q:90/h:600/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNDMw/NDktMTYzOTg2ODYy/MS04MTk5LmpwZWc.jpeg",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:04:20.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Arnold Schoenberg"
+    ],
+    "conductors": [
+      "Pierre Boulez"
+    ]
+  },
+  {
+    "id": "musicbuddy-plxgkh",
+    "title": "Rachmaninoff: Piano Concerto No. 2",
+    "artist": "Sergei Rachmaninoff",
+    "coverUrl": "http://shop.udiscovermusic.com/cdn/shop/files/Rachmaninoff_Piano_Concerto_No._2_LP.png?v=1775445311",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:12:22.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Sergei Rachmaninoff"
+    ]
+  },
+  {
+    "id": "musicbuddy-1vfcvn9",
+    "title": "Schumann: Fantasie C-dur Op. 17 / Sonate fis-moll Op. 11",
+    "artist": "Maurizio Pollini",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/DFA0A2D2-BE3E-4B3C-80AB-795D683C21EA",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:44:58.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Robert Schumann"
+    ],
+    "performers": [
+      "Maurizio Pollini"
+    ]
+  },
+  {
+    "id": "musicbuddy-1e5y951",
+    "title": "Short Circuits",
+    "artist": "Ruth White",
+    "coverUrl": "https://i.scdn.co/image/ab67616d0000b273263590465cd0258855c50427",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T15:53:16.000Z",
+    "favorite": false,
+    "zone": "unsorted"
+  },
+  {
+    "id": "musicbuddy-j7wj6b",
+    "title": "Sibelius: Symphonies No. 3 & No. 6",
+    "artist": "The Hallé Orchestra",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/4F74AF96-A6E5-418D-8570-EE36FCC29886",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:24:02.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Jean Sibelius"
+    ],
+    "orchestras": [
+      "The Hallé Orchestra"
+    ]
+  },
+  {
+    "id": "musicbuddy-1ugiams",
+    "title": "Sibelius: Symphony No. 2 / The Swan of Tuonela",
+    "artist": "Sir John Barbirolli",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/E9944F6E-3654-4084-B98C-2BDF6C9877B9",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:07:21.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Jean Sibelius"
+    ],
+    "conductors": [
+      "Sir John Barbirolli"
+    ],
+    "orchestras": [
+      "The Hallé Orchestra"
+    ]
+  },
+  {
+    "id": "musicbuddy-1tpr4gq",
+    "title": "Wagner Deluxe!",
+    "artist": "Georg Solti",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/0CB4AC26-9686-4930-AB05-1A696A061CF7",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:46:01.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Richard Wagner"
+    ],
+    "conductors": [
+      "Georg Solti"
+    ]
+  },
+  {
+    "id": "musicbuddy-aypf9f",
+    "title": "The Art of Wilhelm Backhaus Vol. 4: Haydn Recital",
+    "artist": "Wilhelm Backhaus",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/0E5E119A-1312-433A-B743-1918CEAE08EE",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:27:44.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Joseph Haydn"
+    ],
+    "performers": [
+      "Wilhelm Backhaus"
+    ]
+  },
+  {
+    "id": "musicbuddy-1tjdggs",
+    "title": "Tchaikovsky: Symphony No. 1 \"Winter Dreams\"",
+    "artist": "Herbert von Karajan",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/78595AC5-BCE6-438F-A699-9D93D835139D",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:39:20.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Pyotr Ilyich Tchaikovsky"
+    ],
+    "conductors": [
+      "Herbert von Karajan"
+    ],
+    "orchestras": [
+      "Berliner Philharmoniker"
+    ]
+  },
+  {
+    "id": "musicbuddy-thj7fg",
+    "title": "Favorite Beethoven Sonatas",
+    "artist": "Vladimir Horowitz",
+    "coverUrl": "https://m.media-amazon.com/images/I/61+MHL8MD1L._UF1000,1000_QL80_.jpg",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:18:52.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Ludwig van Beethoven"
+    ],
+    "performers": [
+      "Vladimir Horowitz"
+    ]
+  },
+  {
+    "id": "musicbuddy-16x5fqg",
+    "title": "Mozart: Requiem",
+    "artist": "Wolfgang Amadeus Mozart",
+    "coverUrl": "https://s3.amazonaws.com/kimicoapps-musicbuddy/8E5EC1F0-7A75-4DA1-B4D8-F72F0F32C8C4",
+    "format": "vinyl",
+    "dateAdded": "2026-07-26T16:28:58.000Z",
+    "favorite": false,
+    "zone": "unsorted",
+    "composers": [
+      "Wolfgang Amadeus Mozart"
+    ]
   }
 ]
