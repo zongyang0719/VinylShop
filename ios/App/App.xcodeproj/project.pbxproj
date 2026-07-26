@@ -14,6 +14,7 @@
 		A10000000000000000000003 /* CoverImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* CoverImageStore.swift */; };
 		A10000000000000000000005 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* ContentView.swift */; };
 		A10000000000000000000006 /* VinylShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* VinylShopApp.swift */; };
+		A1000000000000000000000D /* AlbumDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000D /* AlbumDetailScreen.swift */; };
 		A1000000000000000000000C /* RecordRackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000C /* RecordRackView.swift */; };
 		A1000000000000000000000A /* RecordRackGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* RecordRackGeometry.swift */; };
 		A1000000000000000000000B /* RackFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* RackFeedback.swift */; };
@@ -33,6 +34,7 @@
 		A20000000000000000000003 /* CoverImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageStore.swift; sourceTree = "<group>"; };
 		A20000000000000000000005 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A20000000000000000000006 /* VinylShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylShopApp.swift; sourceTree = "<group>"; };
+		A2000000000000000000000D /* AlbumDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailScreen.swift; sourceTree = "<group>"; };
 		A2000000000000000000000C /* RecordRackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRackView.swift; sourceTree = "<group>"; };
 		A2000000000000000000000A /* RecordRackGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRackGeometry.swift; sourceTree = "<group>"; };
 		A2000000000000000000000B /* RackFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RackFeedback.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				A2000000000000000000000A /* RecordRackGeometry.swift */,
 				A2000000000000000000000B /* RackFeedback.swift */,
 				A2000000000000000000000C /* RecordRackView.swift */,
+				A2000000000000000000000D /* AlbumDetailScreen.swift */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				A1000000000000000000000A /* RecordRackGeometry.swift in Sources */,
 				A1000000000000000000000B /* RackFeedback.swift in Sources */,
 				A1000000000000000000000C /* RecordRackView.swift in Sources */,
+				A1000000000000000000000D /* AlbumDetailScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

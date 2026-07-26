@@ -41,6 +41,7 @@ final class RackFeedback {
     private let selectionGenerator = UISelectionFeedbackGenerator()
 
     private var lastFire: TimeInterval = 0
+    private var activePlayer: CHHapticPatternPlayer?
 
     private init() {}
 
@@ -91,11 +92,14 @@ final class RackFeedback {
             engine?.playsHapticsOnly = true
         }
 
+        engine?.isAutoShutdownEnabled = false
+
         do {
             try engine?.start()
             engineStarted = true
         } catch {
             engineStarted = false
+            NSLog("[haptics] engine start failed: %@", String(describing: error))
         }
     }
 
@@ -168,34 +172,46 @@ final class RackFeedback {
     }
 
     private func playHaptic(speed: Double) {
-        guard supportsHaptics else {
-            selectionGenerator.selectionChanged()
-            selectionGenerator.prepare()
-            return
+        if supportsHaptics {
+            if !engineStarted {
+                startHapticEngine()
+            }
+            if engineStarted, let engine {
+                // A high sharpness transient is what reads as a mechanical click;
+                // a rounded low-sharpness pulse reads as a soft tap instead.
+                let intensity = Float(min(0.55 + speed * 0.05, 1.0))
+                let event = CHHapticEvent(
+                    eventType: .hapticTransient,
+                    parameters: [
+                        CHHapticEventParameter(
+                            parameterID: .hapticIntensity, value: intensity
+                        ),
+                        CHHapticEventParameter(
+                            parameterID: .hapticSharpness, value: 0.92
+                        ),
+                    ],
+                    relativeTime: 0
+                )
+
+                do {
+                    let pattern = try CHHapticPattern(events: [event], parameters: [])
+                    let player = try engine.makePlayer(with: pattern)
+                    try player.start(atTime: CHHapticTimeImmediate)
+                    // Hold the player: releasing it as the pattern begins can cut
+                    // the event short.
+                    activePlayer = player
+                    return
+                } catch {
+                    NSLog("[haptics] play failed: %@", String(describing: error))
+                }
+            }
         }
 
-        if !engineStarted {
-            startHapticEngine()
-        }
-        guard engineStarted, let engine else { return }
-
-        // A high sharpness transient is what reads as a mechanical click; a
-        // rounded low-sharpness pulse reads as a soft tap instead.
-        let intensity = Float(min(0.42 + speed * 0.05, 0.85))
-        let event = CHHapticEvent(
-            eventType: .hapticTransient,
-            parameters: [
-                CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity),
-                CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.92),
-            ],
-            relativeTime: 0
-        )
-
-        guard
-            let pattern = try? CHHapticPattern(events: [event], parameters: []),
-            let hapticPlayer = try? engine.makePlayer(with: pattern)
-        else { return }
-        try? hapticPlayer.start(atTime: CHHapticTimeImmediate)
+        // Reached when the hardware has no haptic engine, when the engine failed
+        // to start, or when playback threw. Falling through to UIKit rather than
+        // returning means a failure degrades instead of going silent.
+        selectionGenerator.selectionChanged()
+        selectionGenerator.prepare()
     }
 
     private func playClick() {

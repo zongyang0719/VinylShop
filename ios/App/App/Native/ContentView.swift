@@ -115,6 +115,10 @@ private struct GalleryScreen: View {
 
     @State private var searchText = ""
 
+    private var versionCounts: [String: Int] {
+        store.versionCounts()
+    }
+
     private var albums: [Album] {
         store.search(
             searchText,
@@ -154,7 +158,8 @@ private struct GalleryScreen: View {
                         ForEach(albums) { album in
                             AlbumCard(
                                 album: album,
-                                coversOnly: store.displayMode == .covers
+                                coversOnly: store.displayMode == .covers,
+                                versionCount: versionCounts[album.id] ?? 1
                             ) {
                                 selectedAlbumID = album.id
                             }
@@ -187,6 +192,8 @@ private struct GalleryScreen: View {
 private struct AlbumCard: View {
     let album: Album
     let coversOnly: Bool
+    /// Editions of this album; the badge only appears above one.
+    var versionCount: Int = 1
     let action: () -> Void
 
     var body: some View {
@@ -225,6 +232,11 @@ private struct AlbumCard: View {
                         }
                         if album.format != .unknown {
                             Text(album.format.label)
+                        }
+                        // `.gallery-versions` — "N 个版本" when editions merged.
+                        if versionCount > 1 {
+                            Text("\(versionCount) 个版本")
+                                .foregroundStyle(.secondary)
                         }
                     }
                     .font(.caption)
@@ -266,153 +278,6 @@ private struct RecordRackScreen: View {
         .toolbar(.hidden, for: .navigationBar)
     }
 
-}
-
-private struct AlbumDetailScreen: View {
-    @ObservedObject var store: LibraryStore
-    let albumID: String
-
-    @Environment(\.dismiss) private var dismiss
-    @State private var confirmingDelete = false
-
-    private var album: Album? {
-        store.album(id: albumID)
-    }
-
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                if let album {
-                    VStack(alignment: .leading, spacing: 22) {
-                        NativeCoverImage(url: album.coverUrl, cornerRadius: 18, target: .hero)
-                            .aspectRatio(1, contentMode: .fit)
-                            .shadow(color: .black.opacity(0.24), radius: 24, y: 14)
-
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(album.title)
-                                .font(.largeTitle.bold())
-                            Text(album.cleanedArtist)
-                                .font(.title3)
-                                .foregroundStyle(.secondary)
-                        }
-
-                        HStack(spacing: 10) {
-                            if let year = album.year {
-                                DetailPill(String(year))
-                            }
-                            DetailPill(album.format.label)
-                            if let country = album.country, !country.isEmpty {
-                                DetailPill(country)
-                            }
-                        }
-
-                        DetailMetadata(album: album)
-
-                        if let tracks = album.tracklist, !tracks.isEmpty {
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text("曲目")
-                                    .font(.title2.bold())
-                                ForEach(Array(tracks.enumerated()), id: \.offset) {
-                                    _, track in
-                                    Text(track)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.vertical, 4)
-                                }
-                            }
-                        }
-                    }
-                    .padding(20)
-                }
-            }
-            .background(Color(uiColor: .systemGroupedBackground))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("完成") {
-                        dismiss()
-                    }
-                }
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    if let album {
-                        Button {
-                            store.toggleFavorite(id: album.id)
-                        } label: {
-                            Image(systemName: album.isFavorite ? "heart.fill" : "heart")
-                        }
-                        .tint(album.isFavorite ? .pink : nil)
-
-                        Button(role: .destructive) {
-                            confirmingDelete = true
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                    }
-                }
-            }
-            .confirmationDialog(
-                "删除这张唱片？",
-                isPresented: $confirmingDelete,
-                titleVisibility: .visible
-            ) {
-                Button("删除", role: .destructive) {
-                    store.delete(id: albumID)
-                    dismiss()
-                }
-            }
-        }
-        .presentationDragIndicator(.visible)
-    }
-}
-
-private struct DetailPill: View {
-    let text: String
-
-    init(_ text: String) {
-        self.text = text
-    }
-
-    var body: some View {
-        Text(text)
-            .font(.caption.weight(.semibold))
-            .padding(.horizontal, 12)
-            .frame(height: 32)
-            .glassEffect(.regular, in: .capsule)
-    }
-}
-
-private struct DetailMetadata: View {
-    let album: Album
-
-    var body: some View {
-        VStack(spacing: 0) {
-            if let label = album.label, !label.isEmpty {
-                row("厂牌", label)
-            }
-            if let catalog = album.catalogNumber, !catalog.isEmpty {
-                row("目录编号", catalog)
-            }
-            if let genres = album.genres, !genres.isEmpty {
-                row("流派", genres.joined(separator: " · "))
-            }
-            if let styles = album.styles, !styles.isEmpty {
-                row("风格", styles.joined(separator: " · "))
-            }
-        }
-        .padding(.horizontal, 16)
-        .background(.background.secondary, in: .rect(cornerRadius: 18))
-    }
-
-    private func row(_ title: String, _ value: String) -> some View {
-        HStack(alignment: .top, spacing: 16) {
-            Text(title)
-                .foregroundStyle(.secondary)
-                .frame(width: 64, alignment: .leading)
-            Text(value)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .font(.subheadline)
-        .padding(.vertical, 13)
-    }
 }
 
 private struct AddAlbumScreen: View {

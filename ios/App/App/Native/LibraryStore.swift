@@ -83,8 +83,7 @@ final class LibraryStore: ObservableObject {
         var seen = Set<String>()
 
         for album in albums {
-            let key = "\(album.artist.lowercased())|||\(album.title.lowercased())"
-            guard seen.insert(key).inserted else { continue }
+            guard seen.insert(Self.groupKey(album)).inserted else { continue }
             guard !favoritesOnly || album.isFavorite else { continue }
             guard formatFilter == .all || album.format.rawValue == formatFilter.rawValue
             else { continue }
@@ -115,6 +114,45 @@ final class LibraryStore: ObservableObject {
                 || ($0.label?.localizedCaseInsensitiveContains(term) == true)
                 || ($0.catalogNumber?.localizedCaseInsensitiveContains(term) == true)
         }
+    }
+
+    /// Different editions of one album share an artist and a title. Mirrors
+    /// `groupKey` in page.tsx, trimming included.
+    static func groupKey(_ album: Album) -> String {
+        let artist = album.artist.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let title = album.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return "\(artist)|||\(title)"
+    }
+
+    /// Every edition of the given album, newest addition first, matching the
+    /// order `getVersions` produces on the web.
+    func versions(of album: Album) -> [Album] {
+        let key = Self.groupKey(album)
+        let group = albums.filter { Self.groupKey($0) == key }
+        return group.isEmpty ? [album] : group.sorted { $0.dateAdded > $1.dateAdded }
+    }
+
+    /// Edition count per album id, for the gallery's "N 个版本" badge.
+    func versionCounts() -> [String: Int] {
+        var grouped: [String: [String]] = [:]
+        for album in albums {
+            grouped[Self.groupKey(album), default: []].append(album.id)
+        }
+        var counts: [String: Int] = [:]
+        for ids in grouped.values where ids.count > 1 {
+            for id in ids {
+                counts[id] = ids.count
+            }
+        }
+        return counts
+    }
+
+    /// Writes an edited record back. Only fields the edit form owns change; the
+    /// record keeps its id, so its place in every version group is preserved.
+    func update(_ album: Album) {
+        guard let index = albums.firstIndex(where: { $0.id == album.id }) else { return }
+        albums[index] = album
+        persist()
     }
 
     func album(id: String?) -> Album? {
