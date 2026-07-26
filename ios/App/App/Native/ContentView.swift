@@ -380,7 +380,7 @@ private struct RackSleeve: View {
                             .frame(width: 1)
                     }
 
-                NativeCoverImage(url: album.coverUrl, cornerRadius: 0)
+                NativeCoverImage(url: album.coverUrl, cornerRadius: 0, target: .sleeve)
                     .frame(width: 102, height: 102)
 
                 VStack(alignment: .leading, spacing: 5) {
@@ -436,7 +436,7 @@ private struct AlbumDetailScreen: View {
             ScrollView {
                 if let album {
                     VStack(alignment: .leading, spacing: 22) {
-                        NativeCoverImage(url: album.coverUrl, cornerRadius: 18)
+                        NativeCoverImage(url: album.coverUrl, cornerRadius: 18, target: .hero)
                             .aspectRatio(1, contentMode: .fit)
                             .shadow(color: .black.opacity(0.24), radius: 24, y: 14)
 

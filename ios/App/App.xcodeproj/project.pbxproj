@@ -15,6 +15,8 @@
 		A10000000000000000000004 /* FeedbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* FeedbackEngine.swift */; };
 		A10000000000000000000005 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* ContentView.swift */; };
 		A10000000000000000000006 /* VinylShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* VinylShopApp.swift */; };
+		A1000000000000000000000A /* RecordRackGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* RecordRackGeometry.swift */; };
+		A1000000000000000000000B /* RackFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* RackFeedback.swift */; };
 		A10000000000000000000007 /* initial-library.json in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* initial-library.json */; };
 		A10000000000000000000008 /* click-soft.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* click-soft.mp3 */; };
 		A10000000000000000000009 /* Covers in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* Covers */; };
@@ -32,6 +34,8 @@
 		A20000000000000000000004 /* FeedbackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngine.swift; sourceTree = "<group>"; };
 		A20000000000000000000005 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A20000000000000000000006 /* VinylShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylShopApp.swift; sourceTree = "<group>"; };
+		A2000000000000000000000A /* RecordRackGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRackGeometry.swift; sourceTree = "<group>"; };
+		A2000000000000000000000B /* RackFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RackFeedback.swift; sourceTree = "<group>"; };
 		A20000000000000000000007 /* initial-library.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "initial-library.json"; path = "../../../app/data/initial-library.json"; sourceTree = "<group>"; };
 		A20000000000000000000008 /* click-soft.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "click-soft.mp3"; path = "../../../public/assets/sounds/click-soft.mp3"; sourceTree = "<group>"; };
 		A20000000000000000000009 /* Covers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Covers; path = Resources/Covers; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 				A20000000000000000000001 /* Album.swift */,
 				A20000000000000000000002 /* LibraryStore.swift */,
 				A20000000000000000000003 /* CoverImageStore.swift */,
+				A2000000000000000000000A /* RecordRackGeometry.swift */,
+				A2000000000000000000000B /* RackFeedback.swift */,
 				A20000000000000000000004 /* FeedbackEngine.swift */,
 			);
 			path = Native;
@@ -175,6 +181,8 @@
 				A10000000000000000000001 /* Album.swift in Sources */,
 				A10000000000000000000002 /* LibraryStore.swift in Sources */,
 				A10000000000000000000003 /* CoverImageStore.swift in Sources */,
+				A1000000000000000000000A /* RecordRackGeometry.swift in Sources */,
+				A1000000000000000000000B /* RackFeedback.swift in Sources */,
 				A10000000000000000000004 /* FeedbackEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
