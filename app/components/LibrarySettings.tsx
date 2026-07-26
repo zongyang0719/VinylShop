@@ -1,11 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type {
+  GalleryDisplayMode,
+  LibraryFormatFilter,
+  LibrarySortMode,
+} from "../lib/library-preferences";
 import { AppIcon } from "./AppIcon";
 
-export type GalleryDisplayMode = "standard" | "covers";
-export type LibraryFormatFilter = "all" | "vinyl" | "cd";
-export type LibrarySortMode = "added" | "artist" | "title" | "year";
+export type {
+  GalleryDisplayMode,
+  LibraryFormatFilter,
+  LibrarySortMode,
+} from "../lib/library-preferences";
 
 type LibrarySettingsProps = {
   displayMode: GalleryDisplayMode;
@@ -14,6 +21,7 @@ type LibrarySettingsProps = {
   onDisplayModeChange: (value: GalleryDisplayMode) => void;
   onFormatFilterChange: (value: LibraryFormatFilter) => void;
   onSortModeChange: (value: LibrarySortMode) => void;
+  syncStatus: "idle" | "saving" | "saved" | "offline";
   onClose: () => void;
 };
 
@@ -79,6 +87,7 @@ export function LibrarySettings({
   onDisplayModeChange,
   onFormatFilterChange,
   onSortModeChange,
+  syncStatus,
   onClose,
 }: LibrarySettingsProps) {
   return (
@@ -136,6 +145,15 @@ export function LibrarySettings({
           ]}
           onChange={onSortModeChange}
         />
+        <p className={`library-settings-sync is-${syncStatus}`} role="status">
+          {syncStatus === "idle"
+            ? "正在读取云端设置…"
+            : syncStatus === "saving"
+            ? "正在同步到云端…"
+            : syncStatus === "offline"
+              ? "已保存在本机，联网后再同步"
+              : "已在手机和电脑间同步"}
+        </p>
       </motion.section>
     </>
   );

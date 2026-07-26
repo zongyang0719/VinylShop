@@ -3520,6 +3520,21 @@ a:focus-visible {
   font-weight: 610;
 }
 
+.library-settings-sync {
+  margin: 14px 18px 4px;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.library-settings-sync.is-saving {
+  color: color-mix(in srgb, var(--text) 68%, transparent);
+}
+
+.library-settings-sync.is-offline {
+  color: #9a6a32;
+}
+
 .library-search-backdrop {
   position: fixed;
   z-index: 60;

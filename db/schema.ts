@@ -33,3 +33,11 @@ export const albums = sqliteTable("albums", {
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
+
+export const libraryPreferences = sqliteTable("library_preferences", {
+  id: text("id").primaryKey(),
+  displayMode: text("display_mode").notNull().default("standard"),
+  formatFilter: text("format_filter").notNull().default("all"),
+  sortMode: text("sort_mode").notNull().default("added"),
+  updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+});

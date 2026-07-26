@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import GlassSurface from "@/components/GlassSurface";
 import { AddModal } from "./components/AddModal";
 import { AppIcon } from "./components/AppIcon";
@@ -9,15 +9,19 @@ import { CrateView } from "./components/CrateView";
 import { GalleryView } from "./components/GalleryView";
 import { InspectModal } from "./components/InspectModal";
 import { LibrarySearch } from "./components/LibrarySearch";
+import { LibrarySettings } from "./components/LibrarySettings";
 import {
-  LibrarySettings,
-  type GalleryDisplayMode,
-  type LibraryFormatFilter,
-  type LibrarySortMode,
-} from "./components/LibrarySettings";
+  cacheLibraryPreferences,
+  DEFAULT_LIBRARY_PREFERENCES,
+  fetchLibraryPreferences,
+  readCachedLibraryPreferencesState,
+  saveLibraryPreferences,
+  type LibraryPreferences,
+} from "./lib/library-preferences";
 import {
   deleteAlbum,
-  getAlbums,
+  getCachedAlbums,
+  refreshAlbums,
   upsertAlbum,
   upsertAlbums,
   type Album,
@@ -74,20 +78,24 @@ export default function Home() {
   const [addOpen, setAddOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [displayMode, setDisplayMode] =
-    useState<GalleryDisplayMode>("standard");
-  const [formatFilter, setFormatFilter] =
-    useState<LibraryFormatFilter>("all");
-  const [sortMode, setSortMode] = useState<LibrarySortMode>("added");
+  const [preferences, setPreferences] = useState<LibraryPreferences>(
+    DEFAULT_LIBRARY_PREFERENCES,
+  );
+  const preferencesRef = useRef(preferences);
+  const preferencesRevisionRef = useRef(0);
+  const [preferencesSyncStatus, setPreferencesSyncStatus] = useState<
+    "idle" | "saving" | "saved" | "offline"
+  >("idle");
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [favoriteNotice, setFavoriteNotice] = useState("");
+  const { displayMode, formatFilter, sortMode } = preferences;
 
   async function loadLibrary() {
     setLoading(true);
     setLoadError("");
     try {
-      setAlbums(await getAlbums());
+      setAlbums(await refreshAlbums());
     } catch (error) {
       setLoadError(
         error instanceof Error ? error.message : "唱片库暂时无法打开",
@@ -99,15 +107,25 @@ export default function Home() {
 
   useEffect(() => {
     let active = true;
+    const cached = getCachedAlbums();
 
-    getAlbums()
+    if (cached) {
+      queueMicrotask(() => {
+        if (active) {
+          setAlbums(cached);
+          setLoading(false);
+        }
+      });
+    }
+
+    refreshAlbums()
       .then((library) => {
         if (active) {
           setAlbums(library);
         }
       })
       .catch((error: unknown) => {
-        if (active) {
+        if (active && !cached) {
           setLoadError(
             error instanceof Error ? error.message : "唱片库暂时无法打开",
           );
@@ -123,6 +141,99 @@ export default function Home() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    let active = true;
+    const cached = readCachedLibraryPreferencesState();
+    const startingRevision = preferencesRevisionRef.current;
+
+    if (cached) {
+      preferencesRef.current = cached.preferences;
+      queueMicrotask(() => {
+        if (active) {
+          setPreferences(cached.preferences);
+          if (cached.pendingSync) {
+            setPreferencesSyncStatus("saving");
+          }
+        }
+      });
+    } else {
+      cacheLibraryPreferences(DEFAULT_LIBRARY_PREFERENCES);
+    }
+
+    const initialSync = cached?.pendingSync
+      ? saveLibraryPreferences(cached.preferences)
+      : fetchLibraryPreferences();
+
+    initialSync
+      .then((cloudPreferences) => {
+        if (
+          active &&
+          preferencesRevisionRef.current === startingRevision
+        ) {
+          preferencesRef.current = cloudPreferences;
+          setPreferences(cloudPreferences);
+          setPreferencesSyncStatus("saved");
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setPreferencesSyncStatus("offline");
+        }
+      });
+
+    const retryPendingPreferences = () => {
+      const pending = readCachedLibraryPreferencesState();
+      if (!pending?.pendingSync) {
+        return;
+      }
+      const revision = preferencesRevisionRef.current;
+      setPreferencesSyncStatus("saving");
+      void saveLibraryPreferences(pending.preferences)
+        .then((saved) => {
+          if (active && preferencesRevisionRef.current === revision) {
+            preferencesRef.current = saved;
+            setPreferences(saved);
+            setPreferencesSyncStatus("saved");
+          }
+        })
+        .catch(() => {
+          if (active && preferencesRevisionRef.current === revision) {
+            setPreferencesSyncStatus("offline");
+          }
+        });
+    };
+
+    window.addEventListener("online", retryPendingPreferences);
+    return () => {
+      active = false;
+      window.removeEventListener("online", retryPendingPreferences);
+    };
+  }, []);
+
+  function updatePreferences(patch: Partial<LibraryPreferences>) {
+    const next = { ...preferencesRef.current, ...patch };
+    const revision = preferencesRevisionRef.current + 1;
+    preferencesRevisionRef.current = revision;
+    preferencesRef.current = next;
+    setPreferences(next);
+    cacheLibraryPreferences(next);
+    setPreferencesSyncStatus("saving");
+
+    void saveLibraryPreferences(next)
+      .then((saved) => {
+        if (preferencesRevisionRef.current === revision) {
+          preferencesRef.current = saved;
+          setPreferences(saved);
+          setPreferencesSyncStatus("saved");
+        }
+      })
+      .catch(() => {
+        if (preferencesRevisionRef.current === revision) {
+          setPreferencesSyncStatus("offline");
+        }
+      });
+  }
 
   useEffect(() => {
     const preloadCrate = () => {
@@ -402,9 +513,16 @@ export default function Home() {
               displayMode={displayMode}
               formatFilter={formatFilter}
               sortMode={sortMode}
-              onDisplayModeChange={setDisplayMode}
-              onFormatFilterChange={setFormatFilter}
-              onSortModeChange={setSortMode}
+              onDisplayModeChange={(value) =>
+                updatePreferences({ displayMode: value })
+              }
+              onFormatFilterChange={(value) =>
+                updatePreferences({ formatFilter: value })
+              }
+              onSortModeChange={(value) =>
+                updatePreferences({ sortMode: value })
+              }
+              syncStatus={preferencesSyncStatus}
               onClose={closeSettings}
             />
           )}

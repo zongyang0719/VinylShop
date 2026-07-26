@@ -22,6 +22,13 @@
       "when": 1784973099876,
       "tag": "0002_wooden_kid_colt",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1785052418369,
+      "tag": "0003_tranquil_nighthawk",
+      "breakpoints": true
     }
   ]
 }

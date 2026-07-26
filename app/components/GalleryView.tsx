@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { Album } from "@/app/lib/store";
-import type { GalleryDisplayMode } from "./LibrarySettings";
+import type { GalleryDisplayMode } from "../lib/library-preferences";
 import { AppIcon } from "./AppIcon";
 
 function proxyArtwork(url: string) {

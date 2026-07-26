@@ -56,15 +56,15 @@ const CACHE_KEY = "vinylshop_albums";
 const CACHE_TS_KEY = "vinylshop_albums_ts";
 const CACHE_VER_KEY = "vinylshop_cache_ver";
 const CACHE_VERSION = "2026-07-26-v4-enriched";
-const CACHE_TTL = 1000 * 60 * 30; // 30 min
 
-function readCache(): Album[] | null {
+export function getCachedAlbums(): Album[] | null {
+  if (typeof window === "undefined") return null;
   try {
-    if (localStorage.getItem(CACHE_VER_KEY) !== CACHE_VERSION) return null;
-    const raw = localStorage.getItem(CACHE_KEY);
-    const ts = localStorage.getItem(CACHE_TS_KEY);
-    if (!raw || !ts) return null;
-    if (Date.now() - Number(ts) > CACHE_TTL) return null;
+    if (window.localStorage.getItem(CACHE_VER_KEY) !== CACHE_VERSION) {
+      return null;
+    }
+    const raw = window.localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
     return JSON.parse(raw) as Album[];
   } catch {
     return null;
@@ -72,16 +72,18 @@ function readCache(): Album[] | null {
 }
 
 function writeCache(albums: Album[]) {
+  if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(albums));
-    localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
-    localStorage.setItem(CACHE_VER_KEY, CACHE_VERSION);
+    window.localStorage.setItem(CACHE_KEY, JSON.stringify(albums));
+    window.localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
+    window.localStorage.setItem(CACHE_VER_KEY, CACHE_VERSION);
   } catch { /* quota exceeded — ignore */ }
 }
 
 function patchCache(updated: Album[]) {
+  if (typeof window === "undefined") return;
   try {
-    const raw = localStorage.getItem(CACHE_KEY);
+    const raw = window.localStorage.getItem(CACHE_KEY);
     if (!raw) { writeCache(updated); return; }
     const existing = JSON.parse(raw) as Album[];
     const map = new Map(existing.map((a) => [a.id, a]));
@@ -91,15 +93,16 @@ function patchCache(updated: Album[]) {
 }
 
 export async function getAlbums(): Promise<Album[]> {
-  const cached = readCache();
+  const cached = getCachedAlbums();
   if (cached) {
-    fetch("/api/albums", { cache: "no-store" })
-      .then((r) => readJson<AlbumsResponse>(r))
-      .then((d) => { if (d.albums) writeCache(d.albums); })
-      .catch(() => {});
+    void refreshAlbums().catch(() => {});
     return cached;
   }
 
+  return refreshAlbums();
+}
+
+export async function refreshAlbums(): Promise<Album[]> {
   const response = await fetch("/api/albums", {
     cache: "no-store",
   });
@@ -139,7 +142,7 @@ export async function deleteAlbum(id: string) {
       (data as { error?: string }).error ?? "删除失败",
     );
   }
-  const cached = readCache();
+  const cached = getCachedAlbums();
   if (cached) {
     writeCache(cached.filter((a) => a.id !== id));
   }
