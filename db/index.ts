@@ -76,6 +76,28 @@ export async function ensureAlbumsTable() {
       "ALTER TABLE albums ADD COLUMN number_of_volumes integer",
     ).run();
   }
+  const newTextCols2 = [
+    "musicbuddy_source_key",
+    "labels_json",
+    "track_durations_json",
+    "composers_json",
+    "orchestras_json",
+    "conductors_json",
+    "performers_json",
+    "writers_json",
+    "production_companies_json",
+    "source_metadata_json",
+  ];
+  for (const col of newTextCols2) {
+    if (!columns.results.some((c) => c.name === col)) {
+      await env.DB.prepare(`ALTER TABLE albums ADD COLUMN ${col} text`).run();
+    }
+  }
+  if (!columns.results.some((c) => c.name === "original_release_year")) {
+    await env.DB.prepare(
+      "ALTER TABLE albums ADD COLUMN original_release_year integer",
+    ).run();
+  }
 
   await env.DB.prepare(
     "UPDATE albums SET zone = 'unsorted' WHERE zone = 'frequent'",

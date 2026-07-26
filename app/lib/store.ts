@@ -30,6 +30,17 @@ export type Album = {
   numberOfVolumes?: number;
   vinylColor?: string;
   vinylStyle?: VinylStyle;
+  musicBuddySourceKey?: string;
+  originalReleaseYear?: number;
+  labels?: string[];
+  trackDurations?: number[];
+  composers?: string[];
+  orchestras?: string[];
+  conductors?: string[];
+  performers?: string[];
+  writers?: string[];
+  productionCompanies?: string[];
+  sourceMetadataJson?: string;
 };
 
 type AlbumsResponse = {

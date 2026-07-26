@@ -81,6 +81,44 @@ function normalizeAlbum(value: unknown): Album | null {
       : {}),
     ...(input.vinylColor?.trim() ? { vinylColor: input.vinylColor.trim() } : {}),
     ...(input.vinylStyle ? { vinylStyle: input.vinylStyle as VinylStyle } : {}),
+    ...(input.musicBuddySourceKey?.trim()
+      ? { musicBuddySourceKey: input.musicBuddySourceKey.trim() }
+      : {}),
+    ...(input.originalReleaseYear
+      ? { originalReleaseYear: Number(input.originalReleaseYear) }
+      : {}),
+    ...(Array.isArray(input.labels) && input.labels.length
+      ? { labels: input.labels.map((l) => l.trim()).filter(Boolean) }
+      : {}),
+    ...(Array.isArray(input.trackDurations) && input.trackDurations.length
+      ? { trackDurations: input.trackDurations }
+      : {}),
+    ...(Array.isArray(input.composers) && input.composers.length
+      ? { composers: input.composers.map((c) => c.trim()).filter(Boolean) }
+      : {}),
+    ...(Array.isArray(input.orchestras) && input.orchestras.length
+      ? { orchestras: input.orchestras.map((o) => o.trim()).filter(Boolean) }
+      : {}),
+    ...(Array.isArray(input.conductors) && input.conductors.length
+      ? { conductors: input.conductors.map((c) => c.trim()).filter(Boolean) }
+      : {}),
+    ...(Array.isArray(input.performers) && input.performers.length
+      ? { performers: input.performers.map((p) => p.trim()).filter(Boolean) }
+      : {}),
+    ...(Array.isArray(input.writers) && input.writers.length
+      ? { writers: input.writers.map((w) => w.trim()).filter(Boolean) }
+      : {}),
+    ...(Array.isArray(input.productionCompanies) &&
+    input.productionCompanies.length
+      ? {
+          productionCompanies: input.productionCompanies
+            .map((p) => p.trim())
+            .filter(Boolean),
+        }
+      : {}),
+    ...(input.sourceMetadataJson?.trim()
+      ? { sourceMetadataJson: input.sourceMetadataJson.trim() }
+      : {}),
   };
 }
 
@@ -114,6 +152,31 @@ function toRow(album: Album) {
     numberOfVolumes: album.numberOfVolumes ?? null,
     vinylColor: album.vinylColor ?? null,
     vinylStyle: album.vinylStyle ?? null,
+    musicBuddySourceKey: album.musicBuddySourceKey ?? null,
+    originalReleaseYear: album.originalReleaseYear ?? null,
+    labelsJson: album.labels?.length ? JSON.stringify(album.labels) : null,
+    trackDurationsJson: album.trackDurations?.length
+      ? JSON.stringify(album.trackDurations)
+      : null,
+    composersJson: album.composers?.length
+      ? JSON.stringify(album.composers)
+      : null,
+    orchestrasJson: album.orchestras?.length
+      ? JSON.stringify(album.orchestras)
+      : null,
+    conductorsJson: album.conductors?.length
+      ? JSON.stringify(album.conductors)
+      : null,
+    performersJson: album.performers?.length
+      ? JSON.stringify(album.performers)
+      : null,
+    writersJson: album.writers?.length
+      ? JSON.stringify(album.writers)
+      : null,
+    productionCompaniesJson: album.productionCompanies?.length
+      ? JSON.stringify(album.productionCompanies)
+      : null,
+    sourceMetadataJson: album.sourceMetadataJson ?? null,
     updatedAt: new Date().toISOString(),
   };
 }
@@ -168,6 +231,47 @@ function fromRow(row: typeof albumsTable.$inferSelect): Album {
       : {}),
     ...(row.vinylColor ? { vinylColor: row.vinylColor } : {}),
     ...(row.vinylStyle ? { vinylStyle: row.vinylStyle as VinylStyle } : {}),
+    ...(row.musicBuddySourceKey
+      ? { musicBuddySourceKey: row.musicBuddySourceKey }
+      : {}),
+    ...(row.originalReleaseYear
+      ? { originalReleaseYear: row.originalReleaseYear }
+      : {}),
+    ...(row.labelsJson
+      ? { labels: JSON.parse(row.labelsJson as string) as string[] }
+      : {}),
+    ...(row.trackDurationsJson
+      ? {
+          trackDurations: JSON.parse(
+            row.trackDurationsJson as string,
+          ) as number[],
+        }
+      : {}),
+    ...(row.composersJson
+      ? { composers: JSON.parse(row.composersJson as string) as string[] }
+      : {}),
+    ...(row.orchestrasJson
+      ? { orchestras: JSON.parse(row.orchestrasJson as string) as string[] }
+      : {}),
+    ...(row.conductorsJson
+      ? { conductors: JSON.parse(row.conductorsJson as string) as string[] }
+      : {}),
+    ...(row.performersJson
+      ? { performers: JSON.parse(row.performersJson as string) as string[] }
+      : {}),
+    ...(row.writersJson
+      ? { writers: JSON.parse(row.writersJson as string) as string[] }
+      : {}),
+    ...(row.productionCompaniesJson
+      ? {
+          productionCompanies: JSON.parse(
+            row.productionCompaniesJson as string,
+          ) as string[],
+        }
+      : {}),
+    ...(row.sourceMetadataJson
+      ? { sourceMetadataJson: row.sourceMetadataJson }
+      : {}),
   };
 }
 
@@ -276,31 +380,42 @@ export async function POST(request: Request) {
         .onConflictDoUpdate({
           target: albumsTable.id,
           set: {
-            discogsId: sql`excluded.discogs_id`,
+            discogsId: sql`COALESCE(excluded.discogs_id, albums.discogs_id)`,
             title: sql`excluded.title`,
             artist: sql`excluded.artist`,
-            year: sql`excluded.year`,
-            releaseDate: sql`excluded.release_date`,
+            year: sql`COALESCE(excluded.year, albums.year)`,
+            releaseDate: sql`COALESCE(excluded.release_date, albums.release_date)`,
             coverUrl: sql`excluded.cover_url`,
             format: sql`excluded.format`,
             zone: sql`excluded.zone`,
             isFavorite: sql`excluded.is_favorite`,
             dateAdded: sql`excluded.date_added`,
-            purchaseDate: sql`excluded.purchase_date`,
-            purchasePrice: sql`excluded.purchase_price`,
-            doubanUrl: sql`excluded.douban_url`,
-            tracklistJson: sql`excluded.tracklist_json`,
-            label: sql`excluded.label`,
-            genresJson: sql`excluded.genres_json`,
-            stylesJson: sql`excluded.styles_json`,
-            country: sql`excluded.country`,
-            catalogNumber: sql`excluded.catalog_number`,
-            producersJson: sql`excluded.producers_json`,
-            edition: sql`excluded.edition`,
-            barcode: sql`excluded.barcode`,
-            numberOfVolumes: sql`excluded.number_of_volumes`,
-            vinylColor: sql`excluded.vinyl_color`,
-            vinylStyle: sql`excluded.vinyl_style`,
+            purchaseDate: sql`COALESCE(excluded.purchase_date, albums.purchase_date)`,
+            purchasePrice: sql`COALESCE(excluded.purchase_price, albums.purchase_price)`,
+            doubanUrl: sql`COALESCE(excluded.douban_url, albums.douban_url)`,
+            tracklistJson: sql`COALESCE(excluded.tracklist_json, albums.tracklist_json)`,
+            label: sql`COALESCE(excluded.label, albums.label)`,
+            genresJson: sql`COALESCE(excluded.genres_json, albums.genres_json)`,
+            stylesJson: sql`COALESCE(excluded.styles_json, albums.styles_json)`,
+            country: sql`COALESCE(excluded.country, albums.country)`,
+            catalogNumber: sql`COALESCE(excluded.catalog_number, albums.catalog_number)`,
+            producersJson: sql`COALESCE(excluded.producers_json, albums.producers_json)`,
+            edition: sql`COALESCE(excluded.edition, albums.edition)`,
+            barcode: sql`COALESCE(excluded.barcode, albums.barcode)`,
+            numberOfVolumes: sql`COALESCE(excluded.number_of_volumes, albums.number_of_volumes)`,
+            vinylColor: sql`COALESCE(excluded.vinyl_color, albums.vinyl_color)`,
+            vinylStyle: sql`COALESCE(excluded.vinyl_style, albums.vinyl_style)`,
+            musicBuddySourceKey: sql`COALESCE(excluded.musicbuddy_source_key, albums.musicbuddy_source_key)`,
+            originalReleaseYear: sql`COALESCE(excluded.original_release_year, albums.original_release_year)`,
+            labelsJson: sql`COALESCE(excluded.labels_json, albums.labels_json)`,
+            trackDurationsJson: sql`COALESCE(excluded.track_durations_json, albums.track_durations_json)`,
+            composersJson: sql`COALESCE(excluded.composers_json, albums.composers_json)`,
+            orchestrasJson: sql`COALESCE(excluded.orchestras_json, albums.orchestras_json)`,
+            conductorsJson: sql`COALESCE(excluded.conductors_json, albums.conductors_json)`,
+            performersJson: sql`COALESCE(excluded.performers_json, albums.performers_json)`,
+            writersJson: sql`COALESCE(excluded.writers_json, albums.writers_json)`,
+            productionCompaniesJson: sql`COALESCE(excluded.production_companies_json, albums.production_companies_json)`,
+            sourceMetadataJson: sql`COALESCE(excluded.source_metadata_json, albums.source_metadata_json)`,
             updatedAt: sql`excluded.updated_at`,
           },
         });
