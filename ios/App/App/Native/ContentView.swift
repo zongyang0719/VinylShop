@@ -260,43 +260,12 @@ private struct RecordRackScreen: View {
             onActiveIndexChange: { activeIndex = $0 },
             onInspect: { selectedAlbumID = $0.id }
         )
-        .ignoresSafeArea(edges: .bottom)
-        .overlay(alignment: .top) { positionBar }
-        .navigationTitle("唱片架")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            LibraryToolbar(
-                showingSettings: $showingSettings,
-                showingAdd: $showingAdd
-            )
-        }
+        .ignoresSafeArea()
+        // The rack is the whole screen: no title, no toolbar, no filter — only
+        // the tab bar stays, matching `.crate-fullscreen` covering the viewport.
+        .toolbar(.hidden, for: .navigationBar)
     }
 
-    @ViewBuilder
-    private var positionBar: some View {
-        if albums.indices.contains(activeIndex) {
-            let album = albums[activeIndex]
-            GlassEffectContainer(spacing: 12) {
-                HStack(spacing: 8) {
-                    Text(album.cleanedArtist)
-                        .lineLimit(1)
-                    Spacer(minLength: 8)
-                    Text("\(activeIndex + 1)/\(albums.count)")
-                        .monospacedDigit()
-                        .foregroundStyle(.secondary)
-                }
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, 16)
-                .frame(height: 48)
-                .glassEffect(
-                    .regular.interactive(),
-                    in: .rect(cornerRadius: 18)
-                )
-            }
-            .padding(.horizontal, 16)
-            .padding(.top, 8)
-        }
-    }
 }
 
 private struct AlbumDetailScreen: View {

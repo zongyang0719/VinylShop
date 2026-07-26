@@ -18,116 +18,191 @@ struct RackJumpRequest: Equatable {
 /// - front / back cover:  `translateZ(sh/2)` and `rotateX(180°) translateZ(sh/2)`
 /// - left / right edge:   `rotateY(∓90°) translateZ(rw/2)`, `sh` wide
 ///
-/// Every face is single-sided, mirroring `backface-visibility: hidden`.
-final class RecordSleeveView: UIView {
+/// The faces are **not** subviews of a per-record container. Core Animation has
+/// no equivalent of `transform-style: preserve-3d`: a layer flattens its subtree
+/// into its own plane, so a face perpendicular to that plane — every spine and
+/// edge — collapses to zero height and never draws. The covers survived only
+/// because a pure Z translation keeps them coplanar with the container.
+///
+/// So the hierarchy is flattened instead: every face is a direct child of the
+/// rack's stage, which is the layer carrying the perspective, and each face's
+/// transform is pre-multiplied as `localTransform · sleeveTransform`. That is the
+/// Core Animation equivalent of `preserve-3d`, and it puts every face in the same
+/// 3D space the perspective divide applies to.
+final class RecordSleeve {
     private let coverFront = UIImageView()
     private let coverBack = UIImageView()
     private let spineTop = UIView()
     private let spineBottom = UIView()
+    private let spineTopHighlight = UIView()
+    private let spineBottomHighlight = UIView()
     private let edgeLeft = UIView()
     private let edgeRight = UIView()
-    private let titleLabel = UILabel()
-    private let artistLabel = UILabel()
-    private let spineStack = UIStackView()
+    private let spineTopLabel = UILabel()
+    private let spineBottomLabel = UILabel()
 
-    private var thickness: CGFloat = 14
+    /// Painted back to front within one record: covers, then the printed spine,
+    /// then the side edges.
+    private(set) lazy var faces: [UIView] = [
+        coverBack, coverFront, edgeLeft, edgeRight, spineTop, spineBottom,
+    ]
+
+    private var localTransforms: [ObjectIdentifier: CATransform3D] = [:]
     private var albumID: String?
     private var loadTask: Task<Void, Never>?
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        isUserInteractionEnabled = false
-        layer.isDoubleSided = true
-
-        for face in [coverFront, coverBack, spineTop, spineBottom, edgeLeft, edgeRight] {
-            face.layer.isDoubleSided = false
-            addSubview(face)
-        }
-
+    init() {
         for cover in [coverFront, coverBack] {
             cover.contentMode = .scaleAspectFill
             cover.clipsToBounds = true
+            // `.cyl-cover { box-shadow: 0 0 0 1px var(--record-edge) }` — the ring
+            // that reads as the sleeve's cut edge.
+            cover.layer.borderWidth = 1
+        }
+        for edge in [edgeLeft, edgeRight] {
+            edge.layer.borderWidth = 1
         }
 
-        // font-size: 10px / weight 680, and 9px / weight 440 at 0.8 opacity.
-        titleLabel.font = .systemFont(ofSize: 10, weight: .semibold)
-        artistLabel.font = .systemFont(ofSize: 9, weight: .regular)
-        artistLabel.alpha = 0.8
-        for label in [titleLabel, artistLabel] {
-            label.lineBreakMode = .byTruncatingTail
+        // `.cyl-spine { box-shadow: 0 1px 4px rgba(0,0,0,.22),
+        //               inset 0 .5px 0 rgba(255,255,255,.18) }`
+        // The drop shadow lifts the spine off the cover behind it and the inset
+        // highlight catches light on the top lip; together they are what make the
+        // record read as a solid box rather than a flat sheet.
+        for spine in [spineTop, spineBottom] {
+            spine.layer.shadowColor = UIColor.black.cgColor
+            spine.layer.shadowOpacity = 0.22
+            spine.layer.shadowRadius = 2
+            spine.layer.shadowOffset = CGSize(width: 0, height: 1)
+        }
+        for highlight in [spineTopHighlight, spineBottomHighlight] {
+            highlight.backgroundColor = UIColor(white: 1, alpha: 0.18)
+        }
+        spineTop.addSubview(spineTopHighlight)
+        spineBottom.addSubview(spineBottomHighlight)
+
+        // The web renders `<strong>title</strong><span>artist</span>` in a centred
+        // flex row. One attributed line is the deterministic equivalent.
+        for label in [spineTopLabel, spineBottomLabel] {
+            label.textAlignment = .center
             label.numberOfLines = 1
+            label.lineBreakMode = .byTruncatingTail
         }
+        spineTop.addSubview(spineTopLabel)
+        spineBottom.addSubview(spineBottomLabel)
 
-        spineStack.axis = .horizontal
-        spineStack.alignment = .center
-        spineStack.spacing = 4
-        spineStack.addArrangedSubview(titleLabel)
-        spineStack.addArrangedSubview(artistLabel)
-        spineBottom.addSubview(spineStack)
-        spineBottom.clipsToBounds = true
-        spineTop.clipsToBounds = true
+        for face in faces {
+            face.isUserInteractionEnabled = false
+        }
     }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) { fatalError("not used") }
 
     deinit { loadTask?.cancel() }
 
-    /// Applies the six static face transforms for the current box size.
-    func layoutFaces(side: CGFloat, thickness: CGFloat) {
-        self.thickness = thickness
-        bounds = CGRect(x: 0, y: 0, width: side, height: side)
+    func addFaces(to stage: UIView) {
+        for face in faces {
+            stage.addSubview(face)
+        }
+    }
 
+    func removeFaces() {
+        for face in faces {
+            face.removeFromSuperview()
+        }
+    }
+
+    /// Sizes each face and records its local transform. All faces are centred on
+    /// the record's centre, exactly as the CSS faces are centred in `.cyl-box`.
+    func layoutFaces(side: CGFloat, thickness: CGFloat) {
         let half = side / 2
         let halfThickness = thickness / 2
+        let square = CGSize(width: side, height: side)
+        let horizontal = CGSize(width: side, height: thickness)
+        let vertical = CGSize(width: thickness, height: side)
 
-        coverFront.frame = bounds
-        coverFront.layer.transform = CATransform3DMakeTranslation(0, 0, halfThickness)
+        func size(_ view: UIView, _ value: CGSize) {
+            view.bounds = CGRect(origin: .zero, size: value)
+        }
 
-        coverBack.frame = bounds
-        coverBack.layer.transform = CATransform3DTranslate(
-            CATransform3DMakeRotation(.pi, 1, 0, 0),
-            0,
-            0,
-            halfThickness
+        size(coverFront, square)
+        size(coverBack, square)
+        size(spineTop, horizontal)
+        size(spineBottom, horizontal)
+        size(edgeLeft, vertical)
+        size(edgeRight, vertical)
+
+        set(coverFront, CATransform3DMakeTranslation(0, 0, halfThickness))
+        set(
+            coverBack,
+            CATransform3DTranslate(
+                CATransform3DMakeRotation(.pi, 1, 0, 0), 0, 0, halfThickness
+            )
+        )
+        set(
+            spineTop,
+            CATransform3DTranslate(CATransform3DMakeRotation(.pi / 2, 1, 0, 0), 0, 0, half)
+        )
+        set(
+            spineBottom,
+            CATransform3DTranslate(CATransform3DMakeRotation(-.pi / 2, 1, 0, 0), 0, 0, half)
+        )
+        set(
+            edgeLeft,
+            CATransform3DTranslate(CATransform3DMakeRotation(-.pi / 2, 0, 1, 0), 0, 0, half)
+        )
+        set(
+            edgeRight,
+            CATransform3DTranslate(CATransform3DMakeRotation(.pi / 2, 0, 1, 0), 0, 0, half)
         )
 
-        // Horizontal strip through the middle, rotated out to the top face.
-        let spineFrame = CGRect(x: 0, y: half - halfThickness, width: side, height: thickness)
-        spineTop.frame = spineFrame
-        spineTop.layer.transform = CATransform3DTranslate(
-            CATransform3DMakeRotation(.pi / 2, 1, 0, 0),
-            0,
-            0,
-            half
-        )
+        let highlightFrame = CGRect(x: 0, y: 0, width: side, height: 0.5)
+        spineTopHighlight.frame = highlightFrame
+        spineBottomHighlight.frame = highlightFrame
 
-        spineBottom.frame = spineFrame
-        spineBottom.layer.transform = CATransform3DTranslate(
-            CATransform3DMakeRotation(-.pi / 2, 1, 0, 0),
-            0,
-            0,
-            half
-        )
-        spineStack.frame = spineBottom.bounds.insetBy(dx: 16, dy: 0)
+        // `padding: 0 16px` on the spine.
+        let labelFrame = CGRect(x: 16, y: 0, width: max(side - 32, 0), height: thickness)
+        spineTopLabel.frame = labelFrame
+        spineBottomLabel.frame = labelFrame
 
-        // Vertical strip through the middle, rotated out to the side faces.
-        let edgeFrame = CGRect(x: half - halfThickness, y: 0, width: thickness, height: side)
-        edgeLeft.frame = edgeFrame
-        edgeLeft.layer.transform = CATransform3DTranslate(
-            CATransform3DMakeRotation(-.pi / 2, 0, 1, 0),
-            0,
-            0,
-            half
-        )
+        for spine in [spineTop, spineBottom] {
+            spine.layer.shadowPath = CGPath(
+                rect: CGRect(origin: .zero, size: horizontal),
+                transform: nil
+            )
+        }
+    }
 
-        edgeRight.frame = edgeFrame
-        edgeRight.layer.transform = CATransform3DTranslate(
-            CATransform3DMakeRotation(.pi / 2, 0, 1, 0),
-            0,
-            0,
-            half
-        )
+    private func set(_ view: UIView, _ transform: CATransform3D) {
+        localTransforms[ObjectIdentifier(view)] = transform
+    }
+
+    /// Places every face in the stage's 3D space for the current scroll.
+    func apply(sleeveTransform: CATransform3D, centre: CGPoint, distance: Double) {
+        for face in faces {
+            face.center = centre
+            let local = localTransforms[ObjectIdentifier(face)] ?? CATransform3DIdentity
+            face.layer.transform = CATransform3DConcat(local, sleeveTransform)
+        }
+        updateVisibility(distance: distance)
+    }
+
+    /// Hides the faces pointing away from the viewer.
+    ///
+    /// Composed X-rotations, from the sleeve's `90 + tilt` and each face's own
+    /// rotation, with `tilt = clamp(-distance × 3, ±64)`:
+    ///
+    /// - spine bottom: `tilt`       → `cos > 0` for every reachable tilt, always shown
+    /// - spine top:    `180 + tilt` → always facing away
+    /// - cover front:  `90 + tilt`  → faces the viewer while `tilt < 0`, below centre
+    /// - cover back:   `270 + tilt` → faces the viewer while `tilt > 0`, above centre
+    ///
+    /// This is done explicitly rather than with `isDoubleSided = false`, because
+    /// Core Animation evaluates that from a layer's own transform rather than the
+    /// composed chain the way CSS `backface-visibility` does.
+    private func updateVisibility(distance: Double) {
+        let above = distance < 0
+        coverFront.isHidden = above
+        coverBack.isHidden = !above
+        spineTop.isHidden = true
+        spineBottom.isHidden = false
     }
 
     func configure(with album: Album, target: CoverImageStore.Target) {
@@ -135,30 +210,59 @@ final class RecordSleeveView: UIView {
         albumID = album.id
         loadTask?.cancel()
 
-        titleLabel.text = album.title
-        artistLabel.text = album.cleanedArtist
-
-        // Seeded fallback so the box is never bare while artwork decodes,
-        // matching `seedColor` in CrateCylinder.tsx.
-        apply(edgeColor: Self.seedColor(for: album.title + album.artist))
+        let seeded = Self.seedColor(for: album.title + album.artist)
+        setSpineText(title: album.title, artist: album.cleanedArtist, on: seeded)
+        apply(edgeColor: seeded)
         coverFront.image = nil
         coverBack.image = nil
 
         let url = album.coverUrl
         let id = album.id
+        let title = album.title
+        let artist = album.cleanedArtist
         loadTask = Task { [weak self] in
             let image = await CoverImageStore.shared.image(for: url, target: target)
-            let color = await CoverImageStore.shared.edgeColor(for: url)
+            let colour = await CoverImageStore.shared.edgeColor(for: url)
             guard !Task.isCancelled else { return }
             await MainActor.run {
                 guard let self, self.albumID == id else { return }
                 self.coverFront.image = image
                 self.coverBack.image = image
-                if let color {
-                    self.apply(edgeColor: color)
+                if let colour {
+                    self.apply(edgeColor: colour)
+                    self.setSpineText(title: title, artist: artist, on: colour)
                 }
             }
         }
+    }
+
+    private func setSpineText(title: String, artist: String, on background: UIColor) {
+        let colour = Self.textColor(on: background)
+        let text = NSMutableAttributedString(
+            string: title,
+            attributes: [
+                .font: UIFont.systemFont(ofSize: 10, weight: .semibold),
+                .foregroundColor: colour,
+            ]
+        )
+        // `gap: 0.4em` between the two runs.
+        text.append(
+            NSAttributedString(
+                string: "  ",
+                attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold)]
+            )
+        )
+        text.append(
+            NSAttributedString(
+                string: artist,
+                attributes: [
+                    .font: UIFont.systemFont(ofSize: 9, weight: .regular),
+                    .foregroundColor: colour.withAlphaComponent(0.8),
+                ]
+            )
+        )
+        spineTopLabel.attributedText = text
+        spineBottomLabel.attributedText = text
     }
 
     private func apply(edgeColor: UIColor) {
@@ -169,10 +273,9 @@ final class RecordSleeveView: UIView {
         // reads as a record rather than a hole.
         coverFront.backgroundColor = edgeColor
         coverBack.backgroundColor = edgeColor
-
-        let text = Self.textColor(on: edgeColor)
-        titleLabel.textColor = text
-        artistLabel.textColor = text
+        for bordered in [coverFront, coverBack, edgeLeft, edgeRight] {
+            bordered.layer.borderColor = edgeColor.cgColor
+        }
     }
 
     /// Mirrors `PAL` + `seedColor` in CrateCylinder.tsx.
@@ -221,6 +324,13 @@ private final class DisplayLinkProxy {
 /// `scrollTransition` cannot express because its phase is normalised to the
 /// items entering and leaving the viewport.
 final class RecordRackView: UIView {
+    /// Sleeve thickness in points, matching `--sh: 14px` in globals.css.
+    /// Measured against the reference screenshots the printed spine reads about
+    /// 14.7pt tall with a 10pt face, i.e. the web values — the box's solidity
+    /// comes from the spine's shadow, its top highlight and the 1px cover ring,
+    /// not from a thicker sleeve.
+    static let sleeveThickness: CGFloat = 14
+
     var albums: [Album] = [] {
         didSet {
             guard albums.map(\.id) != oldValue.map(\.id) else { return }
@@ -258,8 +368,8 @@ final class RecordRackView: UIView {
     }
     private var drag: DragState?
 
-    private var slots: [Int: RecordSleeveView] = [:]
-    private var pool: [RecordSleeveView] = []
+    private var slots: [Int: RecordSleeve] = [:]
+    private var pool: [RecordSleeve] = []
     private let stage = UIView()
     private let vignette = CAGradientLayer()
     private let blurTop = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
@@ -284,14 +394,14 @@ final class RecordRackView: UIView {
         clipsToBounds = true
 
         addSubview(stage)
-        // CSS `perspective: 3200px` with `perspective-origin: 50% 47%`. The
-        // anchor point is what a sublayerTransform is applied about, so moving it
-        // to 0.47 reproduces the raised vanishing point.
+        // CSS `perspective: 3200px` with `perspective-origin: 50% 47%`. The anchor
+        // point is what a sublayerTransform is applied about, so moving it to 0.47
+        // reproduces the raised vanishing point. Every record face is a direct
+        // child of this view so the perspective reaches all of them.
         stage.layer.sublayerTransform = RackTuning.perspectiveTransform
         stage.layer.anchorPoint = CGPoint(x: 0.5, y: 0.47)
 
-        // `.crate-scene-side::after` radial vignette. A CAGradientLayer radial
-        // gradient is the closest native equivalent of the CSS ellipse.
+        // `.crate-scene-side::after` radial vignette.
         vignette.type = .radial
         vignette.colors = [
             UIColor.clear.cgColor,
@@ -372,13 +482,12 @@ final class RecordRackView: UIView {
         if side != sleeveSide {
             sleeveSide = side
             for sleeve in slots.values {
-                sleeve.layoutFaces(side: side, thickness: 14)
+                sleeve.layoutFaces(side: side, thickness: Self.sleeveThickness)
             }
             for sleeve in pool {
-                sleeve.layoutFaces(side: side, thickness: 14)
+                sleeve.layoutFaces(side: side, thickness: Self.sleeveThickness)
             }
         }
-        positionSlots()
         applyTransforms()
     }
 
@@ -398,66 +507,62 @@ final class RecordRackView: UIView {
     /// Mirrors the `visibleRecords` window: `RANGE * 2 + 1` records centred on
     /// `renderCenter`, wrapped so the rack loops forever.
     private func rebuildWindow(force: Bool = false) {
-        guard !albums.isEmpty, sleeveSide > 0 || force else { return }
+        guard !albums.isEmpty else { return }
         let count = albums.count
-        let wanted = Set(
-            (-RackTuning.range...RackTuning.range).map { renderCenter + $0 }
-        )
+        let wanted = Set((-RackTuning.range...RackTuning.range).map { renderCenter + $0 })
 
         for (virtualIndex, sleeve) in slots where !wanted.contains(virtualIndex) {
-            sleeve.removeFromSuperview()
+            sleeve.removeFaces()
             slots.removeValue(forKey: virtualIndex)
             pool.append(sleeve)
         }
 
         for virtualIndex in wanted.sorted() {
             let album = albums[wrapRecordIndex(virtualIndex, count)]
-            let sleeve: RecordSleeveView
+            let sleeve: RecordSleeve
             if let existing = slots[virtualIndex] {
                 sleeve = existing
             } else {
-                sleeve = pool.popLast() ?? RecordSleeveView(frame: .zero)
+                sleeve = pool.popLast() ?? RecordSleeve()
                 if sleeveSide > 0 {
-                    sleeve.layoutFaces(side: sleeveSide, thickness: 14)
+                    sleeve.layoutFaces(side: sleeveSide, thickness: Self.sleeveThickness)
                 }
-                stage.addSubview(sleeve)
+                sleeve.addFaces(to: stage)
                 slots[virtualIndex] = sleeve
             }
             sleeve.configure(with: album, target: .sleeve)
         }
 
-        positionSlots()
         sortByDepth()
         applyTransforms()
-    }
-
-    private func positionSlots() {
-        guard sleeveSide > 0 else { return }
-        let centre = CGPoint(x: stage.bounds.midX, y: stage.bounds.midY)
-        for sleeve in slots.values {
-            sleeve.center = centre
-        }
+        _ = force
     }
 
     /// The web sorts the rendered records by descending distance so nearer ones
     /// paint last. Core Animation paints siblings in order and does no depth
     /// testing, so the same ordering has to be applied here. `zPosition` is not
-    /// usable for this: it also translates in Z, which would change the record's
+    /// usable for this: it also translates in Z, which would change a record's
     /// apparent size under perspective.
     private func sortByDepth() {
         let ordered = slots
             .sorted { abs($0.key - renderCenter) > abs($1.key - renderCenter) }
             .map(\.value)
         for sleeve in ordered {
-            stage.bringSubviewToFront(sleeve)
+            for face in sleeve.faces {
+                stage.bringSubviewToFront(face)
+            }
         }
     }
 
     private func applyTransforms() {
+        guard sleeveSide > 0 else { return }
+        let centre = CGPoint(x: stage.bounds.midX, y: stage.bounds.midY)
         for (virtualIndex, sleeve) in slots {
-            sleeve.layer.transform = recordRackTransform(
-                index: Double(virtualIndex),
-                scroll: scroll
+            let index = Double(virtualIndex)
+            sleeve.apply(
+                sleeveTransform: recordRackTransform(index: index, scroll: scroll),
+                centre: centre,
+                distance: index - scroll
             )
         }
     }
