@@ -54,10 +54,13 @@ async function readJson<T>(response: Response): Promise<T> {
 
 const CACHE_KEY = "vinylshop_albums";
 const CACHE_TS_KEY = "vinylshop_albums_ts";
+const CACHE_VER_KEY = "vinylshop_cache_ver";
+const CACHE_VERSION = "2026-07-26-v2";
 const CACHE_TTL = 1000 * 60 * 30; // 30 min
 
 function readCache(): Album[] | null {
   try {
+    if (localStorage.getItem(CACHE_VER_KEY) !== CACHE_VERSION) return null;
     const raw = localStorage.getItem(CACHE_KEY);
     const ts = localStorage.getItem(CACHE_TS_KEY);
     if (!raw || !ts) return null;
@@ -72,6 +75,7 @@ function writeCache(albums: Album[]) {
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify(albums));
     localStorage.setItem(CACHE_TS_KEY, String(Date.now()));
+    localStorage.setItem(CACHE_VER_KEY, CACHE_VERSION);
   } catch { /* quota exceeded — ignore */ }
 }
 
