@@ -2,9 +2,11 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState, type CSSProperties } from "react";
+import type { MetadataProposal } from "@/app/lib/metadata";
 import type { Album, Format, VinylStyle } from "@/app/lib/store";
 import { CdDisc } from "./CdDisc";
 import { CoverSearch, type CoverSelection } from "./CoverSearch";
+import { MetadataUpdater } from "./MetadataUpdater";
 import { VinylDisc } from "./VinylDisc";
 
 type InspectModalProps = {
@@ -77,6 +79,14 @@ function cleanTracks(value: string) {
     .map((track) => track.trim())
     .filter(Boolean);
   return tracks.length > 0 ? tracks : undefined;
+}
+
+function cleanList(value: string) {
+  const items = value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  return items.length > 0 ? items : undefined;
 }
 
 function extractDominantColor(src: string): Promise<string> {
@@ -160,6 +170,18 @@ export function InspectModal({
     album.vinylStyle ?? "standard",
   );
   const [label, setLabel] = useState(album.label ?? "");
+  const [genres, setGenres] = useState(album.genres?.join(", ") ?? "");
+  const [styles, setStyles] = useState(album.styles?.join(", ") ?? "");
+  const [country, setCountry] = useState(album.country ?? "");
+  const [catalogNumber, setCatalogNumber] = useState(
+    album.catalogNumber ?? "",
+  );
+  const [producers, setProducers] = useState(
+    album.producers?.join(", ") ?? "",
+  );
+  const [edition, setEdition] = useState(album.edition ?? "");
+  const [barcode, setBarcode] = useState(album.barcode ?? "");
+
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [customHex, setCustomHex] = useState(
     album.vinylColor ?? "#1a1a1a",
@@ -199,6 +221,13 @@ export function InspectModal({
     setFormat(nextAlbum.format);
     setTracklist(nextAlbum.tracklist?.join("\n") ?? "");
     setLabel(nextAlbum.label ?? "");
+    setGenres(nextAlbum.genres?.join(", ") ?? "");
+    setStyles(nextAlbum.styles?.join(", ") ?? "");
+    setCountry(nextAlbum.country ?? "");
+    setCatalogNumber(nextAlbum.catalogNumber ?? "");
+    setProducers(nextAlbum.producers?.join(", ") ?? "");
+    setEdition(nextAlbum.edition ?? "");
+    setBarcode(nextAlbum.barcode ?? "");
     setVinylColor(nextAlbum.vinylColor ?? "#1a1a1a");
     setVinylStyle(nextAlbum.vinylStyle ?? "standard");
     setCustomHex(nextAlbum.vinylColor ?? "#1a1a1a");
@@ -217,6 +246,30 @@ export function InspectModal({
 
   function applyCoverOnly(selection: CoverSelection) {
     setCoverUrl(selection.url);
+  }
+
+  function applyMetadata(proposal: MetadataProposal) {
+    if (proposal.title !== undefined) setTitle(proposal.title);
+    if (proposal.artist !== undefined) setArtist(proposal.artist);
+    if (proposal.year !== undefined) setYear(String(proposal.year));
+    if (proposal.releaseDate !== undefined) {
+      setReleaseDate(dateInput(proposal.releaseDate));
+    }
+    if (proposal.label !== undefined) setLabel(proposal.label);
+    if (proposal.genres !== undefined) setGenres(proposal.genres.join(", "));
+    if (proposal.styles !== undefined) setStyles(proposal.styles.join(", "));
+    if (proposal.country !== undefined) setCountry(proposal.country);
+    if (proposal.catalogNumber !== undefined) {
+      setCatalogNumber(proposal.catalogNumber);
+    }
+    if (proposal.producers !== undefined) {
+      setProducers(proposal.producers.join(", "));
+    }
+    if (proposal.edition !== undefined) setEdition(proposal.edition);
+    if (proposal.barcode !== undefined) setBarcode(proposal.barcode);
+    if (proposal.tracklist !== undefined) {
+      setTracklist(proposal.tracklist.join("\n"));
+    }
   }
 
   function pickColor(color: string) {
@@ -250,6 +303,13 @@ export function InspectModal({
         purchasePrice: purchasePrice.trim() || undefined,
         doubanUrl: doubanUrl.trim() || undefined,
         label: label.trim() || undefined,
+        genres: cleanList(genres),
+        styles: cleanList(styles),
+        country: country.trim() || undefined,
+        catalogNumber: catalogNumber.trim() || undefined,
+        producers: cleanList(producers),
+        edition: edition.trim() || undefined,
+        barcode: barcode.trim() || undefined,
         format,
         vinylColor,
         vinylStyle,
@@ -284,6 +344,23 @@ export function InspectModal({
         ? "CD"
         : "未标注";
   const artwork = proxyArtwork(album.coverUrl);
+  const metadataDraft: Album = {
+    ...album,
+    title,
+    artist,
+    coverUrl,
+    year: Number(year) || undefined,
+    releaseDate: releaseDate || undefined,
+    label: label.trim() || undefined,
+    genres: cleanList(genres),
+    styles: cleanList(styles),
+    country: country.trim() || undefined,
+    catalogNumber: catalogNumber.trim() || undefined,
+    producers: cleanList(producers),
+    edition: edition.trim() || undefined,
+    barcode: barcode.trim() || undefined,
+    tracklist: cleanTracks(tracklist),
+  };
 
   return (
     <motion.div
@@ -418,6 +495,7 @@ export function InspectModal({
                   />
                 </label>
               </div>
+              <MetadataUpdater album={metadataDraft} onApply={applyMetadata} />
               <div className="field-row">
                 <label className="field">
                   <span>发行日期</span>
@@ -461,6 +539,70 @@ export function InspectModal({
                   value={label}
                   onChange={(event) => setLabel(event.target.value)}
                   placeholder="例如 环球音乐、索尼音乐"
+                />
+              </label>
+              <div className="field-row">
+                <label className="field">
+                  <span>流派</span>
+                  <input
+                    value={genres}
+                    onChange={(event) => setGenres(event.target.value)}
+                    placeholder="Pop, Rock, Jazz"
+                  />
+                </label>
+                <label className="field">
+                  <span>风格</span>
+                  <input
+                    value={styles}
+                    onChange={(event) => setStyles(event.target.value)}
+                    placeholder="Indie Pop, Ballad"
+                  />
+                </label>
+              </div>
+              <div className="field-row">
+                <label className="field">
+                  <span>发行国家</span>
+                  <input
+                    value={country}
+                    onChange={(event) => setCountry(event.target.value)}
+                    placeholder="例如 Japan, Taiwan"
+                  />
+                </label>
+                <label className="field">
+                  <span>编目号</span>
+                  <input
+                    value={catalogNumber}
+                    onChange={(event) =>
+                      setCatalogNumber(event.target.value)
+                    }
+                    placeholder="例如 XLLP520"
+                  />
+                </label>
+              </div>
+              <div className="field-row">
+                <label className="field">
+                  <span>制作人</span>
+                  <input
+                    value={producers}
+                    onChange={(event) => setProducers(event.target.value)}
+                    placeholder="逗号分隔"
+                  />
+                </label>
+                <label className="field">
+                  <span>版本说明</span>
+                  <input
+                    value={edition}
+                    onChange={(event) => setEdition(event.target.value)}
+                    placeholder="例如 再版、重新灌录"
+                  />
+                </label>
+              </div>
+              <label className="field field-wide">
+                <span>条形码</span>
+                <input
+                  value={barcode}
+                  onChange={(event) => setBarcode(event.target.value)}
+                  placeholder="UPC / EAN-13"
                 />
               </label>
               <label className="field field-wide">

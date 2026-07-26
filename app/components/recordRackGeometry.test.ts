@@ -5,7 +5,7 @@ import {
   nearestRecordOccurrence,
   RECORD_RACK_GEOMETRY,
   wrapRecordIndex,
-} from "./recordRackGeometry.ts";
+} from "./recordRackGeometry";
 
 test("the centred record is side-on in this box coordinate system", () => {
   const pose = computeRecordRackPose(4, 4);

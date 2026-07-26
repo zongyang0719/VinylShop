@@ -21,7 +21,16 @@ export type DiscogsRelease = {
     title: string;
     position?: string;
     type_?: string;
+    duration?: string;
   }>;
+  genres?: string[];
+  styles?: string[];
+  country?: string;
+  labels?: Array<{ name: string; catno?: string }>;
+  extraartists?: Array<{ name: string; role?: string }>;
+  identifiers?: Array<{ type: string; value: string }>;
+  notes?: string;
+  num_for_sale?: number;
 };
 
 async function apiFetch<T>(params: URLSearchParams): Promise<T> {
@@ -44,6 +53,96 @@ export function getDiscogsRelease(id: number) {
   return apiFetch<DiscogsRelease>(
     new URLSearchParams({ id: String(id) }),
   );
+}
+
+function parseDuration(dur: string): number {
+  const parts = dur.split(":");
+  if (parts.length === 2) {
+    return Number(parts[0]) * 60 + Number(parts[1]);
+  }
+  return 0;
+}
+
+function formatDuration(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+export type EnrichResult = {
+  genres?: string[];
+  styles?: string[];
+  country?: string;
+  catalogNumber?: string;
+  label?: string;
+  producers?: string[];
+  edition?: string;
+  barcode?: string;
+  year?: number;
+  tracklist?: string[];
+  numberOfVolumes?: number;
+};
+
+export async function enrichAlbumFromDiscogs(
+  discogsId: number | undefined,
+  title: string,
+  artist: string,
+): Promise<EnrichResult | null> {
+  let releaseId = discogsId;
+
+  if (!releaseId) {
+    try {
+      const results = await searchDiscogs(`${artist} ${title}`);
+      if (results.length === 0) return null;
+      releaseId = results[0].id;
+    } catch {
+      return null;
+    }
+  }
+
+  try {
+    const release = await getDiscogsRelease(releaseId);
+    const result: EnrichResult = {};
+
+    if (release.genres?.length) result.genres = release.genres;
+    if (release.styles?.length) result.styles = release.styles;
+    if (release.country) result.country = release.country;
+    if (release.year) result.year = release.year;
+
+    if (release.labels?.length) {
+      const mainLabel = release.labels[0];
+      result.label = mainLabel.name;
+      if (mainLabel.catno && mainLabel.catno !== "none") {
+        result.catalogNumber = mainLabel.catno;
+      }
+    }
+
+    const producers = release.extraartists
+      ?.filter((ea) => /produc/i.test(ea.role ?? ""))
+      .map((ea) => ea.name);
+    if (producers?.length) result.producers = producers;
+
+    const barcode = release.identifiers?.find(
+      (id) => id.type === "Barcode",
+    );
+    if (barcode?.value) result.barcode = barcode.value.replace(/\s/g, "");
+
+    if (release.tracklist?.length) {
+      result.tracklist = release.tracklist
+        .filter((t) => t.type_ !== "heading")
+        .map((t) => {
+          const prefix = t.position ? `${t.position}. ` : "";
+          const dur = t.duration ? parseDuration(t.duration) : 0;
+          const suffix = dur > 0 ? ` [${formatDuration(dur)}]` : "";
+          return `${prefix}${t.title}${suffix}`;
+        })
+        .filter(Boolean);
+    }
+
+    return result;
+  } catch {
+    return null;
+  }
 }
 
 function splitSearchTitle(value: string) {

@@ -320,11 +320,12 @@ export function CoverSearch({
         aria-expanded={expanded}
       >
         <span aria-hidden="true">⌕</span>
-        <span>搜索封面与专辑信息</span>
+        <span>查找封面</span>
       </button>
 
       {expanded && (
         <div className="cover-search-panel">
+          <p className="cover-search-note">选择结果只会替换封面图片</p>
           {loading ? (
             <p className="cover-search-status">
               正在搜索 Apple、MusicBrainz 和 Discogs…
