@@ -4,6 +4,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type CSSProperties,
@@ -81,10 +82,19 @@ function sampleCover(img: HTMLImageElement) {
   }
 }
 
+/**
+ * Sampled edge colour per album. The window remounts a Slot every time a
+ * record scrolls back into range, and the sampled colour never changes for a
+ * given cover, so caching it keeps repeat crossings off the canvas path.
+ */
+const coverEdgeColors = new Map<string, string>();
+
 /* ─── RecordSlot — single 3D record box ──────────── */
 const Slot = memo(function Slot({ album }: { album: Album }) {
-  const [bg, setBg] = useState(() =>
-    seedColor(album.title + album.artist),
+  const [bg, setBg] = useState(
+    () =>
+      coverEdgeColors.get(album.id) ??
+      seedColor(album.title + album.artist),
   );
   const fg = textOn(bg);
   const artist = album.artist.replace(/\s*\(\d+\)$/, "").trim();
@@ -92,10 +102,14 @@ const Slot = memo(function Slot({ album }: { album: Album }) {
 
   const onLoad = useCallback(
     (e: React.SyntheticEvent<HTMLImageElement>) => {
+      if (coverEdgeColors.has(album.id)) return;
       const c = sampleCover(e.currentTarget);
-      if (c) setBg(c);
+      if (c) {
+        coverEdgeColors.set(album.id, c);
+        setBg(c);
+      }
     },
-    [],
+    [album.id],
   );
 
   return (
@@ -157,6 +171,8 @@ export function CrateCylinder({
   jumpRequest,
 }: Props) {
   const vp = useRef<HTMLDivElement>(null);
+  /** Cached record elements paired with their virtual index. */
+  const itemEls = useRef<Array<{ el: HTMLElement; virtualIndex: number }>>([]);
   const scroll = useRef(activeIndex);
   const target = useRef(activeIndex);
   const activeAlbum = useRef(activeIndex);
@@ -257,13 +273,11 @@ export function CrateCylinder({
 
       commit(scroll.current);
 
-      const el = vp.current;
-      if (el) {
-        for (const c of el.querySelectorAll<HTMLElement>("[data-i]")) {
-          const i = Number(c.dataset.i);
-          c.style.transform = recordRackTransform(i, scroll.current);
-          c.style.opacity = "1";
-        }
+      for (const item of itemEls.current) {
+        item.el.style.transform = recordRackTransform(
+          item.virtualIndex,
+          scroll.current,
+        );
       }
 
       const shouldContinue =
@@ -429,6 +443,28 @@ export function CrateCylinder({
     };
   }, [albums.length, commit]);
 
+  /**
+   * Refresh the cached element list after every render, then apply the current
+   * fractional scroll. Running before paint keeps a freshly mounted record from
+   * showing at the untransformed origin for one frame, and leaves the rAF loop
+   * as the only writer of `transform`.
+   */
+  useLayoutEffect(() => {
+    const el = vp.current;
+    if (!el) return;
+    const items = Array.from(
+      el.querySelectorAll<HTMLElement>("[data-i]"),
+      (node) => ({ el: node, virtualIndex: Number(node.dataset.i) }),
+    );
+    for (const item of items) {
+      item.el.style.transform = recordRackTransform(
+        item.virtualIndex,
+        scroll.current,
+      );
+    }
+    itemEls.current = items;
+  });
+
   /* ── render ── */
   const visibleRecords = Array.from(
     { length: albums.length ? RANGE * 2 + 1 : 0 },
@@ -465,12 +501,6 @@ export function CrateCylinder({
               data-active={
                 virtualIndex === renderCenter || undefined
               }
-              style={{
-                transform: recordRackTransform(
-                  virtualIndex,
-                  renderCenter,
-                ),
-              }}
               onClick={() => {
                 if (drag.current?.moved) return;
                 feedbackSuppressedRef.current = false;

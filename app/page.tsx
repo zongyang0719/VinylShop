@@ -235,20 +235,6 @@ export default function Home() {
       });
   }
 
-  useEffect(() => {
-    const preloadCrate = () => {
-      void import("./components/CrateScene");
-    };
-    if (typeof window.requestIdleCallback === "function") {
-      const idleId = window.requestIdleCallback(preloadCrate, {
-        timeout: 2200,
-      });
-      return () => window.cancelIdleCallback(idleId);
-    }
-    const timer = setTimeout(preloadCrate, 900);
-    return () => clearTimeout(timer);
-  }, []);
-
   /* ── 集中管理 body 滚动锁定 ── */
   useEffect(() => {
     if (
