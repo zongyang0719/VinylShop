@@ -211,6 +211,19 @@ actor CoverImageStore {
         )
     }
 
+    /// Stores image data from the local photo library and returns a URL string
+    /// that CoverImageStore can later resolve via its disk cache.
+    func storeLocalImage(_ data: Data) -> String {
+        let id = UUID().uuidString.lowercased()
+        let urlString = "local://cover-\(id)"
+        let key = Self.key(for: urlString)
+        let path = diskDirectory
+            .appendingPathComponent(key)
+            .appendingPathExtension("cover")
+        try? data.write(to: path, options: .atomic)
+        return urlString
+    }
+
     nonisolated static func key(for urlString: String) -> String {
         SHA256.hash(data: Data(urlString.utf8))
             .map { String(format: "%02x", $0) }

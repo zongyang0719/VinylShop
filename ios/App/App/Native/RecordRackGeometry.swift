@@ -107,17 +107,17 @@ enum RackTuning {
     /// Half-width of the rendered window; the rack draws `RANGE * 2 + 1` records.
     static let range = 12
     /// Drag/scroll pixels that advance the rack by one record.
-    static let pxPerItem: Double = 88
-    /// ≈ 60 · ln(1/0.9); converts fling velocity into a predicted landing.
-    static let decayRate: Double = 6.32
+    static let pxPerItem: Double = 58
+    /// Converts fling velocity into a predicted landing.
+    static let decayRate: Double = 3.8
     /// Cap on how far a fling may carry past the current record.
-    static let maxFlingExtra: Double = 4
+    static let maxFlingExtra: Double = 10
     /// Cap on how far the target may lead `scroll` during wheel input.
-    static let maxLead: Double = 5
+    static let maxLead: Double = 10
     /// Exponential-convergence time constant while dragging.
     static let tauDragging: Double = 0.015
     /// Exponential-convergence time constant after release.
-    static let tauReleased: Double = 0.065
+    static let tauReleased: Double = 0.085
     /// Time constant used when Reduce Motion is on.
     static let tauReducedMotion: Double = 0.001
     /// CSS `perspective: 3200px` on `.cyl-viewport`.

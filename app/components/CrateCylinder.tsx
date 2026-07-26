@@ -20,12 +20,12 @@ import type { Album } from "@/app/lib/store";
 
 /* ─── cylinder geometry ──────────────────────────── */
 const RANGE = 12;
-const PX_PER = 88;
+const PX_PER = 58;
 
 /* inertia constants */
-const DECAY_RATE = 6.32; // ≈ 60 * ln(1/0.9)
-const MAX_FLING_EXTRA = 4;
-const MAX_LEAD = 5; // max items target can lead scroll during wheel input
+const DECAY_RATE = 3.8;
+const MAX_FLING_EXTRA = 10;
+const MAX_LEAD = 10; // max items target can lead scroll during wheel input
 
 /* ─── helpers ────────────────────────────────────── */
 function proxy(url: string) {
@@ -262,7 +262,7 @@ export function CrateCylinder({
         ? 0.015
         : reducedMotionRef.current
           ? 0.001
-          : 0.065;
+          : 0.085;
 
       const diff = target.current - scroll.current;
       if (Math.abs(diff) > 0.0002) {
@@ -386,7 +386,7 @@ export function CrateCylinder({
 
       const v = vel.current;
 
-      if (Math.abs(v) > 0.5) {
+      if (Math.abs(v) > 0.3) {
         /* predict landing from fling velocity; clamp to ±MAX_FLING_EXTRA */
         const predicted = target.current + v / DECAY_RATE;
         const rounded = Math.round(predicted);

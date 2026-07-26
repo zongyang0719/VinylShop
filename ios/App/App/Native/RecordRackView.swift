@@ -680,8 +680,15 @@ final class RecordRackView: UIView {
             startLoop()
 
         case .ended, .cancelled, .failed:
-            let current = velocity
-            if abs(current) > 0.5 {
+            // UIKit's release velocity includes the final finger movement and is
+            // more stable than the last sampled move event. Using it makes short
+            // flicks carry naturally, like a photo gallery, instead of feeling
+            // as though the rack grabs the finger at release.
+            let releaseVelocity = Double(
+                -gesture.velocity(in: self).y
+            ) / RackTuning.pxPerItem
+            let current = min(max(releaseVelocity, -40), 40)
+            if abs(current) > 0.3 {
                 let predicted = target + current / RackTuning.decayRate
                 let rounded = predicted.rounded()
                 let currentRound = scroll.rounded()

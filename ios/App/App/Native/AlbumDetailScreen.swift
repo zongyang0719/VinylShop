@@ -1,3 +1,4 @@
+import PhotosUI
 import SwiftUI
 
 /// Edition label for the version tabs, mirroring `versionLabel` in InspectModal.tsx.
@@ -296,6 +297,10 @@ struct AlbumEditScreen: View {
 
     @State private var draft: Draft
     @State private var showingCoverPreview = true
+    @State private var showingCoverSearch = false
+    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var metadataLoading = false
+    @State private var metadataMessage: String?
 
     init(store: LibraryStore, album: Album) {
         self.store = store
@@ -360,6 +365,7 @@ struct AlbumEditScreen: View {
             Form {
                 coverSection
                 basicsSection
+                metadataSection
                 releaseSection
                 purchaseSection
                 mediumSection
@@ -380,6 +386,16 @@ struct AlbumEditScreen: View {
                 }
             }
         }
+        // Present from the stable screen root. Attaching this sheet to a Section
+        // inside Form causes iOS 26 to tear down the edit sheet instead of
+        // stacking the cover picker above it.
+        .sheet(isPresented: $showingCoverSearch) {
+            CoverSearchView(
+                initialQuery: "\(draft.artist) \(draft.title)"
+            ) { url in
+                draft.coverUrl = url
+            }
+        }
     }
 
     private var coverSection: some View {
@@ -388,6 +404,30 @@ struct AlbumEditScreen: View {
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
                 .keyboardType(.URL)
+
+            HStack(spacing: 12) {
+                PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                    Label("从相册选择", systemImage: "photo.on.rectangle")
+                        .font(.subheadline)
+                }
+                .onChange(of: selectedPhoto) { _, newValue in
+                    guard let item = newValue else { return }
+                    Task {
+                        if let data = try? await item.loadTransferable(type: Data.self) {
+                            let url = await CoverImageStore.shared.storeLocalImage(data)
+                            draft.coverUrl = url
+                        }
+                    }
+                }
+
+                Button {
+                    showingCoverSearch = true
+                } label: {
+                    Label("查找封面", systemImage: "magnifyingglass")
+                        .font(.subheadline)
+                }
+            }
+
             if showingCoverPreview, !draft.coverUrl.isEmpty {
                 NativeCoverImage(url: draft.coverUrl, cornerRadius: 12, target: .card)
                     .aspectRatio(1, contentMode: .fit)
@@ -401,6 +441,87 @@ struct AlbumEditScreen: View {
             LabeledField("艺人", text: $draft.artist)
             LabeledField("版本说明", text: $draft.edition)
         }
+    }
+
+    private var metadataSection: some View {
+        Section {
+            Button {
+                Task { await fetchMetadata() }
+            } label: {
+                HStack {
+                    Label(
+                        metadataLoading ? "正在匹配…" : "更新专辑信息",
+                        systemImage: "arrow.triangle.2.circlepath"
+                    )
+                    if metadataLoading {
+                        Spacer()
+                        ProgressView().controlSize(.small)
+                    }
+                }
+            }
+            .disabled(metadataLoading || draft.title.isEmpty || draft.artist.isEmpty)
+
+            if let message = metadataMessage {
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        } header: {
+            Text("专辑信息")
+        } footer: {
+            Text("从 Apple 中国区、MusicBrainz 查找匹配，填入表单后仍可修改。")
+        }
+    }
+
+    private func fetchMetadata() async {
+        metadataLoading = true
+        metadataMessage = nil
+        let suggestion = await MetadataService.shared.suggest(
+            title: draft.title,
+            artist: draft.artist,
+            year: Int(draft.year)
+        )
+        metadataLoading = false
+
+        guard suggestion.confidence != "none" else {
+            metadataMessage = suggestion.summary
+            return
+        }
+
+        var changed = 0
+        func apply(_ draft: inout String, _ value: String?) {
+            guard let v = value, !v.isEmpty, v != draft else { return }
+            draft = v
+            changed += 1
+        }
+        func applyList(_ draft: inout String, _ value: [String]?) {
+            guard let v = value, !v.isEmpty else { return }
+            let joined = v.joined(separator: ", ")
+            guard joined != draft else { return }
+            draft = joined
+            changed += 1
+        }
+
+        apply(&self.draft.title, suggestion.title)
+        apply(&self.draft.artist, suggestion.artist)
+        if let y = suggestion.year { apply(&self.draft.year, String(y)) }
+        apply(&self.draft.releaseDate, suggestion.releaseDate)
+        apply(&self.draft.label, suggestion.label)
+        apply(&self.draft.country, suggestion.country)
+        apply(&self.draft.catalogNumber, suggestion.catalogNumber)
+        apply(&self.draft.barcode, suggestion.barcode)
+        applyList(&self.draft.genres, suggestion.genres)
+        if let tracks = suggestion.tracklist, !tracks.isEmpty {
+            let joined = tracks.joined(separator: "\n")
+            if joined != self.draft.tracklist {
+                self.draft.tracklist = joined
+                changed += 1
+            }
+        }
+
+        metadataMessage = changed > 0
+            ? "已更新 \(changed) 个字段 · \(suggestion.summary)"
+            : "当前信息已与匹配结果一致"
     }
 
     private var releaseSection: some View {
