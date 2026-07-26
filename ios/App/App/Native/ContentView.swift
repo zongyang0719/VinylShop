@@ -245,102 +245,23 @@ private struct RecordRackScreen: View {
     @Binding var showingSettings: Bool
     @Binding var showingAdd: Bool
 
-    @State private var rackSelection: String?
+    @State private var activeIndex = 0
 
     private var albums: [Album] {
         store.visibleAlbums()
     }
 
     var body: some View {
-        GeometryReader { proxy in
-            ZStack {
-                LinearGradient(
-                    colors: [
-                        Color(red: 0.35, green: 0.33, blue: 0.31),
-                        Color(red: 0.17, green: 0.16, blue: 0.15)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-
-                ScrollView(.vertical) {
-                    LazyVStack(spacing: -30) {
-                        ForEach(albums) { album in
-                            RackSleeve(
-                                album: album,
-                                active: rackSelection == album.id
-                            ) {
-                                selectedAlbumID = album.id
-                            }
-                            .id(album.id)
-                            .scrollTransition(
-                                .interactive,
-                                axis: .vertical
-                            ) { content, phase in
-                                content
-                                    .scaleEffect(1 - abs(phase.value) * 0.08)
-                                    .rotation3DEffect(
-                                        .degrees(phase.value * -19),
-                                        axis: (x: 1, y: 0, z: 0),
-                                        perspective: 0.45
-                                    )
-                                    .opacity(1 - abs(phase.value) * 0.34)
-                            }
-                        }
-                    }
-                    .scrollTargetLayout()
-                    .safeAreaPadding(
-                        .vertical,
-                        max(0, proxy.size.height / 2 - 84)
-                    )
-                }
-                .scrollIndicators(.hidden)
-                .scrollTargetBehavior(
-                    .viewAligned(limitBehavior: .alwaysByOne, anchor: .center)
-                )
-                .scrollPosition(id: $rackSelection, anchor: .center)
-                .onAppear {
-                    if rackSelection == nil {
-                        rackSelection = albums.first?.id
-                    }
-                    FeedbackEngine.shared.prepare(
-                        hapticsEnabled: store.hapticsEnabled
-                    )
-                }
-                .onChange(of: rackSelection) { oldValue, newValue in
-                    guard oldValue != nil, newValue != oldValue else { return }
-                    FeedbackEngine.shared.selectionChanged(
-                        hapticsEnabled: store.hapticsEnabled,
-                        soundEnabled: store.scrollSoundEnabled
-                    )
-                }
-
-                VStack {
-                    if let selected = store.album(id: rackSelection) {
-                        HStack(spacing: 8) {
-                            Image(systemName: "gearshape.2")
-                            Text(selected.cleanedArtist)
-                                .lineLimit(1)
-                            Spacer(minLength: 8)
-                            Text("\((albums.firstIndex(of: selected) ?? 0) + 1)/\(albums.count)")
-                                .monospacedDigit()
-                                .foregroundStyle(.secondary)
-                        }
-                        .font(.subheadline.weight(.semibold))
-                        .padding(.horizontal, 16)
-                        .frame(height: 48)
-                        .glassEffect(
-                            .regular.interactive(),
-                            in: .rect(cornerRadius: 18)
-                        )
-                        .padding(.horizontal, 16)
-                    }
-                    Spacer()
-                }
-                .padding(.top, 8)
-            }
-        }
+        RecordRackScene(
+            albums: albums,
+            hapticsEnabled: store.hapticsEnabled,
+            soundEnabled: store.scrollSoundEnabled,
+            jumpRequest: nil,
+            onActiveIndexChange: { activeIndex = $0 },
+            onInspect: { selectedAlbumID = $0.id }
+        )
+        .ignoresSafeArea(edges: .bottom)
+        .overlay(alignment: .top) { positionBar }
         .navigationTitle("唱片架")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -350,73 +271,31 @@ private struct RecordRackScreen: View {
             )
         }
     }
-}
 
-private struct RackSleeve: View {
-    let album: Album
-    let active: Bool
-    let action: () -> Void
-
-    private var edgeColor: Color {
-        let value = album.id.unicodeScalars.reduce(0) {
-            $0 + Int($1.value)
-        }
-        return Color(
-            hue: Double(value % 360) / 360,
-            saturation: 0.24,
-            brightness: 0.48
-        )
-    }
-
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 0) {
-                Rectangle()
-                    .fill(edgeColor.gradient)
-                    .frame(width: 16)
-                    .overlay {
-                        Rectangle()
-                            .fill(.white.opacity(0.22))
-                            .frame(width: 1)
-                    }
-
-                NativeCoverImage(url: album.coverUrl, cornerRadius: 0, target: .sleeve)
-                    .frame(width: 102, height: 102)
-
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(album.title)
-                        .font(.headline)
-                        .lineLimit(2)
+    @ViewBuilder
+    private var positionBar: some View {
+        if albums.indices.contains(activeIndex) {
+            let album = albums[activeIndex]
+            GlassEffectContainer(spacing: 12) {
+                HStack(spacing: 8) {
                     Text(album.cleanedArtist)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
                         .lineLimit(1)
-                    if let year = album.year {
-                        Text(String(year))
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
-                    }
+                    Spacer(minLength: 8)
+                    Text("\(activeIndex + 1)/\(albums.count)")
+                        .monospacedDigit()
+                        .foregroundStyle(.secondary)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 14)
+                .font(.subheadline.weight(.semibold))
+                .padding(.horizontal, 16)
+                .frame(height: 48)
+                .glassEffect(
+                    .regular.interactive(),
+                    in: .rect(cornerRadius: 18)
+                )
             }
-            .frame(width: 332, height: 102)
-            .background(.background)
-            .clipShape(.rect(cornerRadius: 8))
-            .overlay {
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(.white.opacity(active ? 0.7 : 0.18), lineWidth: 1)
-            }
-            .shadow(
-                color: .black.opacity(active ? 0.34 : 0.2),
-                radius: active ? 18 : 8,
-                y: active ? 8 : 4
-            )
+            .padding(.horizontal, 16)
+            .padding(.top, 8)
         }
-        .buttonStyle(.plain)
-        .hoverEffect(.lift)
-        .zIndex(active ? 2 : 1)
-        .animation(.snappy, value: active)
     }
 }
 

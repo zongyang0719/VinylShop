@@ -12,9 +12,9 @@
 		A10000000000000000000001 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* Album.swift */; };
 		A10000000000000000000002 /* LibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* LibraryStore.swift */; };
 		A10000000000000000000003 /* CoverImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* CoverImageStore.swift */; };
-		A10000000000000000000004 /* FeedbackEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* FeedbackEngine.swift */; };
 		A10000000000000000000005 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* ContentView.swift */; };
 		A10000000000000000000006 /* VinylShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* VinylShopApp.swift */; };
+		A1000000000000000000000C /* RecordRackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000C /* RecordRackView.swift */; };
 		A1000000000000000000000A /* RecordRackGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* RecordRackGeometry.swift */; };
 		A1000000000000000000000B /* RackFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* RackFeedback.swift */; };
 		A10000000000000000000007 /* initial-library.json in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* initial-library.json */; };
@@ -31,9 +31,9 @@
 		A20000000000000000000001 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		A20000000000000000000002 /* LibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryStore.swift; sourceTree = "<group>"; };
 		A20000000000000000000003 /* CoverImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageStore.swift; sourceTree = "<group>"; };
-		A20000000000000000000004 /* FeedbackEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackEngine.swift; sourceTree = "<group>"; };
 		A20000000000000000000005 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A20000000000000000000006 /* VinylShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinylShopApp.swift; sourceTree = "<group>"; };
+		A2000000000000000000000C /* RecordRackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRackView.swift; sourceTree = "<group>"; };
 		A2000000000000000000000A /* RecordRackGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRackGeometry.swift; sourceTree = "<group>"; };
 		A2000000000000000000000B /* RackFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RackFeedback.swift; sourceTree = "<group>"; };
 		A20000000000000000000007 /* initial-library.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "initial-library.json"; path = "../../../app/data/initial-library.json"; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 				A20000000000000000000003 /* CoverImageStore.swift */,
 				A2000000000000000000000A /* RecordRackGeometry.swift */,
 				A2000000000000000000000B /* RackFeedback.swift */,
-				A20000000000000000000004 /* FeedbackEngine.swift */,
+				A2000000000000000000000C /* RecordRackView.swift */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -183,7 +183,7 @@
 				A10000000000000000000003 /* CoverImageStore.swift in Sources */,
 				A1000000000000000000000A /* RecordRackGeometry.swift in Sources */,
 				A1000000000000000000000B /* RackFeedback.swift in Sources */,
-				A10000000000000000000004 /* FeedbackEngine.swift in Sources */,
+				A1000000000000000000000C /* RecordRackView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
