@@ -25,14 +25,35 @@ class InteractionFeedback {
   private volume = DEFAULT_VOLUME;
   private loading = false;
   private listeners: Set<() => void> = new Set();
+  /* cached Capacitor native haptic function (resolved once on init) */
+  private nativeHaptic: (() => void) | null = null;
 
   constructor() {
     if (typeof window !== "undefined") {
       this._hapticEnabled = localStorage.getItem(LS_HAPTIC) !== "0";
       this._soundEnabled = localStorage.getItem(LS_SOUND) === "1";
+      this.initNativeHaptics();
     } else {
       this._hapticEnabled = true;
       this._soundEnabled = false;
+    }
+  }
+
+  /**
+   * Detect Capacitor native platform and cache the haptic trigger.
+   * Runs once at init; the actual fire path stays synchronous.
+   */
+  private async initNativeHaptics() {
+    try {
+      const { Capacitor } = await import("@capacitor/core");
+      if (Capacitor.isNativePlatform()) {
+        const { Haptics } = await import("@capacitor/haptics");
+        this.nativeHaptic = () => {
+          Haptics.selectionChanged();
+        };
+      }
+    } catch {
+      /* not in a Capacitor shell — fall through to web APIs */
     }
   }
 
@@ -150,7 +171,13 @@ class InteractionFeedback {
   private doHaptic() {
     if (!this._hapticEnabled) return;
 
-    // 1. Future native bridge (UISelectionFeedbackGenerator.selectionChanged)
+    // 1. Capacitor native: UISelectionFeedbackGenerator.selectionChanged()
+    if (this.nativeHaptic) {
+      this.nativeHaptic();
+      return;
+    }
+
+    // 2. Custom native bridge (future non-Capacitor shell)
     try {
       const bridge = (
         window as Window & {
@@ -167,7 +194,7 @@ class InteractionFeedback {
       }
     } catch {}
 
-    // 2. navigator.vibrate (Android Chrome, etc.)
+    // 3. navigator.vibrate (Android Chrome, etc.)
     if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
       try {
         navigator.vibrate(VIBRATE_MS);
@@ -175,7 +202,7 @@ class InteractionFeedback {
       return;
     }
 
-    // 3. iOS switch-checkbox fallback (best-effort)
+    // 4. iOS switch-checkbox fallback (best-effort in Safari)
     this.hapticEl?.click();
   }
 

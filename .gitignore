@@ -8,3 +8,10 @@ npm-debug.log*
 .wrangler
 .playwright-cli
 *.tsbuildinfo
+
+# iOS (Capacitor) — keep source, ignore build artifacts
+ios/App/App/public
+ios/App/Pods
+ios/App/build
+ios/App/DerivedData
+*.xcworkspace/xcuserdata
