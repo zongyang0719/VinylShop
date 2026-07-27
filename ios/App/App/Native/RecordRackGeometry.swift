@@ -107,17 +107,28 @@ enum RackTuning {
     /// Half-width of the rendered window; the rack draws `RANGE * 2 + 1` records.
     static let range = 12
     /// Drag/scroll pixels that advance the rack by one record.
-    static let pxPerItem: Double = 58
-    /// Converts fling velocity into a predicted landing.
-    static let decayRate: Double = 3.8
-    /// Cap on how far a fling may carry past the current record.
-    static let maxFlingExtra: Double = 10
-    /// Cap on how far the target may lead `scroll` during wheel input.
-    static let maxLead: Double = 10
+    static let pxPerItem: Double = 54
+    /// How fast a fling loses speed, per second.
+    ///
+    /// A release no longer picks a landing record and eases toward it; the rack
+    /// simply coasts and is slowed by friction, which is what makes a flick
+    /// carry across a dozen records and drift to a stop instead of arriving at a
+    /// destination chosen at the moment the finger lifted. `UIScrollView`'s
+    /// normal deceleration rate — 0.998 per millisecond — is ln(0.998)·-1000 ≈
+    /// 2.0 in these units; slightly above that keeps a hard flick from crossing
+    /// the whole library.
+    static let flingDecay: Double = 2.3
+    /// Releases slower than this settle onto the nearest record instead of
+    /// coasting, in records per second.
+    static let minFlingVelocity: Double = 0.9
+    /// A coast this slow has run out; the rack snaps to where it was heading.
+    static let settleVelocity: Double = 1.3
+    /// Cap on release velocity, in records per second.
+    static let maxFlingVelocity: Double = 95
     /// Exponential-convergence time constant while dragging.
-    static let tauDragging: Double = 0.015
-    /// Exponential-convergence time constant after release.
-    static let tauReleased: Double = 0.085
+    static let tauDragging: Double = 0.012
+    /// Exponential-convergence time constant for the final snap onto a record.
+    static let tauSettle: Double = 0.16
     /// Time constant used when Reduce Motion is on.
     static let tauReducedMotion: Double = 0.001
     /// CSS `perspective: 3200px` on `.cyl-viewport`.

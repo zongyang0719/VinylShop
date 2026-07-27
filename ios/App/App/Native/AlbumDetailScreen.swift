@@ -9,13 +9,7 @@ func albumVersionLabel(_ album: Album) -> String {
     case .cd: format = "CD"
     case .unknown: format = "其他"
     }
-    let styles: [String: String] = [
-        "standard": "",
-        "transparent": "透明",
-        "picture": "画胶",
-        "splatter": "泼溅",
-    ]
-    let style = album.vinylStyle.flatMap { styles[$0] } ?? ""
+    let style = album.format == .vinyl ? VinylStyleKind(album.vinylStyle).badge : ""
     return style.isEmpty ? format : "\(format) · \(style)"
 }
 
@@ -117,85 +111,104 @@ struct AlbumDetailScreen: View {
     private func content(for album: Album) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
-                NativeCoverImage(url: album.coverUrl, cornerRadius: 18, target: .hero)
-                    .aspectRatio(1, contentMode: .fit)
-                    .shadow(color: .black.opacity(0.24), radius: 24, y: 14)
+                // Full bleed, so the blurred artwork behind the record reaches
+                // the edges the way `.turntable-hero` does on the web.
+                TurntableHero(album: album)
 
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(album.title)
-                        .font(.largeTitle.bold())
-                    Text(album.cleanedArtist)
-                        .font(.title3)
-                        .foregroundStyle(.secondary)
-                }
-
-                if versions.count > 1 {
-                    versionTabs(for: album)
-                }
-
-                HStack(spacing: 10) {
-                    if let year = album.year {
-                        DetailPill(String(year))
+                VStack(alignment: .leading, spacing: 22) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(album.title)
+                            .font(.largeTitle.bold())
+                        Text(album.cleanedArtist)
+                            .font(.title3)
+                            .foregroundStyle(.secondary)
                     }
-                    DetailPill(album.format.label)
-                    if let country = album.country, !country.isEmpty {
-                        DetailPill(country)
+
+                    if versions.count > 1 {
+                        versionTabs(for: album)
                     }
-                }
 
-                DetailMetadata(album: album, versionCount: versions.count)
-
-                if let douban = album.doubanUrl,
-                   !douban.isEmpty,
-                   let url = URL(string: douban) {
-                    Link(destination: url) {
-                        Label("在豆瓣查看条目", systemImage: "arrow.up.right.square")
+                    HStack(spacing: 10) {
+                        if let year = album.year {
+                            DetailPill(String(year))
+                        }
+                        DetailPill(album.format.label)
+                        if let country = album.country, !country.isEmpty {
+                            DetailPill(country)
+                        }
                     }
-                    .font(.subheadline.weight(.medium))
-                }
 
-                if let tracks = album.tracklist, !tracks.isEmpty {
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("曲目")
-                            .font(.title2.bold())
-                        ForEach(Array(tracks.enumerated()), id: \.offset) { _, track in
-                            Text(track)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 4)
+                    DetailMetadata(album: album, versionCount: versions.count)
+
+                    if let douban = album.doubanUrl,
+                       !douban.isEmpty,
+                       let url = URL(string: douban) {
+                        Link(destination: url) {
+                            Label("在豆瓣查看条目", systemImage: "arrow.up.right.square")
+                        }
+                        .font(.subheadline.weight(.medium))
+                    }
+
+                    if let tracks = album.tracklist, !tracks.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("曲目")
+                                .font(.title2.bold())
+                            ForEach(Array(tracks.enumerated()), id: \.offset) { _, track in
+                                Text(track)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.vertical, 4)
+                            }
                         }
                     }
                 }
+                .padding(20)
             }
-            .padding(20)
         }
+        .scrollIndicators(.hidden)
     }
 
-    /// Mirrors `.version-tabs`: one tab per edition, with a dot tinted by medium.
+    /// Mirrors `.version-tabs`: one tab per edition, with a dot in the pressing's
+    /// own colour. The active tab is filled rather than merely bolder — with a
+    /// glass capsule either side of it, weight alone was too easy to miss.
     private func versionTabs(for album: Album) -> some View {
         ScrollView(.horizontal) {
             HStack(spacing: 8) {
                 ForEach(versions) { version in
                     let isActive = version.id == album.id
                     Button {
-                        selectedVersionID = version.id
+                        guard !isActive else { return }
+                        withAnimation(.snappy(duration: 0.24)) {
+                            selectedVersionID = version.id
+                        }
+                        // The gallery follows the pick, so the cover on the
+                        // library screen matches the edition last viewed.
+                        store.setPreferredVersion(version)
+                        UISelectionFeedbackGenerator().selectionChanged()
                     } label: {
-                        HStack(spacing: 6) {
-                            Circle()
-                                .fill(version.format == .vinyl ? .primary : .secondary)
-                                .frame(width: 7, height: 7)
+                        HStack(spacing: 7) {
+                            versionDot(for: version, isActive: isActive)
                             Text(albumVersionLabel(version))
                             if let year = version.year {
                                 Text(String(year))
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(
+                                        isActive ? .white.opacity(0.72) : .secondary
+                                    )
                             }
                         }
                         .font(.footnote.weight(isActive ? .semibold : .regular))
-                        .padding(.horizontal, 12)
-                        .frame(height: 34)
-                        .glassEffect(
-                            isActive ? .regular.interactive() : .clear,
-                            in: .capsule
-                        )
+                        .foregroundStyle(isActive ? .white : .primary)
+                        .padding(.horizontal, 14)
+                        .frame(height: 36)
+                        .background {
+                            Capsule().fill(Color.accentColor.opacity(isActive ? 1 : 0))
+                        }
+                        .overlay {
+                            Capsule().strokeBorder(
+                                .primary.opacity(isActive ? 0 : 0.14),
+                                lineWidth: 1
+                            )
+                        }
+                        .clipShape(.capsule)
                     }
                     .buttonStyle(.plain)
                 }
@@ -203,6 +216,185 @@ struct AlbumDetailScreen: View {
             .padding(.vertical, 2)
         }
         .scrollIndicators(.hidden)
+    }
+
+    /// `.version-tab-dot`: the pressing's vinyl colour, or a silver CD sheen.
+    private func versionDot(for version: Album, isActive: Bool) -> some View {
+        Circle()
+            .fill(
+                version.format == .vinyl
+                    ? AnyShapeStyle(VinylPalette.color(version.vinylColor))
+                    : AnyShapeStyle(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.85, green: 0.86, blue: 0.89),
+                                Color(red: 0.57, green: 0.6, blue: 0.64),
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            )
+            .frame(width: 9, height: 9)
+            // A white pressing needs a ring to stay visible on the plain
+            // capsule, and a black one needs a light ring on the filled one.
+            .overlay {
+                Circle().strokeBorder(
+                    isActive ? .white.opacity(0.6) : .primary.opacity(0.3),
+                    lineWidth: 0.5
+                )
+            }
+    }
+}
+
+// MARK: - Hero
+
+/// The detail hero, mirroring `.turntable-stage`: the sleeve on the left with
+/// the record pulled out to the right. The record slides out from behind the
+/// sleeve on appear, and a tap sets it spinning.
+private struct TurntableHero: View {
+    let album: Album
+
+    @State private var artwork: UIImage?
+    @State private var revealed = false
+    @State private var mounted = false
+    @State private var spinning = false
+
+    private var hasDisc: Bool { album.format != .unknown }
+
+    var body: some View {
+        GeometryReader { proxy in
+            let width = proxy.size.width
+            let height = proxy.size.height
+            let side = hasDisc
+                ? min(width / 1.58, height * 0.82)
+                : min(width * 0.6, height * 0.82)
+            let gap = hasDisc ? side * 0.58 : 0
+
+            ZStack {
+                backdrop(width: width, height: height)
+
+                if hasDisc {
+                    disc
+                        .frame(width: side, height: side)
+                        // The shadow sits on a static circle behind the record
+                        // rather than on the record itself: a shadow attached to
+                        // the spinning view would be re-blurred every frame.
+                        .background {
+                            Circle()
+                                .fill(.black)
+                                .padding(1)
+                                .shadow(
+                                    color: .black.opacity(0.5),
+                                    radius: side * 0.055,
+                                    y: side * 0.02
+                                )
+                        }
+                        .scaleEffect(revealed ? 1 : 0.94)
+                        .opacity(revealed ? 1 : 0)
+                        .position(
+                            x: width / 2 + (revealed ? gap / 2 : -gap / 2),
+                            y: height / 2
+                        )
+                        .onTapGesture {
+                            spinning.toggle()
+                            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                        }
+                }
+
+                cover
+                    .frame(width: side, height: side)
+                    .scaleEffect(mounted ? 1 : 0.93)
+                    .opacity(mounted ? 1 : 0)
+                    .position(x: width / 2 - gap / 2, y: height / 2)
+            }
+        }
+        .aspectRatio(1.32, contentMode: .fit)
+        .clipped()
+        .task(id: album.coverUrl) {
+            artwork = await CoverImageStore.shared.image(
+                for: album.coverUrl,
+                target: .hero
+            )
+        }
+        .onAppear { animateIn() }
+        .onChange(of: album.id) { _, _ in
+            // Switching edition re-runs the entrance so the new pressing slides
+            // out of the sleeve rather than swapping in place.
+            revealed = false
+            mounted = false
+            spinning = false
+            animateIn()
+        }
+    }
+
+    private func animateIn() {
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.82)) {
+            mounted = true
+        }
+        withAnimation(.spring(response: 0.68, dampingFraction: 0.76).delay(0.12)) {
+            revealed = true
+        }
+    }
+
+    @ViewBuilder
+    private var disc: some View {
+        SpinningDisc(spinning: spinning, period: album.format == .cd ? 4.5 : 3.2) {
+            if album.format == .cd {
+                CdDiscView(artwork: artwork)
+            } else {
+                VinylDiscView(
+                    color: VinylPalette.color(album.vinylColor),
+                    style: VinylStyleKind(album.vinylStyle),
+                    artwork: artwork
+                )
+            }
+        }
+        .accessibilityLabel(spinning ? "暂停唱片旋转" : "让唱片旋转")
+    }
+
+    private var cover: some View {
+        Group {
+            if let artwork {
+                Image(uiImage: artwork)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Rectangle().fill(.quaternary)
+            }
+        }
+        .clipShape(.rect(cornerRadius: 5))
+        .overlay {
+            RoundedRectangle(cornerRadius: 5)
+                .strokeBorder(.white.opacity(0.22), lineWidth: 0.5)
+        }
+        .shadow(color: .black.opacity(0.45), radius: 26, y: 12)
+    }
+
+    private func backdrop(width: CGFloat, height: CGFloat) -> some View {
+        ZStack {
+            if let artwork {
+                Image(uiImage: artwork)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: width, height: height)
+                    .clipped()
+                    .blur(radius: 56, opaque: true)
+                    .overlay(Color.black.opacity(0.42))
+                    .saturation(1.4)
+            } else {
+                Color(uiColor: .secondarySystemBackground)
+            }
+        }
+        .frame(width: width, height: height)
+        .overlay {
+            // `.turntable-bg-vignette`.
+            LinearGradient(
+                colors: [.black.opacity(0.03), .black.opacity(0.5)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
     }
 }
 
@@ -301,6 +493,7 @@ struct AlbumEditScreen: View {
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var metadataLoading = false
     @State private var metadataMessage: String?
+    @State private var previewArtwork: UIImage?
 
     init(store: LibraryStore, album: Album) {
         self.store = store
@@ -325,7 +518,7 @@ struct AlbumEditScreen: View {
         var barcode: String
         var doubanUrl: String
         var format: AlbumFormat
-        var vinylStyle: String
+        var vinylStyle: VinylStyleKind
         var vinylColor: String
         var tracklist: String
         var year: String
@@ -347,8 +540,8 @@ struct AlbumEditScreen: View {
             barcode = album.barcode ?? ""
             doubanUrl = album.doubanUrl ?? ""
             format = album.format
-            vinylStyle = album.vinylStyle ?? "standard"
-            vinylColor = album.vinylColor ?? ""
+            vinylStyle = VinylStyleKind(album.vinylStyle)
+            vinylColor = album.vinylColor ?? VinylPalette.defaultHex
             tracklist = (album.tracklist ?? []).joined(separator: "\n")
             year = album.year.map(String.init) ?? ""
         }
@@ -546,6 +739,15 @@ struct AlbumEditScreen: View {
         }
     }
 
+    /// The colour is edited through the system picker rather than a hex field,
+    /// and stored back as `#rrggbb` so the record stays readable by the web app.
+    private var vinylColorBinding: Binding<Color> {
+        Binding(
+            get: { VinylPalette.color(draft.vinylColor) },
+            set: { draft.vinylColor = $0.vinylHex }
+        )
+    }
+
     private var mediumSection: some View {
         Section("介质") {
             Picker("介质", selection: $draft.format) {
@@ -553,16 +755,94 @@ struct AlbumEditScreen: View {
                     Text(item.label).tag(item)
                 }
             }
+
             if draft.format == .vinyl {
-                Picker("唱片风格", selection: $draft.vinylStyle) {
-                    Text("标准").tag("standard")
-                    Text("透明").tag("transparent")
-                    Text("画胶").tag("picture")
-                    Text("泼溅").tag("splatter")
+                Picker("材质", selection: $draft.vinylStyle) {
+                    ForEach(VinylStyleKind.allCases) { style in
+                        Text(style.label).tag(style)
+                    }
                 }
-                LabeledField("唱片颜色", text: $draft.vinylColor, hint: "#RRGGBB")
+                .pickerStyle(.menu)
+
+                ColorPicker(
+                    "唱片颜色",
+                    selection: vinylColorBinding,
+                    supportsOpacity: false
+                )
+
+                vinylSwatches
+
+                HStack {
+                    Spacer()
+                    VinylDiscView(
+                        color: VinylPalette.color(draft.vinylColor),
+                        style: draft.vinylStyle,
+                        artwork: previewArtwork
+                    )
+                    .frame(width: 132, height: 132)
+                    .shadow(color: .black.opacity(0.3), radius: 10, y: 5)
+                    Spacer()
+                }
+                .padding(.vertical, 6)
+                .task(id: draft.coverUrl) {
+                    previewArtwork = await CoverImageStore.shared.image(
+                        for: draft.coverUrl,
+                        target: .card
+                    )
+                }
+            }
+
+            if draft.format == .cd {
+                HStack {
+                    Spacer()
+                    CdDiscView(artwork: previewArtwork)
+                        .frame(width: 132, height: 132)
+                        .shadow(color: .black.opacity(0.3), radius: 10, y: 5)
+                    Spacer()
+                }
+                .padding(.vertical, 6)
+                .task(id: draft.coverUrl) {
+                    previewArtwork = await CoverImageStore.shared.image(
+                        for: draft.coverUrl,
+                        target: .card
+                    )
+                }
             }
         }
+    }
+
+    /// The same ten presets the web offers, so a colour picked on either side
+    /// lands on the identical hex.
+    private var vinylSwatches: some View {
+        ScrollView(.horizontal) {
+            HStack(spacing: 12) {
+                ForEach(VinylPalette.presets, id: \.hex) { preset in
+                    let isActive = draft.vinylColor.lowercased() == preset.hex
+                    Button {
+                        draft.vinylColor = preset.hex
+                        UISelectionFeedbackGenerator().selectionChanged()
+                    } label: {
+                        Circle()
+                            .fill(VinylPalette.color(preset.hex))
+                            .frame(width: 30, height: 30)
+                            .overlay {
+                                Circle().strokeBorder(.primary.opacity(0.16), lineWidth: 0.5)
+                            }
+                            .overlay {
+                                Circle()
+                                    .strokeBorder(Color.accentColor, lineWidth: 2.5)
+                                    .padding(-4)
+                                    .opacity(isActive ? 1 : 0)
+                            }
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(preset.label)
+                }
+            }
+            .padding(.vertical, 6)
+            .padding(.horizontal, 4)
+        }
+        .scrollIndicators(.hidden)
     }
 
     private var tracklistSection: some View {
@@ -609,7 +889,7 @@ struct AlbumEditScreen: View {
         updated.barcode = text(draft.barcode)
         updated.doubanUrl = text(draft.doubanUrl)
         updated.format = draft.format
-        updated.vinylStyle = draft.format == .vinyl ? text(draft.vinylStyle) : nil
+        updated.vinylStyle = draft.format == .vinyl ? draft.vinylStyle.rawValue : nil
         updated.vinylColor = draft.format == .vinyl ? text(draft.vinylColor) : nil
         updated.year = Int(draft.year.trimmingCharacters(in: .whitespacesAndNewlines))
         updated.tracklist = {

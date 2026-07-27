@@ -469,6 +469,28 @@ export function AddModal({
                   placeholder="https://…"
                 />
               </label>
+              <div className="cover-upload-row">
+                <label className="cover-upload-button">
+                  <span aria-hidden="true">📁</span>
+                  <span>上传本地封面</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) return;
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        if (typeof reader.result === "string") {
+                          setManualCover(reader.result);
+                        }
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                </label>
+              </div>
 
               <div className="field-row">
                 <label className="field">

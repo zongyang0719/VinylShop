@@ -1,4 +1,5 @@
-import type { Album } from "./store";
+import { isNativeApp, type Album } from "./store";
+import { suggestAlbumMetadataNative } from "./metadata-native";
 
 export type MetadataSource =
   | "apple"
@@ -57,6 +58,10 @@ export type MetadataRequest = Pick<
 export async function suggestAlbumMetadata(
   album: MetadataRequest,
 ): Promise<MetadataSuggestion> {
+  if (isNativeApp()) {
+    return suggestAlbumMetadataNative(album);
+  }
+
   const response = await fetch("/api/metadata", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

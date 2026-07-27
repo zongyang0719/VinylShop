@@ -21,12 +21,20 @@ final class LibraryStore: ObservableObject {
     }
     @Published var notice: String?
 
+    /// Group key → album id: which edition of a merged album the gallery shows.
+    /// Picking a version in the detail sheet writes here, so the cover the user
+    /// last looked at is the one the library keeps showing.
+    @Published private(set) var preferredVersions: [String: String] = [:] {
+        didSet { defaults.set(preferredVersions, forKey: Keys.preferredVersions) }
+    }
+
     private enum Keys {
         static let displayMode = "native.displayMode"
         static let formatFilter = "native.formatFilter"
         static let sortMode = "native.sortMode"
         static let haptics = "native.haptics"
         static let scrollSound = "native.scrollSound"
+        static let preferredVersions = "native.preferredVersions"
     }
 
     private let defaults = UserDefaults.standard
@@ -48,6 +56,8 @@ final class LibraryStore: ObservableObject {
         hapticsEnabled = defaults.object(forKey: Keys.haptics) as? Bool ?? true
         scrollSoundEnabled =
             defaults.object(forKey: Keys.scrollSound) as? Bool ?? false
+        preferredVersions =
+            defaults.dictionary(forKey: Keys.preferredVersions) as? [String: String] ?? [:]
 
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
@@ -78,16 +88,33 @@ final class LibraryStore: ObservableObject {
         albums.lazy.filter(\.isFavorite).count
     }
 
+    /// One card per album, showing the edition the user last selected in the
+    /// detail sheet. The preference only wins when that edition survives the
+    /// current filters, so switching to “仅 CD” still surfaces the CD pressing
+    /// of an album whose preferred version is the vinyl one.
     func visibleAlbums(favoritesOnly: Bool = false) -> [Album] {
-        var unique: [Album] = []
-        var seen = Set<String>()
-
+        var order: [String] = []
+        var groups: [String: [Album]] = [:]
         for album in albums {
-            guard seen.insert(Self.groupKey(album)).inserted else { continue }
-            guard !favoritesOnly || album.isFavorite else { continue }
-            guard formatFilter == .all || album.format.rawValue == formatFilter.rawValue
-            else { continue }
-            unique.append(album)
+            let key = Self.groupKey(album)
+            if groups[key] == nil {
+                order.append(key)
+            }
+            groups[key, default: []].append(album)
+        }
+
+        var unique: [Album] = []
+        for key in order {
+            let candidates = (groups[key] ?? []).filter { album in
+                guard !favoritesOnly || album.isFavorite else { return false }
+                return formatFilter == .all
+                    || album.format.rawValue == formatFilter.rawValue
+            }
+            guard let fallback = candidates.first else { continue }
+            let preferred = preferredVersions[key].flatMap { id in
+                candidates.first { $0.id == id }
+            }
+            unique.append(preferred ?? fallback)
         }
 
         return unique.sorted { left, right in
@@ -130,6 +157,21 @@ final class LibraryStore: ObservableObject {
         let key = Self.groupKey(album)
         let group = albums.filter { Self.groupKey($0) == key }
         return group.isEmpty ? [album] : group.sorted { $0.dateAdded > $1.dateAdded }
+    }
+
+    /// Remembers the edition to show for this album's group.
+    func setPreferredVersion(_ album: Album) {
+        preferredVersions[Self.groupKey(album)] = album.id
+    }
+
+    /// The edition the gallery is showing for this album's group, or the album
+    /// itself when nothing has been picked.
+    func preferredVersion(of album: Album) -> Album {
+        guard
+            let id = preferredVersions[Self.groupKey(album)],
+            let picked = self.album(id: id)
+        else { return album }
+        return picked
     }
 
     /// Edition count per album id, for the gallery's "N 个版本" badge.
@@ -195,6 +237,9 @@ final class LibraryStore: ObservableObject {
 
     func delete(id: String) {
         albums.removeAll { $0.id == id }
+        // Drop a preference pointing at the deleted edition, so the group does
+        // not keep a dangling id in UserDefaults forever.
+        preferredVersions = preferredVersions.filter { $0.value != id }
         persist()
     }
 

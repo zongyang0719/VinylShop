@@ -346,6 +346,8 @@ final class RecordRackView: UIView {
     private var scroll: Double = 0
     private var target: Double = 0
     private var velocity: Double = 0
+    /// True while the rack is coasting under its own momentum after a fling.
+    private var coasting = false
     private var renderCenter = 0
     private var activeVirtual = 0
     private var activeAlbum = 0
@@ -497,6 +499,8 @@ final class RecordRackView: UIView {
         let normalized = wrapRecordIndex(index, max(albums.count, 1))
         scroll = Double(normalized)
         target = scroll
+        velocity = 0
+        coasting = false
         renderCenter = normalized
         activeVirtual = normalized
         activeAlbum = normalized
@@ -593,21 +597,40 @@ final class RecordRackView: UIView {
         lastTimestamp = link.timestamp
 
         let dragging = drag != nil
-        let tau = dragging
-            ? RackTuning.tauDragging
-            : reduceMotion ? RackTuning.tauReducedMotion : RackTuning.tauReleased
 
-        let diff = target - scroll
-        if abs(diff) > 0.0002 {
-            scroll += diff * (1 - exp(-delta / tau))
+        if dragging {
+            // A short lag behind the finger, enough to filter touch jitter
+            // without the rack feeling detached.
+            scroll += (target - scroll) * (1 - exp(-delta / RackTuning.tauDragging))
+        } else if coasting {
+            // Free deceleration. Integrating the velocity rather than easing
+            // toward a landing chosen at release is what gives the long, slowly
+            // dying glide of a photo gallery.
+            scroll += velocity * delta
+            velocity *= exp(-RackTuning.flingDecay * delta)
+            if abs(velocity) <= RackTuning.settleVelocity {
+                // Hand off to the snap at the record the coast was headed for,
+                // so the rack never doubles back at the end of a fling.
+                target = (scroll + velocity / RackTuning.flingDecay).rounded()
+                velocity = 0
+                coasting = false
+            }
         } else {
-            scroll = target
+            let tau = reduceMotion
+                ? RackTuning.tauReducedMotion
+                : RackTuning.tauSettle
+            let diff = target - scroll
+            if abs(diff) > 0.0002 {
+                scroll += diff * (1 - exp(-delta / tau))
+            } else {
+                scroll = target
+            }
         }
 
         commit(scroll)
         applyTransforms()
 
-        if !dragging, abs(target - scroll) <= 0.0002 {
+        if !dragging, !coasting, abs(target - scroll) <= 0.0002 {
             stopLoop()
         }
     }
@@ -650,14 +673,19 @@ final class RecordRackView: UIView {
                 hapticsEnabled: hapticsEnabled,
                 soundEnabled: soundEnabled
             )
+            // Touching down catches the rack wherever it is, whether it was
+            // coasting or settling — anchoring the drag on `target` instead
+            // would snap it forward the moment the finger lands.
+            coasting = false
+            velocity = 0
+            target = scroll
             drag = DragState(
                 startY: location.y,
-                startTarget: target,
+                startTarget: scroll,
                 moved: false,
                 lastY: location.y,
                 lastTime: CACurrentMediaTime()
             )
-            velocity = 0
             startLoop()
 
         case .changed:
@@ -681,26 +709,23 @@ final class RecordRackView: UIView {
 
         case .ended, .cancelled, .failed:
             // UIKit's release velocity includes the final finger movement and is
-            // more stable than the last sampled move event. Using it makes short
-            // flicks carry naturally, like a photo gallery, instead of feeling
-            // as though the rack grabs the finger at release.
+            // more stable than the last sampled move event.
             let releaseVelocity = Double(
                 -gesture.velocity(in: self).y
             ) / RackTuning.pxPerItem
-            let current = min(max(releaseVelocity, -40), 40)
-            if abs(current) > 0.3 {
-                let predicted = target + current / RackTuning.decayRate
-                let rounded = predicted.rounded()
-                let currentRound = scroll.rounded()
-                target = min(
-                    max(rounded, currentRound - RackTuning.maxFlingExtra),
-                    currentRound + RackTuning.maxFlingExtra
-                )
-            } else {
-                target = target.rounded()
-            }
-            velocity = 0
+            let launch = min(
+                max(releaseVelocity, -RackTuning.maxFlingVelocity),
+                RackTuning.maxFlingVelocity
+            )
             drag = nil
+            if !reduceMotion, abs(launch) > RackTuning.minFlingVelocity {
+                velocity = launch
+                coasting = true
+            } else {
+                velocity = 0
+                coasting = false
+                target = scroll.rounded()
+            }
             startLoop()
 
         default:
@@ -710,6 +735,17 @@ final class RecordRackView: UIView {
 
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
         guard !albums.isEmpty else { return }
+
+        // A tap during a fling stops the rack, the way it halts a scroll view,
+        // rather than opening whatever record happened to be passing.
+        if coasting {
+            coasting = false
+            velocity = 0
+            target = scroll.rounded()
+            startLoop()
+            return
+        }
+
         let point = gesture.location(in: stage)
 
         // Records are laid out linearly in Y, 50pt apart, under a very shallow
@@ -726,6 +762,7 @@ final class RecordRackView: UIView {
         } else {
             target = Double(virtualIndex)
             velocity = 0
+            coasting = false
             startLoop()
         }
     }
@@ -741,6 +778,7 @@ final class RecordRackView: UIView {
             nearestRecordOccurrence(normalized, Int(target.rounded()), albums.count)
         )
         velocity = 0
+        coasting = false
         startLoop()
     }
 }

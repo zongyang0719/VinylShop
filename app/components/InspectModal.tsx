@@ -5,7 +5,6 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { resolveArtworkURL } from "@/app/lib/artwork";
 import type { MetadataProposal } from "@/app/lib/metadata";
 import {
-  isNativeApp,
   type Album,
   type Format,
   type VinylStyle,
@@ -515,9 +514,7 @@ export function InspectModal({
                   />
                 </label>
               </div>
-              {!isNativeApp() && (
-                <MetadataUpdater album={metadataDraft} onApply={applyMetadata} />
-              )}
+              <MetadataUpdater album={metadataDraft} onApply={applyMetadata} />
               <div className="field-row">
                 <label className="field">
                   <span>发行日期</span>

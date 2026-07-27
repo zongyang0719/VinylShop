@@ -1,3 +1,4 @@
+import PhotosUI
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -201,16 +202,6 @@ private struct AlbumCard: View {
             VStack(alignment: .leading, spacing: 9) {
                 NativeCoverImage(url: album.coverUrl, cornerRadius: 12)
                     .aspectRatio(1, contentMode: .fit)
-                    .overlay(alignment: .topTrailing) {
-                        if album.isFavorite {
-                            Image(systemName: "heart.fill")
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(.pink)
-                                .padding(8)
-                                .glassEffect(.regular, in: .circle)
-                                .padding(7)
-                        }
-                    }
                     .shadow(
                         color: .black.opacity(0.14),
                         radius: 12,
@@ -230,13 +221,14 @@ private struct AlbumCard: View {
                         if let year = album.year {
                             Text(String(year))
                         }
-                        if album.format != .unknown {
-                            Text(album.format.label)
-                        }
-                        // `.gallery-versions` — "N 个版本" when editions merged.
+                        // An album with editions is described by the merge, not
+                        // by whichever medium happens to be on top: the count
+                        // replaces the 黑胶 / CD label rather than joining it.
                         if versionCount > 1 {
-                            Text("\(versionCount) 个版本")
+                            Text("多版本 · \(versionCount)")
                                 .foregroundStyle(.secondary)
+                        } else if album.format != .unknown {
+                            Text(album.format.label)
                         }
                     }
                     .font(.caption)
@@ -257,8 +249,6 @@ private struct RecordRackScreen: View {
     @Binding var showingSettings: Bool
     @Binding var showingAdd: Bool
 
-    @State private var activeIndex = 0
-
     private var albums: [Album] {
         store.visibleAlbums()
     }
@@ -269,7 +259,11 @@ private struct RecordRackScreen: View {
             hapticsEnabled: store.hapticsEnabled,
             soundEnabled: store.scrollSoundEnabled,
             jumpRequest: nil,
-            onActiveIndexChange: { activeIndex = $0 },
+            // Deliberately not stored in @State: nothing on this screen renders
+            // the active record, and a fling crosses dozens of them — feeding
+            // each crossing back into SwiftUI would rebuild the whole screen,
+            // and re-sort the library, mid-glide.
+            onActiveIndexChange: { _ in },
             onInspect: { selectedAlbumID = $0.id }
         )
         .ignoresSafeArea()
@@ -289,11 +283,12 @@ private struct AddAlbumScreen: View {
     @State private var coverURL = ""
     @State private var format: AlbumFormat = .vinyl
     @State private var year = ""
+    @State private var selectedPhoto: PhotosPickerItem?
 
     private var canSave: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             && !artist.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            && URL(string: coverURL) != nil
+            && !coverURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     var body: some View {
@@ -315,7 +310,22 @@ private struct AddAlbumScreen: View {
                     TextField("https://…", text: $coverURL, axis: .vertical)
                         .textInputAutocapitalization(.never)
                         .keyboardType(.URL)
-                    if URL(string: coverURL) != nil {
+
+                    PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                        Label("从相册选择封面", systemImage: "photo.on.rectangle")
+                            .font(.subheadline)
+                    }
+                    .onChange(of: selectedPhoto) { _, newValue in
+                        guard let item = newValue else { return }
+                        Task {
+                            if let data = try? await item.loadTransferable(type: Data.self) {
+                                let url = await CoverImageStore.shared.storeLocalImage(data)
+                                coverURL = url
+                            }
+                        }
+                    }
+
+                    if !coverURL.isEmpty {
                         NativeCoverImage(url: coverURL, cornerRadius: 12)
                             .aspectRatio(1, contentMode: .fit)
                     }
@@ -355,6 +365,7 @@ private struct SettingsScreen: View {
 
     @State private var exporting = false
     @State private var importing = false
+    @State private var importingCSV = false
     @State private var exportDocument: LibraryBackupDocument?
     @State private var resultMessage: String?
 
@@ -371,6 +382,11 @@ private struct SettingsScreen: View {
                 isPresented: $importing,
                 allowedContentTypes: [.json],
                 onCompletion: importBackup
+            )
+            .fileImporter(
+                isPresented: $importingCSV,
+                allowedContentTypes: [.commaSeparatedText],
+                onCompletion: importCSV
             )
             .alert(
                 "数据备份",
@@ -392,7 +408,8 @@ private struct SettingsScreen: View {
             SettingsForm(
                 store: store,
                 exportAction: prepareExport,
-                importAction: { importing = true }
+                importAction: { importing = true },
+                csvImportAction: { importingCSV = true }
             )
             .navigationTitle("设置")
             .navigationBarTitleDisplayMode(.inline)
@@ -437,6 +454,26 @@ private struct SettingsScreen: View {
         return formatter.string(from: Date())
     }
 
+    private func importCSV(_ result: Result<URL, Error>) {
+        do {
+            let url = try result.get()
+            let scoped = url.startAccessingSecurityScopedResource()
+            defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+            let data = try Data(contentsOf: url)
+            let albums = try MusicBuddyImporter.parse(data: data)
+            guard !albums.isEmpty else {
+                resultMessage = "CSV 中没有找到有效的唱片记录"
+                return
+            }
+            let imported = try store.importData(
+                try JSONEncoder().encode(albums)
+            )
+            resultMessage = "CSV 导入完成：新增 \(imported.added)，更新 \(imported.updated)"
+        } catch {
+            resultMessage = "CSV 导入失败：\(error.localizedDescription)"
+        }
+    }
+
     private func importBackup(_ result: Result<URL, Error>) {
         do {
             let url = try result.get()
@@ -458,6 +495,7 @@ private struct SettingsForm: View {
     @ObservedObject var store: LibraryStore
     let exportAction: () -> Void
     let importAction: () -> Void
+    var csvImportAction: () -> Void = {}
 
     var body: some View {
         Form {
@@ -515,6 +553,10 @@ private struct SettingsForm: View {
 
             Button(action: importAction) {
                 Label("从备份恢复", systemImage: "square.and.arrow.down")
+            }
+
+            Button(action: csvImportAction) {
+                Label("从 MusicBuddy CSV 导入", systemImage: "tablecells")
             }
         } header: {
             Text("本地数据")

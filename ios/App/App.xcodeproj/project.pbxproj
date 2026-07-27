@@ -20,6 +20,8 @@
 		A1000000000000000000000B /* RackFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* RackFeedback.swift */; };
 		A1000000000000000000000E /* MetadataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000E /* MetadataService.swift */; };
 		A1000000000000000000000F /* CoverSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000F /* CoverSearchView.swift */; };
+		A10000000000000000000010 /* MusicBuddyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* MusicBuddyImporter.swift */; };
+		A10000000000000000000011 /* DiscArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* DiscArtView.swift */; };
 		A10000000000000000000007 /* initial-library.json in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* initial-library.json */; };
 		A10000000000000000000008 /* click-soft.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* click-soft.mp3 */; };
 		A10000000000000000000009 /* Covers in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* Covers */; };
@@ -42,6 +44,8 @@
 		A2000000000000000000000B /* RackFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RackFeedback.swift; sourceTree = "<group>"; };
 		A2000000000000000000000E /* MetadataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataService.swift; sourceTree = "<group>"; };
 		A2000000000000000000000F /* CoverSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverSearchView.swift; sourceTree = "<group>"; };
+		A20000000000000000000010 /* MusicBuddyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicBuddyImporter.swift; sourceTree = "<group>"; };
+		A20000000000000000000011 /* DiscArtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscArtView.swift; sourceTree = "<group>"; };
 		A20000000000000000000007 /* initial-library.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "initial-library.json"; path = "../../../app/data/initial-library.json"; sourceTree = "<group>"; };
 		A20000000000000000000008 /* click-soft.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "click-soft.mp3"; path = "../../../public/assets/sounds/click-soft.mp3"; sourceTree = "<group>"; };
 		A20000000000000000000009 /* Covers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Covers; path = Resources/Covers; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 				A2000000000000000000000D /* AlbumDetailScreen.swift */,
 				A2000000000000000000000E /* MetadataService.swift */,
 				A2000000000000000000000F /* CoverSearchView.swift */,
+				A20000000000000000000010 /* MusicBuddyImporter.swift */,
+				A20000000000000000000011 /* DiscArtView.swift */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -196,6 +202,8 @@
 				A1000000000000000000000D /* AlbumDetailScreen.swift in Sources */,
 				A1000000000000000000000E /* MetadataService.swift in Sources */,
 				A1000000000000000000000F /* CoverSearchView.swift in Sources */,
+				A10000000000000000000010 /* MusicBuddyImporter.swift in Sources */,
+				A10000000000000000000011 /* DiscArtView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
